@@ -36,6 +36,7 @@ class GameScene: SKScene {
         }
     }
     var scoreDisplay: SKLabelNode?
+    var scoreLabel: SKLabelNode?
 
     override func didMoveToView(view: SKView) {
         // Init guiLayer
@@ -274,51 +275,49 @@ class GameScene: SKScene {
         self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
         
         // Add current piece label
-        let label = SKLabelNode(text: "Current Piece")
-        label.fontColor = UIColor.blackColor()
-        label.fontSize = 18
-        label.zPosition = 20
-        label.fontName = "Avenir-Black"
-        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        let label = self.createUILabel("Current Piece")
         label.position = CGPoint(x: 20, y: self.frame.height - 40)
         self.guiLayer.addChild(label)
         
         // Calculate stash piece home position
         self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
         
+        // Add stash box
         self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-150, self.frame.height-90, 120, 72))
         self.stashBox!.strokeColor = UIColor.blackColor()
         self.guiLayer.addChild(self.stashBox!)
         
         // Add stash piece label
-        let label2 = SKLabelNode(text: "Stashed Piece")
-        label2.fontColor = UIColor.blackColor()
-        label2.fontSize = 18
-        label2.zPosition = 20
-        label2.fontName = "Avenir-Black"
-        label2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        let label2 = self.createUILabel("Stash Piece")
         label2.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
         self.guiLayer.addChild(label2)
         
         // Add reset button
-        self.resetButton = SKLabelNode(text: "Start Over")
-        self.resetButton!.fontColor = UIColor.blackColor()
-        self.resetButton!.fontSize = 18
-        self.resetButton!.zPosition = 20
-        self.resetButton!.fontName = "Avenir-Black"
-        self.resetButton!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        self.resetButton = self.createUILabel("Start Over")
         self.resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
         self.guiLayer.addChild(self.resetButton!)
         
         // Add score label
-        self.scoreDisplay = SKLabelNode(text: "0")
-        self.scoreDisplay!.fontColor = UIColor.blackColor()
-        self.scoreDisplay!.fontSize = 18
-        self.scoreDisplay!.zPosition = 20
-        self.scoreDisplay!.fontName = "Avenir-Black"
-        self.scoreDisplay!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 120)
+        self.scoreLabel = self.createUILabel("Score")
+        self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 110)
+        self.guiLayer.addChild(self.scoreLabel!)
+        
+        // Add score display
+        self.scoreDisplay = self.createUILabel("0")
+        self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 130)
+        self.scoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.scoreDisplay!)
+    }
+    
+    func createUILabel(caption: String) -> SKLabelNode {
+        let label = SKLabelNode(text: caption)
+        label.fontColor = UIColor.blackColor()
+        label.fontSize = 18
+        label.zPosition = 20
+        label.fontName = "Avenir-Black"
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+
+        return label
     }
     
     func updateScore() {
