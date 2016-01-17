@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import CoreData
 
 class GameScene: SKScene {
     var gameboardLayer = SKNode()
@@ -33,11 +34,19 @@ class GameScene: SKScene {
         set {
             self._score = newValue
             self.updateScore()
+            
+            if (self._score > GameState.instance!.highScore) {
+                GameState.instance!.highScore = self._score
+                self.updateHighScore()
+            }
         }
     }
     var scoreDisplay: SKLabelNode?
     var scoreLabel: SKLabelNode?
-
+    
+    var highScoreDisplay: SKLabelNode?
+    var highScoreLabel: SKLabelNode?
+    
     override func didMoveToView(view: SKView) {
         // Init guiLayer
         self.initGuiLayer()
@@ -307,6 +316,18 @@ class GameScene: SKScene {
         self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 130)
         self.scoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.scoreDisplay!)
+        
+        // Add high score label
+        self.highScoreLabel = self.createUILabel("High Score")
+        self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 150)
+        self.guiLayer.addChild(self.highScoreLabel!)
+        
+        // Add high score display
+        self.highScoreDisplay = self.createUILabel("\(GameState.instance!.highScore)")
+        self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 170)
+        self.highScoreDisplay!.fontSize = 24
+        self.guiLayer.addChild(self.highScoreDisplay!)
+
     }
     
     func createUILabel(caption: String) -> SKLabelNode {
@@ -323,6 +344,12 @@ class GameScene: SKScene {
     func updateScore() {
         if (self.scoreDisplay != nil) {
             self.scoreDisplay!.text = "\(self.score)"
+        }
+    }
+    
+    func updateHighScore() {
+        if (self.highScoreDisplay != nil) {
+            self.highScoreDisplay!.text = "\(GameState.instance!.highScore)"
         }
     }
     

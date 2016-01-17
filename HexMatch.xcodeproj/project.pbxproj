@@ -18,6 +18,7 @@
 		8076BA851C4994F700BA62A4 /* Rhombus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA831C4994F700BA62A4 /* Rhombus@2x.png */; };
 		8076BA861C4994F700BA62A4 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA841C4994F700BA62A4 /* Star@2x.png */; };
 		8076BA881C49963100BA62A4 /* Hexagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA871C49963100BA62A4 /* Hexagon@2x.png */; };
+		80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F51C4C4B0500FAB024 /* GameState.swift */; };
 		80E9DAA11C4446FA0028BC6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */; };
 		80E9DAA31C4446FA0028BC6D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 80E9DAA21C4446FA0028BC6D /* GameScene.sks */; };
 		80E9DAA51C4446FA0028BC6D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAA41C4446FA0028BC6D /* GameScene.swift */; };
@@ -55,6 +56,7 @@
 		8076BA831C4994F700BA62A4 /* Rhombus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rhombus@2x.png"; sourceTree = "<group>"; };
 		8076BA841C4994F700BA62A4 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
 		8076BA871C49963100BA62A4 /* Hexagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hexagon@2x.png"; sourceTree = "<group>"; };
+		80B230F51C4C4B0500FAB024 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = ../GameState.swift; sourceTree = "<group>"; };
 		80E9DA9D1C4446FA0028BC6D /* HexMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80E9DAA21C4446FA0028BC6D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 		80E9DA9F1C4446FA0028BC6D /* HexMatch */ = {
 			isa = PBXGroup;
 			children = (
+				80B230F51C4C4B0500FAB024 /* GameState.swift */,
 				80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */,
 				80E9DAA21C4446FA0028BC6D /* GameScene.sks */,
 				80E9DAA41C4446FA0028BC6D /* GameScene.swift */,
@@ -293,6 +296,7 @@
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
 				8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,
+				80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */,
 				80E9DAD41C45DB9E0028BC6D /* HexMapHelper.swift in Sources */,
 				80E9DAA11C4446FA0028BC6D /* AppDelegate.swift in Sources */,
 			);
