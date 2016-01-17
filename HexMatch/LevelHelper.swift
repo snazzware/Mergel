@@ -15,6 +15,15 @@ class LevelHelper: NSObject {
     // Distribution of random piece values. Piece value is index in array, array member value is the pct chance the index will be selected.
     let distribution = [50, 30, 20]
 
+    /**
+        Generates a HexMap with a randomized starting layout, imension
+
+        - Parameters:
+            - x: row of the hex cell
+            - y: column of the hex cell
+
+        - Returns: A CGPoint of the on-screen location of the hex cell
+    */
     func initLevel(width: Int, _ height: Int) -> HexMap {
         let hexMap = HexMap(width, height)
         
@@ -54,6 +63,11 @@ class LevelHelper: NSObject {
         return hexMap
     }
     
+    /**
+        Generates an instance of HexPiece with a random value, based on the set self.distribution.
+
+        - Returns: Instance of HexPiece
+    */
     func getRandomPiece() -> HexPiece {
         // Create a new hexPiece
         let hexPiece = HexPiece()

@@ -138,8 +138,8 @@ class HexCell : NSObject {
     }
     
     /**
-        Returns a set of HexPieces which would be merged with a given HexPiece, if that HexPiece were to be placed
-        in this HexCell.
+        Iterates over each direction from this cell, looking for runs of pieces which canMergeWithPiece(hexPiece) is true.
+        If a merge is detected, the function recurses to detect further matches with the incremented value piece.
 
         - Parameters:
             - hexPiece: The piece to be tested
