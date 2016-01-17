@@ -24,6 +24,18 @@ class GameScene: SKScene {
     var mergingPieces: [HexPiece] = Array()
     
     var hexMap: HexMap?
+    
+    var _score = 0
+    var score: Int {
+        get {
+            return self._score
+        }
+        set {
+            self._score = newValue
+            self.updateScore()
+        }
+    }
+    var scoreDisplay: SKLabelNode?
 
     override func didMoveToView(view: SKView) {
         // Init guiLayer
@@ -85,6 +97,9 @@ class GameScene: SKScene {
         
         // Render game board
         HexMapHelper.instance.renderHexMap(gameboardLayer);
+        
+        // Reset score
+        self.score = 0
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -180,6 +195,9 @@ class GameScene: SKScene {
                             
                             // Position on gameboard
                             self.currentPiece!.sprite!.position = node.position
+                            
+                            // Award points
+                            self.awardPoints(self.currentPiece!)
                             
                             // Generate new piece
                             self.generateCurrentPiece()
@@ -284,13 +302,33 @@ class GameScene: SKScene {
         
         // Add reset button
         self.resetButton = SKLabelNode(text: "Start Over")
-        resetButton!.fontColor = UIColor.blackColor()
-        resetButton!.fontSize = 18
-        resetButton!.zPosition = 20
-        resetButton!.fontName = "Avenir-Black"
-        resetButton!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
-        self.guiLayer.addChild(resetButton!)
+        self.resetButton!.fontColor = UIColor.blackColor()
+        self.resetButton!.fontSize = 18
+        self.resetButton!.zPosition = 20
+        self.resetButton!.fontName = "Avenir-Black"
+        self.resetButton!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        self.resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
+        self.guiLayer.addChild(self.resetButton!)
+        
+        // Add score label
+        self.scoreDisplay = SKLabelNode(text: "0")
+        self.scoreDisplay!.fontColor = UIColor.blackColor()
+        self.scoreDisplay!.fontSize = 18
+        self.scoreDisplay!.zPosition = 20
+        self.scoreDisplay!.fontName = "Avenir-Black"
+        self.scoreDisplay!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 120)
+        self.guiLayer.addChild(self.scoreDisplay!)
+    }
+    
+    func updateScore() {
+        if (self.scoreDisplay != nil) {
+            self.scoreDisplay!.text = "\(self.score)"
+        }
+    }
+    
+    func awardPoints(hexPiece: HexPiece) {
+        self.score += Int(pow(Float(10), Float(hexPiece.value+1))) * self.mergingPieces.count
     }
     
     func generateCurrentPiece() {
