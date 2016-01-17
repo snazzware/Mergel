@@ -122,8 +122,18 @@ class HexMapHelper: NSObject {
         self.hexMapSprites = rows
     }
     
+    func clearHexMap(parent: SKNode) {
+        for childNode in parent.children {
+            if (childNode.name == "hexPiece" || childNode.name == "hexMapCell") {
+                childNode.removeFromParent()
+            }
+        }
+    }
+    
     func createHexPieceSprite(hexPiece: HexPiece) -> SKSpriteNode {
         let node = SKSpriteNode(texture: self.hexPieceTextures[hexPiece.value])
+        
+        node.name = "hexPiece"
         
         return node
     }

@@ -16,26 +16,24 @@ class LevelHelper: NSObject {
     let distribution = [50, 30, 20]
 
     /**
-        Generates a HexMap with a randomized starting layout, imension
+        Initializes a HexMap with a randomized starting layout
 
         - Parameters:
-            - x: row of the hex cell
-            - y: column of the hex cell
-
-        - Returns: A CGPoint of the on-screen location of the hex cell
+            - hexMap: Instance of HexMap to initialize
     */
-    func initLevel(width: Int, _ height: Int) -> HexMap {
-        let hexMap = HexMap(width, height)
-        
+    func initLevel(hexMap: HexMap) {
         var targetCell: HexCell? = nil
+        
+        // Clear the hexMap
+        hexMap.clear()
         
         // Void out some cells
         for _ in 0...5 {
             // Find an empty, valid targe cell
             while (targetCell == nil || (targetCell != nil && targetCell!.isVoid)) {
                 // pick a random coordinate
-                let x = Int(arc4random_uniform(UInt32(width)))
-                let y = Int(arc4random_uniform(UInt32(height)))
+                let x = Int(arc4random_uniform(UInt32(hexMap.width)))
+                let y = Int(arc4random_uniform(UInt32(hexMap.height)))
                 
                 // Get the cell
                 targetCell = hexMap.cell(x,y)
@@ -49,8 +47,8 @@ class LevelHelper: NSObject {
             // Find an empty, valid targe cell
             while (targetCell == nil || (targetCell != nil && targetCell!.hexPiece != nil) || (targetCell != nil && targetCell!.isVoid)) {
                 // pick a random coordinate
-                let x = Int(arc4random_uniform(UInt32(width)))
-                let y = Int(arc4random_uniform(UInt32(height)))
+                let x = Int(arc4random_uniform(UInt32(hexMap.width)))
+                let y = Int(arc4random_uniform(UInt32(hexMap.height)))
                 
                 // Get the cell
                 targetCell = hexMap.cell(x,y)
@@ -59,8 +57,6 @@ class LevelHelper: NSObject {
             // Load the piece in to the cell
             targetCell!.hexPiece = self.getRandomPiece()
         }
-        
-        return hexMap
     }
     
     /**

@@ -19,7 +19,11 @@ class GameScene: SKScene {
     var stashPieceHome = CGPointMake(0,0)
     var stashBox: SKShapeNode?
     
+    var resetButton: SKLabelNode?
+    
     var mergingPieces: [HexPiece] = Array()
+    
+    var hexMap: HexMap?
 
     override func didMoveToView(view: SKView) {
         // Init guiLayer
@@ -28,8 +32,12 @@ class GameScene: SKScene {
         // Add guiLayer to scene
         addChild(self.guiLayer)
         
+        // Init HexMap
+        self.hexMap = HexMap(7,7)
+        
         // Init level
-        HexMapHelper.instance.hexMap = LevelHelper.instance.initLevel(7,7)
+        LevelHelper.instance.initLevel(self.hexMap!)
+        HexMapHelper.instance.hexMap = self.hexMap!
         
         // Render our hex map to the gameboardLayer
         HexMapHelper.instance.renderHexMap(gameboardLayer);
@@ -53,6 +61,30 @@ class GameScene: SKScene {
         
         // Set scale mode
         self.scaleMode = .AspectFit
+    }
+    
+    func resetLevel() {
+        // Clear the board
+        HexMapHelper.instance.clearHexMap(self.gameboardLayer)
+        
+        // Clear the hexmap
+        self.hexMap?.clear()
+        
+        // Generate level
+        LevelHelper.instance.initLevel(self.hexMap!)
+        
+        // Generate new current piece
+        self.currentPiece!.sprite!.removeFromParent()
+        self.generateCurrentPiece()
+        
+        // Clear stash
+        if (self.stashPiece != nil) {
+            self.stashPiece!.sprite!.removeFromParent()
+            self.stashPiece = nil
+        }
+        
+        // Render game board
+        HexMapHelper.instance.renderHexMap(gameboardLayer);
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -91,6 +123,11 @@ class GameScene: SKScene {
                     if (node == self.stashBox) {
                         self.swapStash()
                         
+                        handled = true
+                    } else
+                    if (node == self.resetButton) {
+                        self.resetLevel()
+
                         handled = true
                     } else
                     if (node.name == "hexMapCell") {
@@ -244,6 +281,16 @@ class GameScene: SKScene {
         label2.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
         label2.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
         self.guiLayer.addChild(label2)
+        
+        // Add reset button
+        self.resetButton = SKLabelNode(text: "Start Over")
+        resetButton!.fontColor = UIColor.blackColor()
+        resetButton!.fontSize = 18
+        resetButton!.zPosition = 20
+        resetButton!.fontName = "Avenir-Black"
+        resetButton!.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
+        self.guiLayer.addChild(resetButton!)
     }
     
     func generateCurrentPiece() {

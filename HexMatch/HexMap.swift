@@ -44,6 +44,18 @@ class HexMap : NSObject {
     }
     
     /**
+        Resets hexMap back to starting conditions
+    */
+    func clear() {
+        for x in 0...self.width-1 {
+            for y in 0...self.height-1 {
+                self.cells[x][y].hexPiece = nil
+                self.cells[x][y].isVoid = false
+            }
+        }
+    }
+    
+    /**
         Fetches a cell from the HexMap
 
         - Parameters:
