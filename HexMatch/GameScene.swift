@@ -21,8 +21,14 @@ class GameScene: SKScene {
     var stashBox: SKShapeNode?
     
     var resetButton: SKLabelNode?
+    var undoButton: SKLabelNode?
     
     var mergingPieces: [HexPiece] = Array()
+    var mergedPieces: [HexPiece] = Array()
+
+    var lastPlacedPiece: HexPiece?
+    var lastPieceValue = 0
+    var lastPointsAwarded = 0
     
     var hexMap: HexMap?
     
@@ -155,6 +161,11 @@ class GameScene: SKScene {
 
                         handled = true
                     } else
+                    if (node == self.undoButton) {
+                        self.undoLastMove()
+
+                        handled = true
+                    } else
                     if (node.name == "hexMapCell") {
                         let x = node.userData!.valueForKey("hexMapPositionX") as! Int
                         let y = node.userData!.valueForKey("hexMapPositionY") as! Int
@@ -162,6 +173,10 @@ class GameScene: SKScene {
                         let cell = HexMapHelper.instance.hexMap!.cell(x,y)
                         
                         if (cell!.willAccept(self.currentPiece!)) {
+                            // Store last placed piece, prior to any merging
+                            self.lastPlacedPiece = self.currentPiece
+                            self.lastPieceValue = self.currentPiece!.value
+                        
                             // Are we merging pieces?
                             if (self.mergingPieces.count>0) {
                                 var maxValue = 0
@@ -189,11 +204,17 @@ class GameScene: SKScene {
                                 self.currentPiece!.sprite!.zPosition = 2
                                 guiLayer.addChild(self.currentPiece!.sprite!)
                                 
+                                // Store merged pieces, if any
+                                self.mergedPieces = self.mergingPieces
+                                
                                 // Remove merged pieces from board
                                 for hexPiece in self.mergingPieces {
                                     hexPiece.sprite!.removeFromParent()
                                     hexPiece.hexCell?.hexPiece = nil
                                 }
+                            } else {
+                                // clear merged array, since we are not merging any on this placement
+                                self.mergedPieces.removeAll()
                             }
                             
                             // Place the piece
@@ -211,6 +232,7 @@ class GameScene: SKScene {
                             
                             // Generate new piece
                             self.generateCurrentPiece()
+                            
                         } else {
                             // Return to home
                             currentPiece!.sprite!.removeAllActions()
@@ -221,6 +243,39 @@ class GameScene: SKScene {
                     }
                 }
             }
+        }
+    }
+    
+    
+    func undoLastMove() {
+        if (self.lastPlacedPiece != nil) {
+            // Clear out cell where the last piece was placed
+            let cell = HexMapHelper.instance.hexMap!.cell(lastPlacedPiece!.lastX,lastPlacedPiece!.lastY)
+            cell!.hexPiece = nil
+            
+            // Remove sprite from gameboard
+            self.lastPlacedPiece!.sprite!.removeFromParent()
+        
+            // Restore last piece in to the current piece
+            self.restoreLastPiece()
+            
+            // Restore piece merged
+            for mergedPiece in self.mergedPieces {
+                self.gameboardLayer.addChild(mergedPiece.sprite!)
+                
+                let cell = HexMapHelper.instance.hexMap!.cell(mergedPiece.lastX,mergedPiece.lastY)
+                
+                cell!.hexPiece = mergedPiece
+            }
+            
+            // Clear merged pieces, since they have been restored
+            self.mergedPieces.removeAll()
+            
+            // Reset lastPlacedPiece, disabling undo
+            self.lastPlacedPiece = nil
+            
+            // Take back points
+            self.score -= self.lastPointsAwarded
         }
     }
     
@@ -306,6 +361,11 @@ class GameScene: SKScene {
         self.resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
         self.guiLayer.addChild(self.resetButton!)
         
+        // Add undo button
+        self.undoButton = self.createUILabel("Undo")
+        self.undoButton!.position = CGPoint(x: self.frame.width-150, y: 140)
+        self.guiLayer.addChild(self.undoButton!)
+        
         // Add score label
         self.scoreLabel = self.createUILabel("Score")
         self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 110)
@@ -354,7 +414,8 @@ class GameScene: SKScene {
     }
     
     func awardPoints(hexPiece: HexPiece) {
-        self.score += Int(pow(Float(10), Float(hexPiece.value+1))) * self.mergingPieces.count
+        self.lastPointsAwarded = Int(pow(Float(10), Float(hexPiece.value+1))) * self.mergingPieces.count
+        self.score += lastPointsAwarded
     }
     
     func generateCurrentPiece() {
@@ -364,6 +425,21 @@ class GameScene: SKScene {
         self.currentPiece!.sprite!.position = self.currentPieceHome
         self.currentPiece!.sprite!.zPosition = 10
         guiLayer.addChild(self.currentPiece!.sprite!)
+    }
+    
+    func restoreLastPiece() {
+        self.currentPiece!.sprite!.removeFromParent()
+    
+        // Create a new hexPiece
+        self.currentPiece = HexPiece()
+        self.currentPiece!.value = self.lastPieceValue
+        
+        self.currentPiece!.sprite = HexMapHelper.instance.createHexPieceSprite(self.currentPiece!)
+        
+        self.currentPiece!.sprite!.position = self.currentPieceHome
+        self.currentPiece!.sprite!.zPosition = 10
+        guiLayer.addChild(self.currentPiece!.sprite!)
+        
     }
     
     func swapStash() {

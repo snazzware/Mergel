@@ -10,7 +10,23 @@ import SpriteKit
 
 class HexPiece : NSObject {
 
-    var hexCell: HexCell?
+    // Last coordinates that this piece was placed on a hex map
+    var lastX = -1
+    var lastY = -1
+
+    var _hexCell: HexCell?
+    var hexCell: HexCell? {
+        get {
+            return self._hexCell
+        }
+        set {
+            self._hexCell = newValue
+            if (self._hexCell != nil) {
+                self.lastX = self._hexCell!.x
+                self.lastY = self._hexCell!.y
+            }
+        }
+    }
     var sprite: SKSpriteNode?
     
     var value = 0
