@@ -27,6 +27,11 @@ class HexMapHelper: NSObject {
     var maxPieceValue = 0
     var hexPieceTextures: [SKTexture] = Array()
     
+    // Wildcard 
+    let wildcardPlacedTextureName = "Blackstar"
+    var wildcardPlacedTexture: SKTexture?
+    let wildcardPlacedValue = 10
+    
     override init() {
         super.init()
         
@@ -34,6 +39,9 @@ class HexMapHelper: NSObject {
         for textureName in hexPieceTextureNames {
             self.hexPieceTextures.append(SKTexture(imageNamed: textureName))
         }
+        
+        // Load wildcard placed texture
+        self.wildcardPlacedTexture = SKTexture(imageNamed: self.wildcardPlacedTextureName)
         
         // set maximum value
         self.maxPieceValue = self.hexPieceTextureNames.count-1
@@ -131,9 +139,27 @@ class HexMapHelper: NSObject {
     }
     
     func createHexPieceSprite(hexPiece: HexPiece) -> SKSpriteNode {
-        let node = SKSpriteNode(texture: self.hexPieceTextures[hexPiece.value])
+        if (hexPiece.isWildCard) {
+            return self.createWildCardSprite(hexPiece)
+        } else {
+            let node = SKSpriteNode(texture: self.hexPieceTextures[hexPiece.value])
         
+            node.name = "hexPiece"
+        
+            return node
+        }
+    }
+    
+    func createWildCardSprite(hexPiece: HexPiece) -> SKSpriteNode {
+        let node = SKSpriteNode(texture: self.hexPieceTextures.first)
         node.name = "hexPiece"
+        
+        node.runAction(SKAction.repeatActionForever(
+    SKAction.animateWithTextures(self.hexPieceTextures,
+      timePerFrame: 0.2,
+      resize: false,
+      restore: true)),
+    withKey:"wildcardAnimation")
         
         return node
     }

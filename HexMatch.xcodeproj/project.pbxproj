@@ -19,6 +19,7 @@
 		8076BA861C4994F700BA62A4 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA841C4994F700BA62A4 /* Star@2x.png */; };
 		8076BA881C49963100BA62A4 /* Hexagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA871C49963100BA62A4 /* Hexagon@2x.png */; };
 		80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F51C4C4B0500FAB024 /* GameState.swift */; };
+		80B230F81C4C826D00FAB024 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80B230F71C4C826D00FAB024 /* Blackstar@2x.png */; };
 		80E9DAA11C4446FA0028BC6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */; };
 		80E9DAA31C4446FA0028BC6D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 80E9DAA21C4446FA0028BC6D /* GameScene.sks */; };
 		80E9DAA51C4446FA0028BC6D /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAA41C4446FA0028BC6D /* GameScene.swift */; };
@@ -57,6 +58,7 @@
 		8076BA841C4994F700BA62A4 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
 		8076BA871C49963100BA62A4 /* Hexagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hexagon@2x.png"; sourceTree = "<group>"; };
 		80B230F51C4C4B0500FAB024 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = ../GameState.swift; sourceTree = "<group>"; };
+		80B230F71C4C826D00FAB024 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
 		80E9DA9D1C4446FA0028BC6D /* HexMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80E9DAA21C4446FA0028BC6D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				8076BA6B1C473AC800BA62A4 /* HexCell@2x.png */,
 				8076BA831C4994F700BA62A4 /* Rhombus@2x.png */,
 				8076BA841C4994F700BA62A4 /* Star@2x.png */,
+				80B230F71C4C826D00FAB024 /* Blackstar@2x.png */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				8076BA861C4994F700BA62A4 /* Star@2x.png in Resources */,
 				80E9DAAA1C4446FA0028BC6D /* Main.storyboard in Resources */,
 				8076BA851C4994F700BA62A4 /* Rhombus@2x.png in Resources */,
+				80B230F81C4C826D00FAB024 /* Blackstar@2x.png in Resources */,
 				8076BA6C1C473AC800BA62A4 /* HexCell@2x.png in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
 				8076BA741C47F2E000BA62A4 /* Triangle@2x.png in Resources */,

@@ -56,6 +56,8 @@ class LevelHelper: NSObject {
             
             // Load the piece in to the cell
             targetCell!.hexPiece = self.getRandomPiece()
+            
+            targetCell!.hexPiece!.isWildCard = false // no wildcards on the gameboard
         }
     }
     
@@ -68,22 +70,28 @@ class LevelHelper: NSObject {
         // Create a new hexPiece
         let hexPiece = HexPiece()
         
-        // Assign a random value
-        let randomValue = Int(arc4random_uniform(100))
-        
-        // Start our distribution accumulator off with the first value in the set
-        var distributionIndex = 0
-        var distributionCurrentValue = self.distribution[distributionIndex]
-        var distributionAccumulatedValue = distributionCurrentValue
-        
-        // Iterate over our distribution set, until our accumulated value exceeds the random value that was selected.
-        while (distributionIndex < self.distribution.count-1 && distributionAccumulatedValue < randomValue) {
-            distributionCurrentValue = self.distribution[++distributionIndex]
-            distributionAccumulatedValue += distributionCurrentValue
+        // Generate wildcard
+        if (Int(arc4random_uniform(100))<50) {
+            hexPiece.isWildCard = true
+            hexPiece.value = 0
+        } else {
+            // Assign a random value
+            let randomValue = Int(arc4random_uniform(100))
+            
+            // Start our distribution accumulator off with the first value in the set
+            var distributionIndex = 0
+            var distributionCurrentValue = self.distribution[distributionIndex]
+            var distributionAccumulatedValue = distributionCurrentValue
+            
+            // Iterate over our distribution set, until our accumulated value exceeds the random value that was selected.
+            while (distributionIndex < self.distribution.count-1 && distributionAccumulatedValue < randomValue) {
+                distributionCurrentValue = self.distribution[++distributionIndex]
+                distributionAccumulatedValue += distributionCurrentValue
+            }
+            
+            // Use the index of whatever value our loop ended at as the value of the new piece
+            hexPiece.value = distributionIndex
         }
-        
-        // Use the index of whatever value our loop ended at as the value of the new piece
-        hexPiece.value = distributionIndex
         
         return hexPiece
     }

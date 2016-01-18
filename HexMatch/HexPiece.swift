@@ -13,6 +13,8 @@ class HexPiece : NSObject {
     // Last coordinates that this piece was placed on a hex map
     var lastX = -1
     var lastY = -1
+    
+    var isWildCard = false
 
     var _hexCell: HexCell?
     var hexCell: HexCell? {
@@ -37,6 +39,10 @@ class HexPiece : NSObject {
         } else {
             return false
         }
+    }
+    
+    func canPlaceWithoutMerge() -> Bool {
+        return true
     }
     
 }

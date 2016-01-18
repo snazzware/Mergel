@@ -152,14 +152,37 @@ class HexCell : NSObject {
         // Number of same pieces we found searching all directions
         var samePieceCount = 0
         
-        // Iterate over all directions, following each direction as long as there is a matching piece value
-        for direction in HexCellDirection.allDirections {
-            var targetCell = self.getCellByDirection(direction)
-            while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
-                merges.append(targetCell!.hexPiece!)
-                samePieceCount++
-                targetCell = targetCell!.getCellByDirection(direction)
+        let firstValue = hexPiece.value;
+        var lastValue: Int
+        
+        // Determine maximum possible value for piece being placed
+        if (hexPiece.isWildCard) {
+            lastValue = HexMapHelper.instance.maxPieceValue
+        } else {
+            lastValue = hexPiece.value
+        }
+        
+        var value = lastValue
+        
+        // Loop over possible values for the piece being placed, starting with highest, until we find a merge
+        while (samePieceCount<2 && value >= firstValue) {
+            merges.removeAll()
+            
+            samePieceCount = 0
+            
+            hexPiece.value = value
+            
+            // Iterate over all directions, following each direction as long as there is a matching piece value
+            for direction in HexCellDirection.allDirections {
+                var targetCell = self.getCellByDirection(direction)
+                while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
+                    merges.append(targetCell!.hexPiece!)
+                    samePieceCount++
+                    targetCell = targetCell!.getCellByDirection(direction)
+                }
             }
+            
+            value--;
         }
         
         // If we didn't get at least two of the same piece, clear our merge array

@@ -29,6 +29,7 @@ class GameScene: SKScene {
     var lastPlacedPiece: HexPiece?
     var lastPieceValue = 0
     var lastPointsAwarded = 0
+    var lastPieceWasWildCard = false
     
     var hexMap: HexMap?
     
@@ -136,7 +137,7 @@ class GameScene: SKScene {
                     self.updateMergingPieces(cell!)
                     
                     // Move to touched point
-                    currentPiece!.sprite!.removeAllActions()
+                    currentPiece!.sprite!.removeActionForKey("moveAnimation")
                     currentPiece!.sprite!.position = self.convertPoint(self.convertPoint(node.position, fromNode: self.gameboardLayer), toNode: self.guiLayer)
                 }
             }
@@ -174,10 +175,11 @@ class GameScene: SKScene {
                         
                         let cell = HexMapHelper.instance.hexMap!.cell(x,y)
                         
-                        if (cell!.willAccept(self.currentPiece!)) {
+                        if (cell!.willAccept(self.currentPiece!) && (self.currentPiece!.canPlaceWithoutMerge() || self.mergingPieces.count>0)) {
                             // Store last placed piece, prior to any merging
                             self.lastPlacedPiece = self.currentPiece
                             self.lastPieceValue = self.currentPiece!.value
+                            self.lastPieceWasWildCard = self.currentPiece!.isWildCard
                         
                             // Are we merging pieces?
                             if (self.mergingPieces.count>0) {
@@ -185,7 +187,7 @@ class GameScene: SKScene {
                                 
                                 // Remove animations from merging pieces, and find the maximum value
                                 for hexPiece in self.mergingPieces {
-                                    hexPiece.sprite!.removeAllActions()
+                                    hexPiece.sprite!.removeActionForKey("mergeAnimation")
                                     hexPiece.sprite!.setScale(1.0)
                                     if (hexPiece.value > maxValue) {
                                         maxValue = hexPiece.value
@@ -201,6 +203,7 @@ class GameScene: SKScene {
                                 
                                 // Initialize new sprite for updated currentPiece value
                                 self.currentPiece!.sprite?.removeFromParent()
+                                self.currentPiece!.isWildCard = false
                                 self.currentPiece!.sprite = HexMapHelper.instance.createHexPieceSprite(self.currentPiece!)
                                 self.currentPiece!.sprite!.position = node.position
                                 self.currentPiece!.sprite!.zPosition = 2
@@ -217,11 +220,17 @@ class GameScene: SKScene {
                             } else {
                                 // clear merged array, since we are not merging any on this placement
                                 self.mergedPieces.removeAll()
+                                
+                                if (self.currentPiece!.isWildCard) {
+                                    self.currentPiece!.sprite!.removeActionForKey("wildcardAnimation")
+                                    self.currentPiece!.value = HexMapHelper.instance.wildcardPlacedValue
+                                    self.currentPiece!.sprite!.texture = HexMapHelper.instance.wildcardPlacedTexture
+                                }
                             }
                             
                             // Place the piece
                             cell!.hexPiece = self.currentPiece
-                            currentPiece!.sprite!.removeAllActions()
+                            currentPiece!.sprite!.removeActionForKey("moveAnimation")
                             
                             // Move sprite from GUI to gameboard layer
                             self.currentPiece!.sprite!.moveToParent(self.gameboardLayer)
@@ -237,8 +246,8 @@ class GameScene: SKScene {
                             
                         } else {
                             // Return to home
-                            currentPiece!.sprite!.removeAllActions()
-                            currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.2))
+                            currentPiece!.sprite!.removeActionForKey("moveAnimation")
+                            currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.2), withKey: "moveAnimation")
                         }
                         
                         handled = true
@@ -301,7 +310,7 @@ class GameScene: SKScene {
                     self.updateMergingPieces(cell!)
                     
                     // Move to touched point
-                    currentPiece!.sprite!.removeAllActions()
+                    currentPiece!.sprite!.removeActionForKey("moveAnimation")
                     currentPiece!.sprite!.position = self.convertPoint(self.convertPoint(node.position, fromNode: self.gameboardLayer), toNode: self.guiLayer)
                 }
             }
@@ -309,8 +318,8 @@ class GameScene: SKScene {
         
         if (!touchInCell) {
             // Return to home
-            currentPiece!.sprite!.removeAllActions()
-            currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.2))
+            currentPiece!.sprite!.removeActionForKey("moveAnimation")
+            currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.2), withKey: "moveAnimation")
         }
     }
    
@@ -318,7 +327,7 @@ class GameScene: SKScene {
         if (cell.willAccept(self.currentPiece!)) {
             // Stop animation on current merge set
             for hexPiece in self.mergingPieces {
-                hexPiece.sprite!.removeAllActions()
+                hexPiece.sprite!.removeActionForKey("mergeAnimation")
                 hexPiece.sprite!.setScale(1.0)
             }
             
@@ -326,7 +335,7 @@ class GameScene: SKScene {
             
             // Start animation on new merge set
             for hexPiece in self.mergingPieces {
-                hexPiece.sprite!.removeAllActions()
+                hexPiece.sprite!.removeActionForKey("mergeAnimation")
                 hexPiece.sprite!.setScale(1.2)
             }
         }
@@ -439,10 +448,13 @@ class GameScene: SKScene {
         self.currentPiece = HexPiece()
         self.currentPiece!.value = self.lastPieceValue
         
+        self.currentPiece!.isWildCard = self.lastPieceWasWildCard
+        
         self.currentPiece!.sprite = HexMapHelper.instance.createHexPieceSprite(self.currentPiece!)
         
         self.currentPiece!.sprite!.position = self.currentPieceHome
         self.currentPiece!.sprite!.zPosition = 10
+        
         guiLayer.addChild(self.currentPiece!.sprite!)
         
     }
