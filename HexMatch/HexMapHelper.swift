@@ -23,7 +23,7 @@ class HexMapHelper: NSObject {
     let cellNodeVerticalStagger = 27
     
     // Hex piece textures
-    let hexPieceTextureNames = ["Triangle","Square","Rhombus","Pentagon","Hexagon","Star"]
+    let hexPieceTextureNames = ["Triangle","Rhombus","Square","Pentagon","Hexagon","Star"]
     var maxPieceValue = 0
     var hexPieceTextures: [SKTexture] = Array()
     

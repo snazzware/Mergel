@@ -32,6 +32,8 @@ class GameScene: SKScene {
     
     var hexMap: HexMap?
     
+    let scoreFormatter = NSNumberFormatter()
+    
     var _score = 0
     var score: Int {
         get {
@@ -335,6 +337,9 @@ class GameScene: SKScene {
     }
     
     func initGuiLayer() {
+        // set up score formatter
+        self.scoreFormatter.numberStyle = .DecimalStyle
+    
         // Calculate current piece home position
         self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
         
@@ -372,7 +377,7 @@ class GameScene: SKScene {
         self.guiLayer.addChild(self.scoreLabel!)
         
         // Add score display
-        self.scoreDisplay = self.createUILabel("0")
+        self.scoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.score)!)
         self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 130)
         self.scoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.scoreDisplay!)
@@ -383,7 +388,7 @@ class GameScene: SKScene {
         self.guiLayer.addChild(self.highScoreLabel!)
         
         // Add high score display
-        self.highScoreDisplay = self.createUILabel("\(GameState.instance!.highScore)")
+        self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)!)
         self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 170)
         self.highScoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.highScoreDisplay!)
