@@ -13,8 +13,6 @@ class HexPiece : NSObject {
     // Last coordinates that this piece was placed on a hex map
     var lastX = -1
     var lastY = -1
-    
-    var isWildCard = false
 
     var _hexCell: HexCell?
     var hexCell: HexCell? {
@@ -31,7 +29,31 @@ class HexPiece : NSObject {
     }
     var sprite: SKSpriteNode?
     
-    var value = 0
+    var originalValue = 0
+    var _value = -1
+    var value: Int {
+        get {
+            if (self._value == -1) {
+                return 0;
+            } else {
+                return self._value
+            }
+        }
+        set {
+            if (self._value == -1) {
+                self.originalValue = newValue
+            }
+            self._value = newValue
+        }
+    }
+    
+    func getMinMergeValue() -> Int {
+        return self.value
+    }
+    
+    func getMaxMergeValue() -> Int {
+        return self.value
+    }
     
     func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
         if (self.value == hexPiece.value && self.value < HexMapHelper.instance.maxPieceValue) {
@@ -43,6 +65,32 @@ class HexPiece : NSObject {
     
     func canPlaceWithoutMerge() -> Bool {
         return true
+    }
+    
+    func wasPlacedWithMerge() {
+        self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
+    }
+    
+    func wasPlacedWithoutMerge() {
+        //
+    }
+    
+    func wasUnplaced() {
+        self.value = self.originalValue
+        self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
+    }
+    
+    /**
+        Creates a sprite to represent the hex piece
+    
+        - Returns: Instance of SKSpriteNode
+    */
+    func createSprite() -> SKSpriteNode {
+        let node = SKSpriteNode(texture: HexMapHelper.instance.hexPieceTextures[self.value])
+    
+        node.name = "hexPiece"
+    
+        return node
     }
     
 }

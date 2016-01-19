@@ -14,6 +14,9 @@ class LevelHelper: NSObject {
     
     // Distribution of random piece values. Piece value is index in array, array member value is the pct chance the index will be selected.
     let distribution = [50, 30, 20]
+    
+    // Chance to generate a wildcard piece (matches any value)
+    let wildcardPercentage = 3
 
     /**
         Initializes a HexMap with a randomized starting layout
@@ -54,10 +57,10 @@ class LevelHelper: NSObject {
                 targetCell = hexMap.cell(x,y)
             }
             
-            // Load the piece in to the cell
-            targetCell!.hexPiece = self.getRandomPiece()
-            
-            targetCell!.hexPiece!.isWildCard = false // no wildcards on the gameboard
+            // Load a random non-wildcard piece in to the cell
+            while (targetCell!.hexPiece == nil || targetCell!.hexPiece is WildcardHexPiece) {
+                targetCell!.hexPiece = self.getRandomPiece()
+            }
         }
     }
     
@@ -68,13 +71,14 @@ class LevelHelper: NSObject {
     */
     func getRandomPiece() -> HexPiece {
         // Create a new hexPiece
-        let hexPiece = HexPiece()
+        var hexPiece: HexPiece?
         
         // Generate wildcard
-        if (Int(arc4random_uniform(100))<50) {
-            hexPiece.isWildCard = true
-            hexPiece.value = 0
+        if (Int(arc4random_uniform(100))<self.wildcardPercentage) {
+            hexPiece = WildcardHexPiece()
         } else {
+            hexPiece = HexPiece()
+        
             // Assign a random value
             let randomValue = Int(arc4random_uniform(100))
             
@@ -90,10 +94,10 @@ class LevelHelper: NSObject {
             }
             
             // Use the index of whatever value our loop ended at as the value of the new piece
-            hexPiece.value = distributionIndex
+            hexPiece!.value = distributionIndex
         }
         
-        return hexPiece
+        return hexPiece!
     }
 
 }

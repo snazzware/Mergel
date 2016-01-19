@@ -179,7 +179,6 @@ class GameScene: SKScene {
                             // Store last placed piece, prior to any merging
                             self.lastPlacedPiece = self.currentPiece
                             self.lastPieceValue = self.currentPiece!.value
-                            self.lastPieceWasWildCard = self.currentPiece!.isWildCard
                         
                             // Are we merging pieces?
                             if (self.mergingPieces.count>0) {
@@ -202,12 +201,7 @@ class GameScene: SKScene {
                                 }
                                 
                                 // Initialize new sprite for updated currentPiece value
-                                self.currentPiece!.sprite?.removeFromParent()
-                                self.currentPiece!.isWildCard = false
-                                self.currentPiece!.sprite = HexMapHelper.instance.createHexPieceSprite(self.currentPiece!)
-                                self.currentPiece!.sprite!.position = node.position
-                                self.currentPiece!.sprite!.zPosition = 2
-                                guiLayer.addChild(self.currentPiece!.sprite!)
+                                self.currentPiece!.wasPlacedWithMerge()                                
                                 
                                 // Store merged pieces, if any
                                 self.mergedPieces = self.mergingPieces
@@ -217,15 +211,13 @@ class GameScene: SKScene {
                                     hexPiece.sprite!.removeFromParent()
                                     hexPiece.hexCell?.hexPiece = nil
                                 }
+                                
                             } else {
                                 // clear merged array, since we are not merging any on this placement
                                 self.mergedPieces.removeAll()
                                 
-                                if (self.currentPiece!.isWildCard) {
-                                    self.currentPiece!.sprite!.removeActionForKey("wildcardAnimation")
-                                    self.currentPiece!.value = HexMapHelper.instance.wildcardPlacedValue
-                                    self.currentPiece!.sprite!.texture = HexMapHelper.instance.wildcardPlacedTexture
-                                }
+                                // let piece know we are placing it
+                                self.currentPiece!.wasPlacedWithoutMerge()
                             }
                             
                             // Place the piece
@@ -404,6 +396,8 @@ class GameScene: SKScene {
 
     }
     
+    /**
+    */
     func createUILabel(caption: String) -> SKLabelNode {
         let label = SKLabelNode(text: caption)
         label.fontColor = UIColor.blackColor()
@@ -417,46 +411,47 @@ class GameScene: SKScene {
     
     func updateScore() {
         if (self.scoreDisplay != nil) {
-            self.scoreDisplay!.text = "\(self.score)"
+            self.scoreDisplay!.text = self.scoreFormatter.stringFromNumber(self.score)
         }
     }
     
     func updateHighScore() {
         if (self.highScoreDisplay != nil) {
-            self.highScoreDisplay!.text = "\(GameState.instance!.highScore)"
+            self.highScoreDisplay!.text = self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)
         }
     }
     
     func awardPoints(hexPiece: HexPiece) {
-        self.lastPointsAwarded = Int(pow(Float(10), Float(hexPiece.value+1))) * self.mergingPieces.count
+        self.lastPointsAwarded = Int(pow(Float(hexPiece.value*2), Float(hexPiece.value+1))) * self.mergingPieces.count
         self.score += lastPointsAwarded
     }
     
     func generateCurrentPiece() {
+    
         self.currentPiece = LevelHelper.instance.getRandomPiece()
-        self.currentPiece!.sprite = HexMapHelper.instance.createHexPieceSprite(self.currentPiece!)
+        self.currentPiece!.sprite = self.currentPiece!.createSprite()
         
         self.currentPiece!.sprite!.position = self.currentPieceHome
         self.currentPiece!.sprite!.zPosition = 10
         guiLayer.addChild(self.currentPiece!.sprite!)
+        
+        print (self.currentPiece)
+        print (self.lastPlacedPiece)
     }
     
     func restoreLastPiece() {
         self.currentPiece!.sprite!.removeFromParent()
     
-        // Create a new hexPiece
-        self.currentPiece = HexPiece()
-        self.currentPiece!.value = self.lastPieceValue
+        self.currentPiece = self.lastPlacedPiece
         
-        self.currentPiece!.isWildCard = self.lastPieceWasWildCard
+        self.currentPiece!.sprite!.removeFromParent()
         
-        self.currentPiece!.sprite = HexMapHelper.instance.createHexPieceSprite(self.currentPiece!)
+        self.currentPiece!.wasUnplaced()
         
         self.currentPiece!.sprite!.position = self.currentPieceHome
         self.currentPiece!.sprite!.zPosition = 10
         
         guiLayer.addChild(self.currentPiece!.sprite!)
-        
     }
     
     func swapStash() {

@@ -152,15 +152,8 @@ class HexCell : NSObject {
         // Number of same pieces we found searching all directions
         var samePieceCount = 0
         
-        let firstValue = hexPiece.value;
-        var lastValue: Int
-        
-        // Determine maximum possible value for piece being placed
-        if (hexPiece.isWildCard) {
-            lastValue = HexMapHelper.instance.maxPieceValue
-        } else {
-            lastValue = hexPiece.value
-        }
+        let firstValue = hexPiece.getMinMergeValue()
+        let lastValue = hexPiece.getMaxMergeValue()
         
         var value = lastValue
         

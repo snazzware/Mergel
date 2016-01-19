@@ -28,6 +28,9 @@ class HexMapHelper: NSObject {
     var hexPieceTextures: [SKTexture] = Array()
     
     // Wildcard 
+    let wildcardPieceTextureNames = ["Wildcard"]
+    var wildcardPieceTextures: [SKTexture] = Array()
+    
     let wildcardPlacedTextureName = "Blackstar"
     var wildcardPlacedTexture: SKTexture?
     let wildcardPlacedValue = 10
@@ -38,6 +41,11 @@ class HexMapHelper: NSObject {
         // Load each texture and store them for later use
         for textureName in hexPieceTextureNames {
             self.hexPieceTextures.append(SKTexture(imageNamed: textureName))
+        }
+        
+        // Load wildcard texture(s)
+        for textureName in wildcardPieceTextureNames {
+            self.wildcardPieceTextures.append(SKTexture(imageNamed: textureName))
         }
         
         // Load wildcard placed texture
@@ -112,7 +120,7 @@ class HexMapHelper: NSObject {
                 
                 // Render piece, if any, and add to parent
                 if (hexCell!.hexPiece != nil) {
-                    let hexPieceSprite = self.createHexPieceSprite(hexCell!.hexPiece!)
+                    let hexPieceSprite = hexCell!.hexPiece!.createSprite()
                     
                     hexPieceSprite.position = mapNode.position
                     hexPieceSprite.zPosition = 2
@@ -138,28 +146,31 @@ class HexMapHelper: NSObject {
         }
     }
     
-    func createHexPieceSprite(hexPiece: HexPiece) -> SKSpriteNode {
-        if (hexPiece.isWildCard) {
-            return self.createWildCardSprite(hexPiece)
-        } else {
-            let node = SKSpriteNode(texture: self.hexPieceTextures[hexPiece.value])
-        
-            node.name = "hexPiece"
-        
-            return node
-        }
-    }
     
+    
+    /**
+        Creates a sprite to represent a wildcard piece
+
+        - Parameters:
+            - hexPiece: The hexPiece instance for which the sprite is being created
+            
+        - Returns: Instance of SKSpriteNode
+    */
     func createWildCardSprite(hexPiece: HexPiece) -> SKSpriteNode {
         let node = SKSpriteNode(texture: self.hexPieceTextures.first)
         node.name = "hexPiece"
         
-        node.runAction(SKAction.repeatActionForever(
-    SKAction.animateWithTextures(self.hexPieceTextures,
-      timePerFrame: 0.2,
-      resize: false,
-      restore: true)),
-    withKey:"wildcardAnimation")
+        node.runAction(
+            SKAction.repeatActionForever(
+                SKAction.animateWithTextures(
+                    self.wildcardPieceTextures,
+                    timePerFrame: 0.2,
+                    resize: false,
+                    restore: true
+                )
+            ),
+            withKey:"wildcardAnimation"
+        )
         
         return node
     }
