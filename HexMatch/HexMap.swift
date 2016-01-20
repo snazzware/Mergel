@@ -8,7 +8,7 @@
 
 import Foundation
 
-class HexMap : NSObject {
+class HexMap : NSObject, NSCoding {
     
     var cells: [[HexCell]] = Array()
     var width: Int = 0
@@ -112,5 +112,16 @@ class HexMap : NSObject {
         return cells.filter{ $0 != nil }
     }
 
+    required convenience init?(coder decoder: NSCoder) {
+    
+        let width = (decoder.decodeObjectForKey("width") as? Int)!
+        let height = (decoder.decodeObjectForKey("height") as? Int)!
+    
+        self.init(width,height)
+        
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+    }
     
 }

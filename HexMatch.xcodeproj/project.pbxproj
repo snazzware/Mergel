@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8033FE5D1C4D9C520035D1A7 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8033FE5C1C4D9C520035D1A7 /* Wildcard@2x.png */; };
 		8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */; };
+		8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */; };
+		8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */; };
 		8076BA681C47379300BA62A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
 		8076BA6C1C473AC800BA62A4 /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA6B1C473AC800BA62A4 /* HexCell@2x.png */; };
 		8076BA721C47F2E000BA62A4 /* Pentagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA6E1C47F2E000BA62A4 /* Pentagon@2x.png */; };
@@ -51,6 +53,8 @@
 /* Begin PBXFileReference section */
 		8033FE5C1C4D9C520035D1A7 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
 		8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WildcardHexPiece.swift; sourceTree = "<group>"; };
+		8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStateMachine.swift; path = StateMachine/GameStateMachine.swift; sourceTree = "<group>"; };
+		8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneState.swift; sourceTree = "<group>"; };
 		8076BA671C47379300BA62A4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8076BA6B1C473AC800BA62A4 /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
 		8076BA6E1C47F2E000BA62A4 /* Pentagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pentagon@2x.png"; sourceTree = "<group>"; };
@@ -111,6 +115,15 @@
 			name = Pieces;
 			sourceTree = "<group>";
 		};
+		8033FE611C4ED4260035D1A7 /* StateMachine */ = {
+			isa = PBXGroup;
+			children = (
+				8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */,
+				8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */,
+			);
+			name = StateMachine;
+			sourceTree = "<group>";
+		};
 		8076BA691C473AC800BA62A4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +173,7 @@
 		80E9DA9F1C4446FA0028BC6D /* HexMatch */ = {
 			isa = PBXGroup;
 			children = (
+				8033FE611C4ED4260035D1A7 /* StateMachine */,
 				8033FE5E1C4D9F930035D1A7 /* Pieces */,
 				80B230F51C4C4B0500FAB024 /* GameState.swift */,
 				80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */,
@@ -311,6 +325,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */,
 				80E9DAA51C4446FA0028BC6D /* GameScene.swift in Sources */,
 				80E9DAC51C4555D40028BC6D /* HexCell.swift in Sources */,
 				8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */,
@@ -318,6 +333,7 @@
 				8076BA681C47379300BA62A4 /* README.md in Sources */,
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
 				8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */,
+				8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */,
 				80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,
 				80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */,

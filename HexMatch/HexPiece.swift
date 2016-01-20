@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class HexPiece : NSObject {
+class HexPiece : NSObject, NSCoding {
 
     // Last coordinates that this piece was placed on a hex map
     var lastX = -1
@@ -45,6 +45,10 @@ class HexPiece : NSObject {
             }
             self._value = newValue
         }
+    }
+    
+    override init() {
+        super.init()
     }
     
     func getMinMergeValue() -> Int {
@@ -91,6 +95,22 @@ class HexPiece : NSObject {
         node.name = "hexPiece"
     
         return node
+    }
+    
+    required convenience init?(coder decoder: NSCoder) {
+        self.init()
+    
+        self.originalValue = (decoder.decodeObjectForKey("originalValue") as? Int)!
+        self.value = (decoder.decodeObjectForKey("value") as? Int)!
+        self.lastX = (decoder.decodeObjectForKey("lastX") as? Int)!
+        self.lastY = (decoder.decodeObjectForKey("lastY") as? Int)!
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.originalValue, forKey: "originalValue")
+        coder.encodeObject(self.value, forKey: "value")
+        coder.encodeObject(self.lastX, forKey: "lastX")
+        coder.encodeObject(self.lastY, forKey: "lastY")
     }
     
 }

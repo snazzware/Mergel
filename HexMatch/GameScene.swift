@@ -27,9 +27,7 @@ class GameScene: SKScene {
     var mergedPieces: [HexPiece] = Array()
 
     var lastPlacedPiece: HexPiece?
-    var lastPieceValue = 0
     var lastPointsAwarded = 0
-    var lastPieceWasWildCard = false
     
     var hexMap: HexMap?
     
@@ -57,6 +55,10 @@ class GameScene: SKScene {
     var highScoreLabel: SKLabelNode?
     
     override func didMoveToView(view: SKView) {
+        // Init state
+        GameStateMachine.instance = GameStateMachine(scene: self)
+        GameStateMachine.instance!.enterState(GameScenePlayingState.self)
+        
         // Init guiLayer
         self.initGuiLayer()
         
@@ -94,6 +96,9 @@ class GameScene: SKScene {
         self.scaleMode = .AspectFit
     }
     
+    /**
+        Reset game state. This includes clearing current score, stashed piece, current piece, and regenerating hexmap with a new random starting layout.
+    */
     func resetLevel() {
         // Clear the board
         HexMapHelper.instance.clearHexMap(self.gameboardLayer)
@@ -175,10 +180,14 @@ class GameScene: SKScene {
                         
                         let cell = HexMapHelper.instance.hexMap!.cell(x,y)
                         
+                        // Refresh merging pieces
+                        self.updateMergingPieces(cell!)
+                        
+                        // Will the target cell accept our current piece, and will the piece either allow placement
+                        // without a merge, or do we have a merge?
                         if (cell!.willAccept(self.currentPiece!) && (self.currentPiece!.canPlaceWithoutMerge() || self.mergingPieces.count>0)) {
                             // Store last placed piece, prior to any merging
                             self.lastPlacedPiece = self.currentPiece
-                            self.lastPieceValue = self.currentPiece!.value
                         
                             // Are we merging pieces?
                             if (self.mergingPieces.count>0) {
@@ -249,7 +258,9 @@ class GameScene: SKScene {
         }
     }
     
-    
+    /**
+        Rolls back the last move made. Places removed merged pieces back on the board, removes points awarded, and calls self.restoreLastPiece, which puts the last piece played back in the currentPiece property.
+    */
     func undoLastMove() {
         if (self.lastPlacedPiece != nil) {
             // Clear out cell where the last piece was placed
@@ -282,6 +293,9 @@ class GameScene: SKScene {
         }
     }
     
+    /**
+        Handles touch move events. Updates animations for any pieces which would be merged if the player were to end the touch event in the cell being touched, if any.
+    */
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let location = touches.first?.locationInNode(self)
         
@@ -315,6 +329,12 @@ class GameScene: SKScene {
         }
     }
    
+    /**
+        Stops merge animation on any current set of would-be merged pieces, then updates self.mergingPieces with any merges which would occur if self.curentPiece were to be placed in cell. Stats merge animation on the new set of merging pieces, if any.
+        
+        - Parameters:
+            - cell: The cell to test for merging w/ the current piece
+    */
     func updateMergingPieces(cell: HexCell) {
         if (cell.willAccept(self.currentPiece!)) {
             // Stop animation on current merge set
@@ -337,6 +357,9 @@ class GameScene: SKScene {
         
     }
     
+    /**
+        Initializes GUI layer components, sets up labels, buttons, etc.
+    */
     func initGuiLayer() {
         // set up score formatter
         self.scoreFormatter.numberStyle = .DecimalStyle
@@ -397,6 +420,12 @@ class GameScene: SKScene {
     }
     
     /**
+        Helper function to create an instance of SKLabelNode with typical defaults for our GUI and a specified caption.
+        
+        - Parameters:
+            - caption: The caption for the label node
+            
+        - Returns: An instance of SKLabelNode, initialized with caption and gui defaults.
     */
     func createUILabel(caption: String) -> SKLabelNode {
         let label = SKLabelNode(text: caption)
@@ -409,23 +438,39 @@ class GameScene: SKScene {
         return label
     }
     
+    /**
+        Refreshes the text of the score display with a formatted copy of the current self.score value
+    */
     func updateScore() {
         if (self.scoreDisplay != nil) {
             self.scoreDisplay!.text = self.scoreFormatter.stringFromNumber(self.score)
         }
     }
     
+    /**
+        Refreshes the text of the high score display with a formatted copy of the current high score value
+    */
     func updateHighScore() {
         if (self.highScoreDisplay != nil) {
             self.highScoreDisplay!.text = self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)
         }
     }
     
+    /**
+        Generates a point value and applies it to self.score, based on the piece specified.
+        
+        - Parameters:
+            - hexPiece: The piece for which points are being awarded.
+    */
     func awardPoints(hexPiece: HexPiece) {
         self.lastPointsAwarded = Int(pow(Float(hexPiece.value*2), Float(hexPiece.value+1))) * self.mergingPieces.count
         self.score += lastPointsAwarded
     }
     
+    /**
+        Generates a random piece and assigns it to self.currentPiece. This is the piece which will be placed if the player
+        touches a valid cell on the gameboard.
+    */
     func generateCurrentPiece() {
     
         self.currentPiece = LevelHelper.instance.getRandomPiece()
@@ -439,6 +484,9 @@ class GameScene: SKScene {
         print (self.lastPlacedPiece)
     }
     
+    /**
+        Restores self.currentPiece back to the previously placed piece.
+    */
     func restoreLastPiece() {
         self.currentPiece!.sprite!.removeFromParent()
     
@@ -454,6 +502,9 @@ class GameScene: SKScene {
         guiLayer.addChild(self.currentPiece!.sprite!)
     }
     
+    /**
+        Swaps self.currentPiece with the piece currently in the stash, if any. If no piece is in the stash, a new currentPiece is geneated and the old currentPiece is placed in the stash.
+    */
     func swapStash() {
         if (self.stashPiece != nil) {
             let tempPiece = self.currentPiece!
