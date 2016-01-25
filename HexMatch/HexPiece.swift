@@ -92,7 +92,7 @@ class HexPiece : NSObject, NSCoding {
     func createSprite() -> SKSpriteNode {
         let node = SKSpriteNode(texture: HexMapHelper.instance.hexPieceTextures[self.value])
     
-        node.name = "hexPiece"
+        node.name = "hexPiece"        
     
         return node
     }

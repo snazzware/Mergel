@@ -7,23 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8033FE5D1C4D9C520035D1A7 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8033FE5C1C4D9C520035D1A7 /* Wildcard@2x.png */; };
 		8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */; };
 		8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */; };
 		8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */; };
+		8042BDB41C5188FB0029922B /* tartan2014.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDB31C5188FB0029922B /* tartan2014.png */; };
+		8042BDBF1C5197B10029922B /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDBD1C5197B10029922B /* HexCell@2x.png */; };
+		8042BDC31C519AAE0029922B /* Rhombus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC11C519AAE0029922B /* Rhombus@2x.png */; };
+		8042BDC81C519FFB0029922B /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC71C519FFB0029922B /* Triangle@2x.png */; };
+		8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC91C51A02B0029922B /* Square@2x.png */; };
+		8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDCD1C51A1460029922B /* HexCellShadow@2x.png */; };
+		8042BDD21C51A3940029922B /* Pentagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDD01C51A3940029922B /* Pentagon@2x.png */; };
+		8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDD31C51A6110029922B /* Hexagon@2x.png */; };
+		804BA2351C55ACF600951162 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2331C55ACF600951162 /* Star@2x.png */; };
+		804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2341C55ACF600951162 /* Wildcard@2x.png */; };
+		804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2371C55AD2700951162 /* Blackstar@2x.png */; };
 		8076BA681C47379300BA62A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
-		8076BA6C1C473AC800BA62A4 /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA6B1C473AC800BA62A4 /* HexCell@2x.png */; };
-		8076BA721C47F2E000BA62A4 /* Pentagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA6E1C47F2E000BA62A4 /* Pentagon@2x.png */; };
-		8076BA731C47F2E000BA62A4 /* Square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA6F1C47F2E000BA62A4 /* Square@2x.png */; };
-		8076BA741C47F2E000BA62A4 /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA701C47F2E000BA62A4 /* Triangle@2x.png */; };
 		8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA751C48017600BA62A4 /* HexPiece.swift */; };
 		8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA791C480A2300BA62A4 /* LevelHelper.swift */; };
 		8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */; };
-		8076BA851C4994F700BA62A4 /* Rhombus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA831C4994F700BA62A4 /* Rhombus@2x.png */; };
-		8076BA861C4994F700BA62A4 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA841C4994F700BA62A4 /* Star@2x.png */; };
-		8076BA881C49963100BA62A4 /* Hexagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA871C49963100BA62A4 /* Hexagon@2x.png */; };
 		80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F51C4C4B0500FAB024 /* GameState.swift */; };
-		80B230F81C4C826D00FAB024 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80B230F71C4C826D00FAB024 /* Blackstar@2x.png */; };
 		80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */; };
 		80E9DAA11C4446FA0028BC6D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */; };
 		80E9DAA31C4446FA0028BC6D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 80E9DAA21C4446FA0028BC6D /* GameScene.sks */; };
@@ -51,23 +53,25 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8033FE5C1C4D9C520035D1A7 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
 		8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WildcardHexPiece.swift; sourceTree = "<group>"; };
 		8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStateMachine.swift; path = StateMachine/GameStateMachine.swift; sourceTree = "<group>"; };
 		8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneState.swift; sourceTree = "<group>"; };
+		8042BDB31C5188FB0029922B /* tartan2014.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tartan2014.png; sourceTree = "<group>"; };
+		8042BDBD1C5197B10029922B /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
+		8042BDC11C519AAE0029922B /* Rhombus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rhombus@2x.png"; sourceTree = "<group>"; };
+		8042BDC71C519FFB0029922B /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
+		8042BDC91C51A02B0029922B /* Square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Square@2x.png"; sourceTree = "<group>"; };
+		8042BDCD1C51A1460029922B /* HexCellShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellShadow@2x.png"; sourceTree = "<group>"; };
+		8042BDD01C51A3940029922B /* Pentagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pentagon@2x.png"; sourceTree = "<group>"; };
+		8042BDD31C51A6110029922B /* Hexagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hexagon@2x.png"; sourceTree = "<group>"; };
+		804BA2331C55ACF600951162 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
+		804BA2341C55ACF600951162 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
+		804BA2371C55AD2700951162 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
 		8076BA671C47379300BA62A4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		8076BA6B1C473AC800BA62A4 /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
-		8076BA6E1C47F2E000BA62A4 /* Pentagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pentagon@2x.png"; sourceTree = "<group>"; };
-		8076BA6F1C47F2E000BA62A4 /* Square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Square@2x.png"; sourceTree = "<group>"; };
-		8076BA701C47F2E000BA62A4 /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		8076BA751C48017600BA62A4 /* HexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPiece.swift; sourceTree = "<group>"; };
 		8076BA791C480A2300BA62A4 /* LevelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelHelper.swift; path = HexMatch/LevelHelper.swift; sourceTree = "<group>"; };
 		8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellVoid@2x.png"; sourceTree = "<group>"; };
-		8076BA831C4994F700BA62A4 /* Rhombus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rhombus@2x.png"; sourceTree = "<group>"; };
-		8076BA841C4994F700BA62A4 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
-		8076BA871C49963100BA62A4 /* Hexagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hexagon@2x.png"; sourceTree = "<group>"; };
 		80B230F51C4C4B0500FAB024 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = ../GameState.swift; sourceTree = "<group>"; };
-		80B230F71C4C826D00FAB024 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
 		80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPieceSeries.swift; sourceTree = "<group>"; };
 		80E9DA9D1C4446FA0028BC6D /* HexMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -124,9 +128,18 @@
 			name = StateMachine;
 			sourceTree = "<group>";
 		};
+		8042BDAE1C5187E90029922B /* Backgrounds */ = {
+			isa = PBXGroup;
+			children = (
+				8042BDB31C5188FB0029922B /* tartan2014.png */,
+			);
+			name = Backgrounds;
+			sourceTree = "<group>";
+		};
 		8076BA691C473AC800BA62A4 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				8042BDAE1C5187E90029922B /* Backgrounds */,
 				8076BA6A1C473AC800BA62A4 /* Graphics */,
 			);
 			path = Assets;
@@ -136,15 +149,16 @@
 			isa = PBXGroup;
 			children = (
 				8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */,
-				8076BA6E1C47F2E000BA62A4 /* Pentagon@2x.png */,
-				8076BA6F1C47F2E000BA62A4 /* Square@2x.png */,
-				8076BA871C49963100BA62A4 /* Hexagon@2x.png */,
-				8076BA701C47F2E000BA62A4 /* Triangle@2x.png */,
-				8076BA6B1C473AC800BA62A4 /* HexCell@2x.png */,
-				8076BA831C4994F700BA62A4 /* Rhombus@2x.png */,
-				8076BA841C4994F700BA62A4 /* Star@2x.png */,
-				80B230F71C4C826D00FAB024 /* Blackstar@2x.png */,
-				8033FE5C1C4D9C520035D1A7 /* Wildcard@2x.png */,
+				8042BDBD1C5197B10029922B /* HexCell@2x.png */,
+				804BA2331C55ACF600951162 /* Star@2x.png */,
+				804BA2341C55ACF600951162 /* Wildcard@2x.png */,
+				8042BDD01C51A3940029922B /* Pentagon@2x.png */,
+				8042BDC11C519AAE0029922B /* Rhombus@2x.png */,
+				8042BDD31C51A6110029922B /* Hexagon@2x.png */,
+				8042BDC91C51A02B0029922B /* Square@2x.png */,
+				8042BDCD1C51A1460029922B /* HexCellShadow@2x.png */,
+				804BA2371C55AD2700951162 /* Blackstar@2x.png */,
+				8042BDC71C519FFB0029922B /* Triangle@2x.png */,
 			);
 			path = Graphics;
 			sourceTree = "<group>";
@@ -294,20 +308,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8042BDC31C519AAE0029922B /* Rhombus@2x.png in Resources */,
 				80E9DAA31C4446FA0028BC6D /* GameScene.sks in Resources */,
-				8076BA881C49963100BA62A4 /* Hexagon@2x.png in Resources */,
-				8076BA721C47F2E000BA62A4 /* Pentagon@2x.png in Resources */,
-				8076BA731C47F2E000BA62A4 /* Square@2x.png in Resources */,
+				8042BDC81C519FFB0029922B /* Triangle@2x.png in Resources */,
+				8042BDB41C5188FB0029922B /* tartan2014.png in Resources */,
+				804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */,
 				80E9DAAF1C4446FA0028BC6D /* LaunchScreen.storyboard in Resources */,
+				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
+				804BA2351C55ACF600951162 /* Star@2x.png in Resources */,
 				80E9DAAC1C4446FA0028BC6D /* Assets.xcassets in Resources */,
-				8076BA861C4994F700BA62A4 /* Star@2x.png in Resources */,
+				804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */,
+				8042BDD21C51A3940029922B /* Pentagon@2x.png in Resources */,
 				80E9DAAA1C4446FA0028BC6D /* Main.storyboard in Resources */,
-				8076BA851C4994F700BA62A4 /* Rhombus@2x.png in Resources */,
-				80B230F81C4C826D00FAB024 /* Blackstar@2x.png in Resources */,
-				8076BA6C1C473AC800BA62A4 /* HexCell@2x.png in Resources */,
+				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
+				8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
-				8033FE5D1C4D9C520035D1A7 /* Wildcard@2x.png in Resources */,
-				8076BA741C47F2E000BA62A4 /* Triangle@2x.png in Resources */,
+				8042BDBF1C5197B10029922B /* HexCell@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

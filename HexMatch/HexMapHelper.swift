@@ -18,9 +18,9 @@ class HexMapHelper: NSObject {
     var hexMapSprites: [[SKSpriteNode]] = Array()
     
     // Constants related to rendering of hex cell nodes
-    let cellNodeHorizontalAdvance = 47
-    let cellNodeVerticalAdvance = 54
-    let cellNodeVerticalStagger = 27
+    let cellNodeHorizontalAdvance = 46
+    let cellNodeVerticalAdvance = 53
+    let cellNodeVerticalStagger = 26
     
     // Hex piece textures
     let hexPieceTextureNames = ["Triangle","Rhombus","Square","Pentagon","Hexagon","Star"]
@@ -84,6 +84,8 @@ class HexMapHelper: NSObject {
         - Returns: None
     */
     func renderHexMap(parent: SKNode) {
+        self.renderHexMapShadow(parent);
+    
         let emptyCellTexture = SKTexture(imageNamed: "HexCell")
         let voidCellTexture = SKTexture(imageNamed: "HexCellVoid")
         
@@ -138,9 +140,38 @@ class HexMapHelper: NSObject {
         self.hexMapSprites = rows
     }
     
+    
+    func renderHexMapShadow(parent: SKNode) {
+        let emptyCellTexture = SKTexture(imageNamed: "HexCellShadow")
+        let voidCellTexture = SKTexture(imageNamed: "HexCellVoid")
+        
+        for x in 0...self.hexMap!.width-1 {
+            for y in 0...self.hexMap!.height-1 {
+                let hexCell = hexMap!.cell(x, y)
+                
+                var mapNode = SKSpriteNode(texture: emptyCellTexture)
+                
+                mapNode.zPosition = -1;
+                
+                if (hexCell!.isVoid) {
+                    mapNode = SKSpriteNode(texture: voidCellTexture)
+                }
+                
+                // Name the node for convenience later
+                mapNode.name = "hexMapCellShadow"
+                
+                // Convert x,y to screen position
+                mapNode.position = self.hexMapToScreen(x,y)
+                
+                // Add node to parent
+                parent.addChild(mapNode)
+            }
+        }
+    }
+    
     func clearHexMap(parent: SKNode) {
         for childNode in parent.children {
-            if (childNode.name == "hexPiece" || childNode.name == "hexMapCell") {
+            if (childNode.name == "hexPiece" || childNode.name == "hexMapCell" || childNode.name == "hexMapCellShadow") {
                 childNode.removeFromParent()
             }
         }

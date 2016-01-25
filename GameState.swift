@@ -31,11 +31,11 @@ class GameState: NSObject, NSCoding {
         self.init()
         
         self.highScore = (decoder.decodeObjectForKey("highScore") as? Int)!
-        self.gameMode = GameMode(rawValue: (decoder.decodeObjectForKey("gameMode") as! String))!
+        //self.gameMode = GameMode(rawValue: (decoder.decodeObjectForKey("gameMode") as! String))!
     }
     
     func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(self.highScore, forKey: "highScore")
-        coder.encodeObject(self.gameMode.rawValue, forKey: "gameMode")
+        //coder.encodeObject(self.gameMode.rawValue, forKey: "gameMode")
     }
 }

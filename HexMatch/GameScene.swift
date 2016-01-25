@@ -59,6 +59,10 @@ class GameScene: SKScene {
         GameStateMachine.instance = GameStateMachine(scene: self)
         GameStateMachine.instance!.enterState(GameScenePlayingState.self)
         
+        // Set background
+        self.backgroundColor = UIColor(red: 0x69/255, green: 0x65/255, blue: 0x6f/255, alpha: 1.0)
+        print(self.backgroundColor)
+        
         // Init guiLayer
         self.initGuiLayer()
         
@@ -376,8 +380,8 @@ class GameScene: SKScene {
         self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
         
         // Add stash box
-        self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-150, self.frame.height-90, 120, 72))
-        self.stashBox!.strokeColor = UIColor.blackColor()
+        self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-160, self.frame.height-90, 140, 72))
+        self.stashBox!.strokeColor = UIColor.clearColor()
         self.guiLayer.addChild(self.stashBox!)
         
         // Add stash piece label
@@ -397,23 +401,23 @@ class GameScene: SKScene {
         
         // Add score label
         self.scoreLabel = self.createUILabel("Score")
-        self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 110)
+        self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 120)
         self.guiLayer.addChild(self.scoreLabel!)
         
         // Add score display
         self.scoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.score)!)
-        self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 130)
+        self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
         self.scoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.scoreDisplay!)
         
         // Add high score label
         self.highScoreLabel = self.createUILabel("High Score")
-        self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 150)
+        self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 170)
         self.guiLayer.addChild(self.highScoreLabel!)
         
         // Add high score display
         self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)!)
-        self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 170)
+        self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
         self.highScoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.highScoreDisplay!)
 
@@ -429,7 +433,7 @@ class GameScene: SKScene {
     */
     func createUILabel(caption: String) -> SKLabelNode {
         let label = SKLabelNode(text: caption)
-        label.fontColor = UIColor.blackColor()
+        label.fontColor = UIColor(red: 0xf7/255, green: 0xef/255, blue: 0xed/255, alpha: 1.0)
         label.fontSize = 18
         label.zPosition = 20
         label.fontName = "Avenir-Black"
