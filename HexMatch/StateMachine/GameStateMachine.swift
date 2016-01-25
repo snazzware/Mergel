@@ -15,6 +15,8 @@ public class GameStateMachine: GKStateMachine {
     
     init(scene:GameScene) {
         super.init(states: [
+            GameSceneInitialState(scene: scene),
+            GameSceneRestartState(scene: scene),
             GameScenePlayingState(scene: scene),
             GameSceneGameOverState(scene: scene)
         ]);

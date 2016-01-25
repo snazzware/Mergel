@@ -130,11 +130,11 @@ class HexCell : NSObject {
         - Returns: True if this cell will accept the piece, false otherwise
     */
     func willAccept(hexPiece: HexPiece) -> Bool {
-        if (!self.isVoid && self.hexPiece == nil) {
-            return true
-        } else {
-            return false
-        }
+        return self.isOpen()
+    }
+    
+    func isOpen() -> Bool {
+        return (!self.isVoid && self.hexPiece == nil)
     }
     
     /**

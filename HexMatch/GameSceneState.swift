@@ -18,21 +18,65 @@ class GameSceneState: GKState {
     
 }
 
-class GameScenePlayingState: GameSceneState {
+// Occurs once when app starts
+class GameSceneInitialState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is GameSceneGameOverState.Type
+        return stateClass is GameSceneRestartState.Type
+    }
+    
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        // Set up GUI, etc.
+        self.scene.initGame()
+    
+        // Start fresh copy of level
+        GameStateMachine.instance!.enterState(GameSceneRestartState.self)
     }
     
 }
 
-class GameSceneGameOverState: GameSceneState {
+// Sets up a new game
+class GameSceneRestartState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         return stateClass is GameScenePlayingState.Type
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
+        // Start fresh copy of level
+        self.scene.resetLevel()
         
+        // Enter playing state
+        GameStateMachine.instance!.enterState(GameScenePlayingState.self)
+    }
+    
+}
+
+// Game is active
+class GameScenePlayingState: GameSceneState {
+    
+    override func isValidNextState(stateClass: AnyClass) -> Bool {
+        return stateClass is GameSceneGameOverState.Type
+    }
+    
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        
+    }
+    
+}
+
+// Game is over
+class GameSceneGameOverState: GameSceneState {
+    
+    override func isValidNextState(stateClass: AnyClass) -> Bool {
+        return stateClass is GameSceneRestartState.Type
+    }
+    
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        self.scene.showGameOver()
+    }
+    
+    override func willExitWithNextState(nextState: GKState) {
+        self.scene.hideGameOver()
     }
 }

@@ -55,6 +55,22 @@ class HexMap : NSObject, NSCoding {
         }
     }
     
+    func getOpenCells() -> [HexCell] {
+        var openCells:[HexCell] = Array();
+        
+        for x in 0...self.width-1 {
+            for y in 0...self.height-1 {
+                if (self.cells[x][y].isOpen()) {
+                    openCells.append(self.cells[x][y]);
+                }
+            }
+        }
+        
+        
+        print("\(openCells)")
+        return openCells;
+    }
+    
     /**
         Fetches a cell from the HexMap
 
