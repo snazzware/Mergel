@@ -56,11 +56,7 @@ class GameSceneRestartState: GameSceneState {
 class GameScenePlayingState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is GameSceneGameOverState.Type
-    }
-    
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        
+        return stateClass is GameSceneGameOverState.Type || stateClass is GameSceneRestartState.Type
     }
     
 }

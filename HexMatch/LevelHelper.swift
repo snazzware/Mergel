@@ -17,6 +17,9 @@ class LevelHelper: NSObject {
     
     // Chance to generate a wildcard piece (matches any value)
     let wildcardPercentage = 3
+    
+    // Chance to generate a mobile piece (moves around board until trapped)
+    let mobilePercentage = 15
 
     /**
         Initializes a HexMap with a randomized starting layout
@@ -73,11 +76,16 @@ class LevelHelper: NSObject {
         // Create a new hexPiece
         var hexPiece: HexPiece?
         
-        // Generate wildcard
-        if (Int(arc4random_uniform(100))<self.wildcardPercentage) {
+        let specialRoll = Int(arc4random_uniform(100))
+
+        if (specialRoll<self.wildcardPercentage) { // Generate wildcard
             hexPiece = WildcardHexPiece()
         } else {
-            hexPiece = HexPiece()
+            if (specialRoll<self.mobilePercentage) { // Generate mobile
+                hexPiece = MobileHexPiece()
+            } else {
+                hexPiece = HexPiece()
+            }
         
             // Assign a random value
             let randomValue = Int(arc4random_uniform(100))

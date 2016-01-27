@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8025F9791C5806DC00A64494 /* MobileHexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8025F9781C5806DC00A64494 /* MobileHexPiece.swift */; };
+		8025F97D1C58075000A64494 /* Eyes@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8025F97C1C58075000A64494 /* Eyes@2x.png */; };
+		8025F97F1C580D8C00A64494 /* EyeClosed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8025F97E1C580D8C00A64494 /* EyeClosed@2x.png */; };
+		8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8025F9811C580E3F00A64494 /* EyeLookLeft@2x.png */; };
+		8025F9841C580E3F00A64494 /* EyeLookRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8025F9821C580E3F00A64494 /* EyeLookRight@2x.png */; };
 		8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */; };
 		8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */; };
 		8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */; };
@@ -53,6 +58,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8025F9781C5806DC00A64494 /* MobileHexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileHexPiece.swift; sourceTree = "<group>"; };
+		8025F97C1C58075000A64494 /* Eyes@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Eyes@2x.png"; sourceTree = "<group>"; };
+		8025F97E1C580D8C00A64494 /* EyeClosed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EyeClosed@2x.png"; sourceTree = "<group>"; };
+		8025F9811C580E3F00A64494 /* EyeLookLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EyeLookLeft@2x.png"; sourceTree = "<group>"; };
+		8025F9821C580E3F00A64494 /* EyeLookRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EyeLookRight@2x.png"; sourceTree = "<group>"; };
 		8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WildcardHexPiece.swift; sourceTree = "<group>"; };
 		8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameStateMachine.swift; path = StateMachine/GameStateMachine.swift; sourceTree = "<group>"; };
 		8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneState.swift; sourceTree = "<group>"; };
@@ -110,11 +120,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8025F9801C580D8F00A64494 /* Eyes */ = {
+			isa = PBXGroup;
+			children = (
+				8025F97E1C580D8C00A64494 /* EyeClosed@2x.png */,
+				8025F97C1C58075000A64494 /* Eyes@2x.png */,
+				8025F9811C580E3F00A64494 /* EyeLookLeft@2x.png */,
+				8025F9821C580E3F00A64494 /* EyeLookRight@2x.png */,
+			);
+			name = Eyes;
+			sourceTree = "<group>";
+		};
 		8033FE5E1C4D9F930035D1A7 /* Pieces */ = {
 			isa = PBXGroup;
 			children = (
 				8076BA751C48017600BA62A4 /* HexPiece.swift */,
 				8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */,
+				8025F9781C5806DC00A64494 /* MobileHexPiece.swift */,
 			);
 			name = Pieces;
 			sourceTree = "<group>";
@@ -148,6 +170,7 @@
 		8076BA6A1C473AC800BA62A4 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8025F9801C580D8F00A64494 /* Eyes */,
 				8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */,
 				8042BDBD1C5197B10029922B /* HexCell@2x.png */,
 				804BA2331C55ACF600951162 /* Star@2x.png */,
@@ -317,12 +340,16 @@
 				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
 				804BA2351C55ACF600951162 /* Star@2x.png in Resources */,
 				80E9DAAC1C4446FA0028BC6D /* Assets.xcassets in Resources */,
+				8025F97D1C58075000A64494 /* Eyes@2x.png in Resources */,
+				8025F9841C580E3F00A64494 /* EyeLookRight@2x.png in Resources */,
 				804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */,
 				8042BDD21C51A3940029922B /* Pentagon@2x.png in Resources */,
 				80E9DAAA1C4446FA0028BC6D /* Main.storyboard in Resources */,
 				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
+				8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */,
 				8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
+				8025F97F1C580D8C00A64494 /* EyeClosed@2x.png in Resources */,
 				8042BDBF1C5197B10029922B /* HexCell@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */,
+				8025F9791C5806DC00A64494 /* MobileHexPiece.swift in Sources */,
 				80E9DAA51C4446FA0028BC6D /* GameScene.swift in Sources */,
 				80E9DAC51C4555D40028BC6D /* HexCell.swift in Sources */,
 				8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */,

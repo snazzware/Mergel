@@ -22,6 +22,14 @@ class HexMapHelper: NSObject {
     let cellNodeVerticalAdvance = 53
     let cellNodeVerticalStagger = 26
     
+    // Actual height/width dimensions of each cell
+    let cellActualHeight = 59
+    let cellActualWidth = 60
+    
+    // Offsets
+    let offsetLeft = 30
+    let offsetBottom = 60
+    
     // Hex piece textures
     let hexPieceTextureNames = ["Triangle","Rhombus","Square","Pentagon","Hexagon","Star"]
     var maxPieceValue = 0
@@ -72,7 +80,15 @@ class HexMapHelper: NSObject {
             y2 -= self.cellNodeVerticalStagger
         }
         
-        return CGPointMake(CGFloat(x2),CGFloat(y2))
+        return CGPointMake(CGFloat(x2+self.offsetLeft),CGFloat(y2+self.offsetBottom))
+    }
+    
+    func getRenderedWidth() -> CGFloat {
+        return CGFloat(self.cellNodeHorizontalAdvance*(self.hexMap!.width)) + CGFloat(self.cellActualWidth - self.cellNodeHorizontalAdvance)
+    }
+    
+    func getRenderedHeight() -> CGFloat {
+        return CGFloat(self.cellActualHeight*(self.hexMap!.height)) - CGFloat(self.cellActualHeight - self.cellNodeVerticalAdvance)
     }
     
     /**

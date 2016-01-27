@@ -13,9 +13,12 @@ class GameScene: SKScene {
     var gameboardLayer = SKNode()
     var guiLayer = SKNode()
     
+    var currentPieceLabel: SKLabelNode?
     var currentPiece: HexPiece?
     var currentPieceHome = CGPointMake(0,0)
+    var currentPieceSprite: SKSpriteNode?
     
+    var stashPieceLabel: SKLabelNode?
     var stashPiece: HexPiece?
     var stashPieceHome = CGPointMake(0,0)
     var stashBox: SKShapeNode?
@@ -31,6 +34,8 @@ class GameScene: SKScene {
     var lastPointsAwarded = 0
     
     var hexMap: HexMap?
+    
+    var debugShape: SKShapeNode?
     
     let scoreFormatter = NSNumberFormatter()
     
@@ -64,10 +69,6 @@ class GameScene: SKScene {
     func initGame() {
         // Set background
         self.backgroundColor = UIColor(red: 0x69/255, green: 0x65/255, blue: 0x6f/255, alpha: 1.0)
-        print(self.backgroundColor)
-        
-        // Init guiLayer
-        self.initGuiLayer()
         
         // Add guiLayer to scene
         addChild(self.guiLayer)
@@ -85,22 +86,11 @@ class GameScene: SKScene {
         // Init current piece
         self.generateCurrentPiece()
         
-        // Center gameboardLayer
-        let gameboardWidth = CGFloat(HexMapHelper.instance.cellNodeHorizontalAdvance*(HexMapHelper.instance.hexMap!.width-1))
-        let gameboardHeight = CGFloat(HexMapHelper.instance.cellNodeVerticalAdvance*(HexMapHelper.instance.hexMap!.height-1))
-        
-        self.gameboardLayer.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
-        self.gameboardLayer.position.x -= gameboardWidth * 0.75
-        self.gameboardLayer.position.y -= gameboardHeight * 0.75
-        
-        // Scale up gameboard
-        self.gameboardLayer.setScale(1.5)
-        
         // Add gameboardLayer to scene
         addChild(self.gameboardLayer)
         
-        // Set scale mode
-        self.scaleMode = .ResizeFill
+        // Init guiLayer
+        self.initGuiLayer()
     }
     
     /**
@@ -169,6 +159,7 @@ class GameScene: SKScene {
                 var handled = false
              
                 for node in nodes {
+                    print(node)
                     if (!handled) {
                         if (node == self.stashBox) {
                             self.swapStash()
@@ -176,6 +167,7 @@ class GameScene: SKScene {
                             handled = true
                         } else
                         if (node == self.resetButton) {
+                            print("reset button pressed")
                             GameStateMachine.instance!.enterState(GameSceneRestartState.self)
 
                             handled = true
@@ -250,6 +242,9 @@ class GameScene: SKScene {
                                 // Position on gameboard
                                 self.currentPiece!.sprite!.position = node.position
                                 
+                                // Show undo button
+                                self.undoButton!.hidden = false
+                                
                                 // Award points
                                 self.awardPoints(self.currentPiece!)
                                 self.scrollPoints(self.lastPointsAwarded, position: node.position)
@@ -257,6 +252,8 @@ class GameScene: SKScene {
                                 // Generate new piece
                                 self.generateCurrentPiece()
                                 
+                                // End turn
+                                self.turnDidEnd()
                             } else {
                                 // Return to home
                                 currentPiece!.sprite!.removeActionForKey("moveAnimation")
@@ -267,11 +264,21 @@ class GameScene: SKScene {
                         }
                     }
                 }
+            }
+        }
+    }
+    
+    
+    func turnDidEnd() {
+        // Test for game over
+        if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
+            GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
+        } else {
+            let occupiedCells = HexMapHelper.instance.hexMap!.getOccupiedCells()
             
-                // Test for game over
-                if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
-                    GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
-                }
+            // Give each piece a turn
+            for occupiedCell in occupiedCells {
+                occupiedCell.hexPiece?.takeTurn()
             }
         }
     }
@@ -308,6 +315,9 @@ class GameScene: SKScene {
             
             // Take back points
             self.score -= self.lastPointsAwarded
+            
+            // Hide undo button
+            self.undoButton!.hidden = true
         }
     }
     
@@ -386,22 +396,22 @@ class GameScene: SKScene {
         self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
         
         // Add current piece label
-        let label = self.createUILabel("Current Piece")
-        label.position = CGPoint(x: 20, y: self.frame.height - 40)
-        self.guiLayer.addChild(label)
+        self.currentPieceLabel = self.createUILabel("Current Piece")
+        self.currentPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 40)
+        self.guiLayer.addChild(self.currentPieceLabel!)
         
         // Calculate stash piece home position
         self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
         
         // Add stash box
         self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-160, self.frame.height-90, 140, 72))
-        self.stashBox!.strokeColor = UIColor.clearColor()
+        self.stashBox!.strokeColor = UIColor.blackColor()
         self.guiLayer.addChild(self.stashBox!)
         
         // Add stash piece label
-        let label2 = self.createUILabel("Stash Piece")
-        label2.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
-        self.guiLayer.addChild(label2)
+        self.stashPieceLabel = self.createUILabel("Stash Piece")
+        self.stashPieceLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
+        self.guiLayer.addChild(self.stashPieceLabel!)
         
         // Add reset button
         self.resetButton = self.createUILabel("Start Over")
@@ -435,7 +445,91 @@ class GameScene: SKScene {
         self.highScoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.highScoreDisplay!)
     
+        // Init the Game Over overlay
         self.initGameOver()
+        
+        // Set initial positions
+        self.updateGuiPositions()
+        
+        // Set initial visibility of undo button
+        self.undoButton!.hidden = (self.lastPlacedPiece == nil);
+    }
+    
+    /**
+        Updates the position of GUI elements. This gets called whem rotation changes.
+    */
+    func updateGuiPositions() {
+
+        if (self.currentPieceLabel != nil) {
+            // Current Piece
+            self.currentPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 40)
+            
+            self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
+            
+            if (self.currentPiece != nil && self.currentPiece!.sprite != nil) {
+                self.currentPiece!.sprite!.position = self.currentPieceHome
+            }
+            
+            // Stash
+            self.stashBox!.removeFromParent()
+            self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-160, self.frame.height-90, 140, 72))
+            self.stashBox!.strokeColor = UIColor.clearColor()
+            self.guiLayer.addChild(self.stashBox!)
+            
+            self.stashPieceLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
+            
+            self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
+            if (self.stashPiece != nil && self.stashPiece!.sprite != nil) {
+                self.stashPiece!.sprite!.position = self.stashPieceHome
+            }
+            
+            // Score
+            self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 120)
+            self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
+            
+            if (self.frame.width > self.frame.height) { // landscape
+                self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 170)
+                self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
+            } else {
+                self.highScoreLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 120)
+                self.highScoreDisplay!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 144)
+            }
+            
+            
+            // Buttons
+            self.resetButton!.position = CGPoint(x: 20, y: 40)
+            
+            self.undoButton!.position = CGPoint(x: self.frame.width-100, y: 40)
+        }
+        
+        // Gameboard
+        self.updateGameboardLayerPosition()
+    }
+    
+    func updateGameboardLayerPosition() {
+        var scale: CGFloat = 1.0
+        var shiftY: CGFloat = 0
+        
+        let marginPortrait: CGFloat = 90
+        let marginLandscape: CGFloat = 60
+        
+        let gameboardWidth = HexMapHelper.instance.getRenderedWidth()
+        let gameboardHeight = HexMapHelper.instance.getRenderedHeight()
+        
+        // Calculate scaling factor to make gameboard fit screen
+        if (self.frame.width > self.frame.height) { // landscape
+            scale = self.frame.height / (gameboardHeight + marginLandscape)
+        } else { // portrait
+            scale = self.frame.width / (gameboardWidth + marginPortrait)
+            
+            shiftY = 30 // shift down a little bit if we are in portrait, so that we don't overlap UI elements.
+        }
+        
+        // Scale gameboard layer
+        self.gameboardLayer.setScale(scale)
+        
+        // Reposition gameboard layer to center in view
+        self.gameboardLayer.position = CGPointMake(((self.frame.width) - (gameboardWidth * scale))/2, (((self.frame.height) - (gameboardHeight * scale))/2) - shiftY)
     }
     
     /**
@@ -524,7 +618,13 @@ class GameScene: SKScene {
             - hexPiece: The piece for which points are being awarded.
     */
     func awardPoints(hexPiece: HexPiece) {
-        self.lastPointsAwarded = Int(pow(Float(hexPiece.value*2), Float(hexPiece.value+1))) * self.mergingPieces.count
+        var modifier = self.mergingPieces.count-1
+        
+        if (modifier < 1) {
+            modifier = 1
+        }
+        
+        self.lastPointsAwarded = hexPiece.getPointValue() * modifier
         self.score += lastPointsAwarded
     }
     
@@ -540,6 +640,9 @@ class GameScene: SKScene {
         self.currentPiece!.sprite!.position = self.currentPieceHome
         self.currentPiece!.sprite!.zPosition = 10
         guiLayer.addChild(self.currentPiece!.sprite!)
+        
+        // Sprite to go on the game board
+        self.currentPieceSprite = self.currentPiece!.createSprite()
     }
     
     /**

@@ -22,6 +22,9 @@ class HexPiece : NSObject, NSCoding {
         set {
             self._hexCell = newValue
             if (self._hexCell != nil) {
+                if (self._hexCell != newValue) {
+                    self._hexCell!.hexPiece = nil
+                }
                 self.lastX = self._hexCell!.x
                 self.lastY = self._hexCell!.y
             }
@@ -29,6 +32,11 @@ class HexPiece : NSObject, NSCoding {
     }
     var sprite: SKSpriteNode?
     
+    // How many turns we have left to skip, and how many we should skip after being placed.
+    var skipTurnCounter = 0
+    var skipTurnsOnPlace = 1
+    
+    // Value tracking
     var originalValue = 0
     var _value = -1
     var value: Int {
@@ -73,15 +81,45 @@ class HexPiece : NSObject, NSCoding {
     
     func wasPlacedWithMerge() {
         self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
+        self.skipTurnCounter = self.skipTurnsOnPlace
     }
     
     func wasPlacedWithoutMerge() {
-        //
+        self.skipTurnCounter = self.skipTurnsOnPlace
     }
     
     func wasUnplaced() {
         self.value = self.originalValue
+        self.skipTurnCounter = self.skipTurnsOnPlace
         self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
+    }
+    
+    func getPointValue() -> Int {
+        var points = 10
+        
+        switch (self.value) {
+            case 0: // Triangle
+            break
+            case 1: // Rhombus
+                points = 100
+            break
+            case 2: // Square
+                points = 500
+            break
+            case 3: // Pentagon
+                points = 1000
+            break
+            case 4: // Hexagon
+                points = 10000
+            break
+            case 5: // Star
+                points = 25000
+            break
+            default:
+            break
+        }
+        
+        return points
     }
     
     /**
@@ -111,6 +149,14 @@ class HexPiece : NSObject, NSCoding {
         coder.encodeObject(self.value, forKey: "value")
         coder.encodeObject(self.lastX, forKey: "lastX")
         coder.encodeObject(self.lastY, forKey: "lastY")
+    }
+    
+    func takeTurn() -> Bool {
+        if (skipTurnCounter > 0) {
+            skipTurnCounter--
+            return false
+        }
+        return true
     }
     
 }

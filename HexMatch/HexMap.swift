@@ -65,10 +65,22 @@ class HexMap : NSObject, NSCoding {
                 }
             }
         }
-        
-        
-        print("\(openCells)")
+                
         return openCells;
+    }
+    
+    func getOccupiedCells() -> [HexCell] {
+        var occupiedCells:[HexCell] = Array();
+        
+        for x in 0...self.width-1 {
+            for y in 0...self.height-1 {
+                if (!self.cells[x][y].isOpen()) {
+                    occupiedCells.append(self.cells[x][y]);
+                }
+            }
+        }
+                
+        return occupiedCells;
     }
     
     /**
@@ -110,22 +122,39 @@ class HexMap : NSObject, NSCoding {
         
         for i in 1...radius {
             for j in ((radius-i))...radius {
-                var targetCell = self.cell(currentWest!.x,currentWest!.y-j)
-                if (targetCell != nil) {
-                    cells.append(targetCell!)
+                var targetCell: HexCell?
+
+                if (currentWest != nil) {
+                    targetCell = self.cell(currentWest!.x,currentWest!.y-j)
+                    if (targetCell != nil) {
+                        cells.append(targetCell!)
+                    }
                 }
-                targetCell = self.cell(currentEast!.x,currentEast!.y-j)
-                if (targetCell != nil) {
-                    cells.append(targetCell!)
+                if (currentEast != nil) {
+                    targetCell = self.cell(currentEast!.x,currentEast!.y-j)
+                    if (targetCell != nil) {
+                        cells.append(targetCell!)
+                    }
                 }
             }
             
-            currentWest = currentWest!.northWest
-            currentEast = currentEast!.northEast
+            if (currentWest != nil) {
+                currentWest = currentWest!.northWest
+            }
+            
+            if (currentEast != nil) {
+                currentEast = currentEast!.northEast
+            }
         }
         
         // Return cells, filtered to remove any nil values
         return cells.filter{ $0 != nil }
+    }
+    
+    func openCellsForRadius(center: HexCell, radius: Int) -> [HexCell] {
+        return self.cellsForRadius(center, radius: radius).filter{
+            ($0 != nil) && ($0 as HexCell).isOpen()
+        }
     }
 
     required convenience init?(coder decoder: NSCoder) {

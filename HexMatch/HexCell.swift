@@ -14,10 +14,16 @@ enum HexCellDirection {
     static let allDirections = [North, South, NorthEast, NorthWest, SouthEast, SouthWest]
 }
 
+enum MergeStyle {
+    case Liner, Cluster
+}
+
 class HexCell : NSObject {
     var x: Int
     var y: Int
     var isVoid = false
+    
+    let mergeStyle: MergeStyle = .Cluster
     
     var hexMap: HexMap
     
@@ -138,6 +144,28 @@ class HexCell : NSObject {
     }
     
     /**
+        Recursively checks for valid merges in every direction for a given HexPiece, skipping cells which have already
+        been checked as part of the current recursion.
+    */
+    func getClusterMerges(hexPiece: HexPiece, var _ visitedCells: [HexCell]) -> [HexPiece] {
+        var merges: [HexPiece] = Array()
+    
+        for direction in HexCellDirection.allDirections {
+            let targetCell = self.getCellByDirection(direction)
+            
+            if (targetCell != nil && !visitedCells.contains(targetCell!)) {
+                visitedCells.append(targetCell!)
+                if (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
+                    merges.append(targetCell!.hexPiece!)
+                    merges += targetCell!.getClusterMerges(hexPiece, visitedCells)
+                }
+            }
+        }
+        
+        return merges
+    }
+    
+    /**
         Iterates over each direction from this cell, looking for runs of pieces which canMergeWithPiece(hexPiece) is true.
         If a merge is detected, the function recurses to detect further matches with the incremented value piece.
 
@@ -165,14 +193,29 @@ class HexCell : NSObject {
             
             hexPiece.value = value
             
-            // Iterate over all directions, following each direction as long as there is a matching piece value
-            for direction in HexCellDirection.allDirections {
-                var targetCell = self.getCellByDirection(direction)
-                while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
-                    merges.append(targetCell!.hexPiece!)
-                    samePieceCount++
-                    targetCell = targetCell!.getCellByDirection(direction)
-                }
+            switch (self.mergeStyle) {
+                case .Liner:
+                    // Iterate over all directions, following each direction as long as there is a matching piece value
+                    for direction in HexCellDirection.allDirections {
+                        var targetCell = self.getCellByDirection(direction)
+                        while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
+                            merges.append(targetCell!.hexPiece!)
+                            samePieceCount++
+                            targetCell = targetCell!.getCellByDirection(direction)
+                        }
+                    }
+                break
+                case .Cluster:
+                    var visitedCells: [HexCell] = Array()
+                    
+                    // Prevent visiting self
+                    visitedCells.append(self)
+                    
+                    // Recurse and find merges
+                    merges += self.getClusterMerges(hexPiece, visitedCells)
+                    
+                    samePieceCount = merges.count
+                break
             }
             
             value--;
