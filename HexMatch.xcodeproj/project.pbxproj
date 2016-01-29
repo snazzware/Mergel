@@ -29,6 +29,7 @@
 		806CDB8E1C5AB81F00C10664 /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806CDB8D1C5AB81F00C10664 /* LevelScene.swift */; };
 		806CDB921C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */; };
 		806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */; };
+		806CDB961C5B14FA00C10664 /* SceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806CDB951C5B14F900C10664 /* SceneHelper.swift */; };
 		8076BA681C47379300BA62A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
 		8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA751C48017600BA62A4 /* HexPiece.swift */; };
 		8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA791C480A2300BA62A4 /* LevelHelper.swift */; };
@@ -88,6 +89,7 @@
 		806CDB8D1C5AB81F00C10664 /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBeanSuper@2x.png"; sourceTree = "<group>"; };
 		806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CollectibleVanillaBean@2x.png"; sourceTree = "<group>"; };
+		806CDB951C5B14F900C10664 /* SceneHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneHelper.swift; sourceTree = "<group>"; };
 		8076BA671C47379300BA62A4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8076BA751C48017600BA62A4 /* HexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPiece.swift; sourceTree = "<group>"; };
 		8076BA791C480A2300BA62A4 /* LevelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelHelper.swift; path = HexMatch/LevelHelper.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				80E9DAC41C4555D40028BC6D /* HexCell.swift */,
 				80E9DAC81C455F1D0028BC6D /* HexMap.swift */,
 				80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */,
+				806CDB951C5B14F900C10664 /* SceneHelper.swift */,
 			);
 			path = HexMatch;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				80DCAF281C5959E300391276 /* EnemyHexPiece.swift in Sources */,
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
 				8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */,
+				806CDB961C5B14FA00C10664 /* SceneHelper.swift in Sources */,
 				8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */,
 				80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,

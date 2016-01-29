@@ -19,17 +19,10 @@ class GameState: NSObject, NSCoding {
     var lastPlacedPiece: HexPiece?
     var stashPiece: HexPiece?
     
-    // scenes
-    var gameScene: GameScene
-    var levelScene: LevelScene
-    
     override init() {
         self.highScore = 0
         self.score = 0
         self.hexMap = HexMap(7,7)
-        
-        self.gameScene = GameScene()
-        self.levelScene = LevelScene()
         
         super.init()
     }

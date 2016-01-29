@@ -123,8 +123,8 @@ class EnemyHexPiece : MobileHexPiece {
     override func wasCollected() {
         let collectedPoints = 50000
         
-        GameState.instance!.gameScene.awardPoints(collectedPoints)
-        GameState.instance!.gameScene.scrollPoints(collectedPoints, position: self.sprite!.position)
+        SceneHelper.instance.gameScene.awardPoints(collectedPoints)
+        SceneHelper.instance.gameScene.scrollPoints(collectedPoints, position: self.sprite!.position)
         
         super.wasCollected()
     }

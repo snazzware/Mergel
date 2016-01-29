@@ -188,7 +188,7 @@ class GameScene: SKScene {
                             handled = true
                         } else
                         if (node == self.resetButton) {
-                            self.scene!.view?.presentScene(GameState.instance!.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+                            self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
                             //GameStateMachine.instance!.enterState(GameSceneRestartState.self)
 
                             handled = true
@@ -316,7 +316,7 @@ class GameScene: SKScene {
             
             // Load undo state
             GameState.instance = (NSKeyedUnarchiver.unarchiveObjectWithData(self.undoState!) as? GameState)!
-        
+            
             // Get the hex map and render it
             self.renderFromState()
             
