@@ -14,6 +14,8 @@ class HexMapHelper: NSObject {
     // Hex Map
     var hexMap: HexMap?
     
+    var addedCounter = 0
+    
     // Collection of the sprites which were created to represent the hexmap
     var hexMapSprites: [[SKSpriteNode]] = Array()
     
@@ -220,5 +222,31 @@ class HexMapHelper: NSObject {
         )
         
         return node
+    }
+    
+    func getFirstMerge() -> [HexPiece] {
+        var merged: [HexPiece] = Array()
+        
+        let occupiedCells = self.hexMap?.getOccupiedCells()
+        
+        if (occupiedCells != nil) {
+            for occupiedCell in occupiedCells! {
+                if (occupiedCell.hexPiece != nil) {
+                    print("------------------------------------------------")
+                    print("getFirstMerge checking \(occupiedCell.hexPiece!)")
+                    merged = occupiedCell.getWouldMergeWith(occupiedCell.hexPiece!)
+                    
+                    if (merged.count>0) {
+                        merged.append(occupiedCell.hexPiece!)
+                        print("getFirstMerge for \(occupiedCell.hexPiece!) found \(merged)")
+                        break;
+                    }
+                }
+            }
+        }
+        
+        print("------------------------------------------------")
+        
+        return merged
     }
 }

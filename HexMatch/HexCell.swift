@@ -14,16 +14,17 @@ enum HexCellDirection {
     static let allDirections = [North, South, NorthEast, NorthWest, SouthEast, SouthWest]
 }
 
-enum MergeStyle {
-    case Liner, Cluster
+enum MergeStyle : String {
+    case Liner = "Liner"
+    case Cluster = "Cluster"
 }
 
-class HexCell : NSObject {
+class HexCell : NSObject, NSCoding {
     var x: Int
     var y: Int
     var isVoid = false
     
-    let mergeStyle: MergeStyle = .Cluster
+    var mergeStyle: MergeStyle = .Cluster
     
     var hexMap: HexMap
     
@@ -44,6 +45,9 @@ class HexCell : NSObject {
             // link to new piece
             if (self._hexPiece != nil) {
                 self._hexPiece!.hexCell = self
+                
+                // map is no longer blank
+                self.hexMap.isBlank = false
             }
         }
     }
@@ -155,7 +159,7 @@ class HexCell : NSObject {
             
             if (targetCell != nil && !visitedCells.contains(targetCell!)) {
                 visitedCells.append(targetCell!)
-                if (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
+                if (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece) && hexPiece.canMergeWithPiece(targetCell!.hexPiece!)) {
                     merges.append(targetCell!.hexPiece!)
                     merges += targetCell!.getClusterMerges(hexPiece, visitedCells)
                 }
@@ -187,6 +191,7 @@ class HexCell : NSObject {
         
         // Loop over possible values for the piece being placed, starting with highest, until we find a merge
         while (samePieceCount<2 && value >= firstValue) {
+            print("getWouldMergeWith \(hexPiece) checking \(value)")
             merges.removeAll()
             
             samePieceCount = 0
@@ -198,7 +203,7 @@ class HexCell : NSObject {
                     // Iterate over all directions, following each direction as long as there is a matching piece value
                     for direction in HexCellDirection.allDirections {
                         var targetCell = self.getCellByDirection(direction)
-                        while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece)) {
+                        while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece) && hexPiece.canMergeWithPiece(targetCell!.hexPiece!)) {
                             merges.append(targetCell!.hexPiece!)
                             samePieceCount++
                             targetCell = targetCell!.getCellByDirection(direction)
@@ -227,14 +232,49 @@ class HexCell : NSObject {
         } else {
             // If we DID get at least two, recurse with the new piece
             if (hexPiece.value<HexMapHelper.instance.maxPieceValue) {
-                let mergedPiece = HexPiece()
-                mergedPiece.value = hexPiece.value+1
-                
-                merges += self.getWouldMergeWith(mergedPiece)
+                if (hexPiece is WildcardHexPiece) { // create a copy if we're dealing with a wildcard
+                    let mergedPiece = HexPiece()
+                    mergedPiece.value = hexPiece.value+1
+                    merges += self.getWouldMergeWith(mergedPiece)
+                } else { // try next merge with updated value
+                    hexPiece.updateValueForMergeTest()
+                    
+                    merges += self.getWouldMergeWith(hexPiece)
+                    
+                    hexPiece.rollbackValueForMergeTest()
+                }
             }
         }
         
+         print("getWouldMergeWith \(hexPiece) done")
+        
         return merges
+    }
+    
+    required convenience init?(coder decoder: NSCoder) {
+        let x = (decoder.decodeObjectForKey("x") as? Int)!
+        let y = (decoder.decodeObjectForKey("y") as? Int)!
+        let hexMap = (decoder.decodeObjectForKey("hexMap") as? HexMap)!
+        
+        self.init(hexMap, x, y)
+        
+        self.isVoid = (decoder.decodeObjectForKey("isVoid") as? Bool)!
+        
+        self.mergeStyle = MergeStyle(rawValue: (decoder.decodeObjectForKey("mergeStyle") as! String))!
+        
+        self.hexPiece = (decoder.decodeObjectForKey("hexPiece") as? HexPiece)
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.x, forKey: "x")
+        coder.encodeObject(self.y, forKey: "y")
+        coder.encodeObject(self.hexMap, forKey: "hexMap")
+        
+        coder.encodeObject(self.isVoid, forKey: "isVoid")
+        
+        coder.encodeObject(self.mergeStyle.rawValue, forKey: "mergeStyle")
+        
+        coder.encodeObject(self.hexPiece, forKey: "hexPiece")
     }
     
 }

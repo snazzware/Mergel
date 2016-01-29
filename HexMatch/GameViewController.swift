@@ -16,8 +16,7 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.scene = GameScene(fileNamed:"GameScene")
-
+        self.scene = GameState.instance!.gameScene
         
         // Configure the view.
         let skView = self.view as! SKView
@@ -31,6 +30,10 @@ class GameViewController: UIViewController {
         self.scene!.scaleMode = .ResizeFill
         
         skView.presentScene(self.scene!)
+        
+        // Init state machine
+        GameStateMachine.instance = GameStateMachine(scene: self.scene!)
+        GameStateMachine.instance!.enterState(GameSceneInitialState.self)
         
     }
 

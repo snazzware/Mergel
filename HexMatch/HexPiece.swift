@@ -13,6 +13,12 @@ class HexPiece : NSObject, NSCoding {
     // Last coordinates that this piece was placed on a hex map
     var lastX = -1
     var lastY = -1
+    
+    // Controls whether or not the player can take the piece from the board
+    var isCollectible = false
+    
+    // order in which piece was added to board
+    var added = 0
 
     var _hexCell: HexCell?
     var hexCell: HexCell? {
@@ -27,14 +33,18 @@ class HexPiece : NSObject, NSCoding {
                 }
                 self.lastX = self._hexCell!.x
                 self.lastY = self._hexCell!.y
+                self.added = HexMapHelper.instance.addedCounter++
             }
         }
     }
     var sprite: SKSpriteNode?
     
     // How many turns we have left to skip, and how many we should skip after being placed.
-    var skipTurnCounter = 0
+    var skipTurnCounter = 1
     var skipTurnsOnPlace = 1
+    
+    // Did we take a turn on the last pass?
+    var didTakeTurn = false
     
     // Value tracking
     var originalValue = 0
@@ -59,6 +69,42 @@ class HexPiece : NSObject, NSCoding {
         super.init()
     }
     
+    required init(coder decoder: NSCoder) {
+        super.init()
+    
+        self.originalValue = (decoder.decodeObjectForKey("originalValue") as? Int)!
+        self.value = (decoder.decodeObjectForKey("value") as? Int)!
+        self.lastX = (decoder.decodeObjectForKey("lastX") as? Int)!
+        self.lastY = (decoder.decodeObjectForKey("lastY") as? Int)!
+        
+        let hexCell = decoder.decodeObjectForKey("hexCell")
+        if (hexCell != nil) {
+            self._hexCell = (hexCell as? HexCell)!
+        }
+        
+        let isCollectible = decoder.decodeObjectForKey("isCollectible")
+        if (isCollectible != nil) {
+            self.isCollectible = (isCollectible as? Bool)!
+        }
+        
+        self.skipTurnCounter = (decoder.decodeObjectForKey("skipTurnCounter") as? Int)!
+        self.skipTurnsOnPlace = (decoder.decodeObjectForKey("skipTurnsOnPlace") as? Int)!
+    }
+    
+    func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.originalValue, forKey: "originalValue")
+        coder.encodeObject(self.value, forKey: "value")
+        coder.encodeObject(self.lastX, forKey: "lastX")
+        coder.encodeObject(self.lastY, forKey: "lastY")
+        
+        coder.encodeObject(self._hexCell, forKey: "hexCell")
+        
+        coder.encodeObject(self.isCollectible, forKey: "isCollectible")
+        
+        coder.encodeObject(self.skipTurnCounter, forKey: "skipTurnCounter")
+        coder.encodeObject(self.skipTurnsOnPlace, forKey: "skipTurnsOnPlace")
+    }
+    
     func getMinMergeValue() -> Int {
         return self.value
     }
@@ -68,30 +114,45 @@ class HexPiece : NSObject, NSCoding {
     }
     
     func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
+        var result = false
+        
         if (self.value == hexPiece.value && self.value < HexMapHelper.instance.maxPieceValue) {
-            return true
-        } else {
-            return false
+            result = true
         }
+        
+        print("\(self) canMergeWithPiece \(hexPiece) equals \(result)")
+        
+        return result
     }
     
     func canPlaceWithoutMerge() -> Bool {
         return true
     }
     
-    func wasPlacedWithMerge() {
+    func updateValueForMergeTest() {
+        self.value++
+    }
+    
+    func rollbackValueForMergeTest() {
+        self.value--
+    }
+    
+    func wasPlacedWithMerge(mergeValue: Int = -1) -> HexPiece {
+        // Update to the next value in sequence, or cap at maxPieceValue
+        self.value = mergeValue + 1
+        
+        if (self.value > HexMapHelper.instance.maxPieceValue) {
+            self.value = HexMapHelper.instance.maxPieceValue
+        }
+    
         self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
         self.skipTurnCounter = self.skipTurnsOnPlace
+        
+        return self
     }
     
     func wasPlacedWithoutMerge() {
         self.skipTurnCounter = self.skipTurnsOnPlace
-    }
-    
-    func wasUnplaced() {
-        self.value = self.originalValue
-        self.skipTurnCounter = self.skipTurnsOnPlace
-        self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
     }
     
     func getPointValue() -> Int {
@@ -135,28 +196,26 @@ class HexPiece : NSObject, NSCoding {
         return node
     }
     
-    required convenience init?(coder decoder: NSCoder) {
-        self.init()
-    
-        self.originalValue = (decoder.decodeObjectForKey("originalValue") as? Int)!
-        self.value = (decoder.decodeObjectForKey("value") as? Int)!
-        self.lastX = (decoder.decodeObjectForKey("lastX") as? Int)!
-        self.lastY = (decoder.decodeObjectForKey("lastY") as? Int)!
-    }
-    
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.originalValue, forKey: "originalValue")
-        coder.encodeObject(self.value, forKey: "value")
-        coder.encodeObject(self.lastX, forKey: "lastX")
-        coder.encodeObject(self.lastY, forKey: "lastY")
-    }
-    
     func takeTurn() -> Bool {
-        if (skipTurnCounter > 0) {
-            skipTurnCounter--
-            return false
+        if (self.skipTurnCounter > 0) {
+            self.skipTurnCounter--
+            self.didTakeTurn = false
+        } else {
+            self.didTakeTurn = true
         }
-        return true
+        
+        return self.didTakeTurn
     }
+    
+    func wasCollected() {
+        let scaleAction = SKAction.scaleTo(0.0, duration: 0.25)
+        let collectSequence = SKAction.sequence([scaleAction, SKAction.removeFromParent()])
+        
+        // Animate the collection
+        self.sprite!.runAction(collectSequence)
+        
+        
+    }
+
     
 }

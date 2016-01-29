@@ -22,15 +22,21 @@ class GameSceneState: GKState {
 class GameSceneInitialState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is GameSceneRestartState.Type
+        return ((stateClass is GameScenePlayingState.Type) || (stateClass is GameSceneRestartState.Type))
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
+        print("initial")
+    
         // Set up GUI, etc.
         self.scene.initGame()
     
-        // Start fresh copy of level
-        GameStateMachine.instance!.enterState(GameSceneRestartState.self)
+        // If hexMap is blank, enter restart state to set up new game
+        if (GameState.instance!.hexMap.isBlank) {
+            GameStateMachine.instance!.enterState(GameSceneRestartState.self)
+        } else {
+            GameStateMachine.instance!.enterState(GameScenePlayingState.self)
+        }
     }
     
 }
@@ -39,10 +45,14 @@ class GameSceneInitialState: GameSceneState {
 class GameSceneRestartState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is GameScenePlayingState.Type
+        let result = (stateClass is GameScenePlayingState.Type)
+        print("is valid next state for \(self) \(stateClass) = \(result)")
+        return result
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
+        print("restart")
+        
         // Start fresh copy of level
         self.scene.resetLevel()
         
@@ -55,8 +65,14 @@ class GameSceneRestartState: GameSceneState {
 // Game is active
 class GameScenePlayingState: GameSceneState {
     
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        print("playing")
+    }
+    
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is GameSceneGameOverState.Type || stateClass is GameSceneRestartState.Type
+        let result = ((stateClass is GameSceneGameOverState.Type) || (stateClass is GameSceneRestartState.Type))
+        print("is valid next state for \(self) \(stateClass) = \(result)")
+        return result
     }
     
 }
@@ -65,10 +81,13 @@ class GameScenePlayingState: GameSceneState {
 class GameSceneGameOverState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        return stateClass is GameSceneRestartState.Type
+        let result = ((stateClass is GameSceneRestartState.Type))
+
+        return result
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
+        print("gameover")
         self.scene.showGameOver()
     }
     

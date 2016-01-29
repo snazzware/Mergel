@@ -14,12 +14,10 @@ class GameScene: SKScene {
     var guiLayer = SKNode()
     
     var currentPieceLabel: SKLabelNode?
-    var currentPiece: HexPiece?
     var currentPieceHome = CGPointMake(0,0)
     var currentPieceSprite: SKSpriteNode?
     
     var stashPieceLabel: SKLabelNode?
-    var stashPiece: HexPiece?
     var stashPieceHome = CGPointMake(0,0)
     var stashBox: SKShapeNode?
     
@@ -35,6 +33,8 @@ class GameScene: SKScene {
     
     var hexMap: HexMap?
     
+    var undoState: NSData?
+    
     var debugShape: SKShapeNode?
     
     let scoreFormatter = NSNumberFormatter()
@@ -48,6 +48,10 @@ class GameScene: SKScene {
             self._score = newValue
             self.updateScore()
             
+            // Update score in state
+            GameState.instance!.score = self._score
+            
+            // Update high score
             if (self._score > GameState.instance!.highScore) {
                 GameState.instance!.highScore = self._score
                 self.updateHighScore()
@@ -61,9 +65,7 @@ class GameScene: SKScene {
     var highScoreLabel: SKLabelNode?
     
     override func didMoveToView(view: SKView) {        
-        // Init state machine
-        GameStateMachine.instance = GameStateMachine(scene: self)
-        GameStateMachine.instance!.enterState(GameSceneInitialState.self)
+        
     }
     
     func initGame() {
@@ -73,18 +75,11 @@ class GameScene: SKScene {
         // Add guiLayer to scene
         addChild(self.guiLayer)
         
-        // Init HexMap
-        self.hexMap = HexMap(7,7)
+        // Get the hex map and render it
+        self.renderFromState()
         
-        // Init level
-        LevelHelper.instance.initLevel(self.hexMap!)
-        HexMapHelper.instance.hexMap = self.hexMap!
-        
-        // Render our hex map to the gameboardLayer
-        HexMapHelper.instance.renderHexMap(gameboardLayer);
-        
-        // Init current piece
-        self.generateCurrentPiece()
+        // Generate proxy sprite for current piece
+        self.updateCurrentPieceSprite()
         
         // Add gameboardLayer to scene
         addChild(self.gameboardLayer)
@@ -93,10 +88,27 @@ class GameScene: SKScene {
         self.initGuiLayer()
     }
     
+    func renderFromState() {
+        // Init HexMap
+        self.hexMap = GameState.instance!.hexMap
+        
+        // Init score
+        self._score = GameState.instance!.score
+        
+        // Init level
+        HexMapHelper.instance.hexMap = self.hexMap!
+        
+        // Render our hex map to the gameboardLayer
+        HexMapHelper.instance.renderHexMap(gameboardLayer);
+    }
+    
     /**
         Reset game state. This includes clearing current score, stashed piece, current piece, and regenerating hexmap with a new random starting layout.
     */
     func resetLevel() {
+        // Remove current piece, stash piece sprites
+        self.removeTransientGuiSprites()
+    
         // Clear the board
         HexMapHelper.instance.clearHexMap(self.gameboardLayer)
         
@@ -107,13 +119,17 @@ class GameScene: SKScene {
         LevelHelper.instance.initLevel(self.hexMap!)
         
         // Generate new current piece
-        self.currentPiece!.sprite!.removeFromParent()
         self.generateCurrentPiece()
         
+        // Generate proxy sprite for current piece
+        self.updateCurrentPieceSprite()
+        
         // Clear stash
-        if (self.stashPiece != nil) {
-            self.stashPiece!.sprite!.removeFromParent()
-            self.stashPiece = nil
+        if (GameState.instance!.stashPiece != nil) {
+            if (GameState.instance!.stashPiece!.sprite != nil) {
+                GameState.instance!.stashPiece!.sprite!.removeFromParent()
+            }
+            GameState.instance!.stashPiece = nil
         }
         
         // Render game board
@@ -136,17 +152,23 @@ class GameScene: SKScene {
                     
                     let cell = HexMapHelper.instance.hexMap!.cell(x,y)
                     
-                    self.updateMergingPieces(cell!)
-                    
-                    // Move to touched point
-                    currentPiece!.sprite!.removeActionForKey("moveAnimation")
-                    currentPiece!.sprite!.position = self.convertPoint(self.convertPoint(node.position, fromNode: self.gameboardLayer), toNode: self.guiLayer)
+                    if (cell!.willAccept(GameState.instance!.currentPiece!)) {
+                        self.updateMergingPieces(cell!)
+                        
+                        // Move to touched point
+                        currentPieceSprite!.removeActionForKey("moveAnimation")
+                        currentPieceSprite!.position = node.position
+                    }
                 }
             }
         }
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (touches.first == nil) {
+            return
+        }
+        
         let location = touches.first?.locationInNode(self)
         
         if (location != nil) {
@@ -159,7 +181,6 @@ class GameScene: SKScene {
                 var handled = false
              
                 for node in nodes {
-                    print(node)
                     if (!handled) {
                         if (node == self.stashBox) {
                             self.swapStash()
@@ -167,8 +188,8 @@ class GameScene: SKScene {
                             handled = true
                         } else
                         if (node == self.resetButton) {
-                            print("reset button pressed")
-                            GameStateMachine.instance!.enterState(GameSceneRestartState.self)
+                            self.scene!.view?.presentScene(GameState.instance!.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+                            //GameStateMachine.instance!.enterState(GameSceneRestartState.self)
 
                             handled = true
                         } else
@@ -186,11 +207,25 @@ class GameScene: SKScene {
                             // Refresh merging pieces
                             self.updateMergingPieces(cell!)
                             
+                            // Does the cell contain a collectible hex piece?
+                            if (cell!.hexPiece != nil && cell!.hexPiece!.isCollectible) {
+                                // Capture state for undo
+                                self.captureState()
+                                
+                                // Let the piece know it was collected
+                                cell!.hexPiece!.wasCollected()
+                                
+                                // Clear out the hex cell
+                                cell!.hexPiece = nil
+                            } else
                             // Will the target cell accept our current piece, and will the piece either allow placement
                             // without a merge, or do we have a merge?
-                            if (cell!.willAccept(self.currentPiece!) && (self.currentPiece!.canPlaceWithoutMerge() || self.mergingPieces.count>0)) {
+                            if (cell!.willAccept(GameState.instance!.currentPiece!) && (GameState.instance!.currentPiece!.canPlaceWithoutMerge() || self.mergingPieces.count>0)) {
+                                // Capture state for undo
+                                self.captureState()
+                            
                                 // Store last placed piece, prior to any merging
-                                self.lastPlacedPiece = self.currentPiece
+                                GameState.instance!.lastPlacedPiece = GameState.instance!.currentPiece
                             
                                 // Are we merging pieces?
                                 if (self.mergingPieces.count>0) {
@@ -205,22 +240,23 @@ class GameScene: SKScene {
                                         }
                                     }
                                     
-                                    // Assign current piece to the next value in sequence, or cap at maxPieceValue
-                                    if (maxValue < HexMapHelper.instance.maxPieceValue) {
-                                        self.currentPiece!.value = maxValue + 1
-                                    } else {
-                                        self.currentPiece!.value = maxValue
-                                    }
-                                    
-                                    // Initialize new sprite for updated currentPiece value
-                                    self.currentPiece!.wasPlacedWithMerge()                                
+                                    // Let piece know it was placed w/ merge
+                                    GameState.instance!.currentPiece = GameState.instance!.currentPiece!.wasPlacedWithMerge(maxValue)
                                     
                                     // Store merged pieces, if any
                                     self.mergedPieces = self.mergingPieces
                                     
+                                    // Create merge animation
+                                    let moveAction = SKAction.moveTo(node.position, duration: 0.15)
+                                    let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
+                                    
+                                    print("touchesEnded processing merge")
+                                    print("\(GameState.instance!.currentPiece!)")
+                                    print("\(self.mergingPieces)")
+                                    
                                     // Remove merged pieces from board
                                     for hexPiece in self.mergingPieces {
-                                        hexPiece.sprite!.removeFromParent()
+                                        hexPiece.sprite!.runAction(moveSequence)
                                         hexPiece.hexCell?.hexPiece = nil
                                     }
                                     
@@ -229,35 +265,30 @@ class GameScene: SKScene {
                                     self.mergedPieces.removeAll()
                                     
                                     // let piece know we are placing it
-                                    self.currentPiece!.wasPlacedWithoutMerge()
+                                    GameState.instance!.currentPiece!.wasPlacedWithoutMerge()
                                 }
                                 
                                 // Place the piece
-                                cell!.hexPiece = self.currentPiece
-                                currentPiece!.sprite!.removeActionForKey("moveAnimation")
+                                cell!.hexPiece = GameState.instance!.currentPiece
                                 
                                 // Move sprite from GUI to gameboard layer
-                                self.currentPiece!.sprite!.moveToParent(self.gameboardLayer)
+                                GameState.instance!.currentPiece!.sprite!.moveToParent(self.gameboardLayer)
                                 
                                 // Position on gameboard
-                                self.currentPiece!.sprite!.position = node.position
-                                
-                                // Show undo button
-                                self.undoButton!.hidden = false
+                                GameState.instance!.currentPiece!.sprite!.position = node.position
                                 
                                 // Award points
-                                self.awardPoints(self.currentPiece!)
+                                self.awardPointsForPiece(GameState.instance!.currentPiece!)
                                 self.scrollPoints(self.lastPointsAwarded, position: node.position)
                                 
                                 // Generate new piece
                                 self.generateCurrentPiece()
                                 
+                                // Update current piece sprite
+                                self.updateCurrentPieceSprite()
+                                
                                 // End turn
                                 self.turnDidEnd()
-                            } else {
-                                // Return to home
-                                currentPiece!.sprite!.removeActionForKey("moveAnimation")
-                                currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.2), withKey: "moveAnimation")
                             }
                             
                             handled = true
@@ -268,11 +299,41 @@ class GameScene: SKScene {
         }
     }
     
+    func captureState() {
+        self.undoState = NSKeyedArchiver.archivedDataWithRootObject(GameState.instance!)
+        
+        // Show undo button
+        self.undoButton!.hidden = false
+    }
+    
+    func restoreState() {
+        if (self.undoState != nil) {
+            // Remove current piece, stash piece sprites
+            self.removeTransientGuiSprites()
+        
+            // Clear piece sprites from rendered hexmap
+            HexMapHelper.instance.clearHexMap(self.gameboardLayer)
+            
+            // Load undo state
+            GameState.instance = (NSKeyedUnarchiver.unarchiveObjectWithData(self.undoState!) as? GameState)!
+        
+            // Get the hex map and render it
+            self.renderFromState()
+            
+            // Update gui
+            self.updateGuiLayer()
+            
+            // Clear undo state
+            self.undoState = nil
+        }
+    }
     
     func turnDidEnd() {
         // Test for game over
         if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
-            GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
+            print("Game Over!")
+            let result = GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
+            print("switch to game over state: \(result)")
         } else {
             let occupiedCells = HexMapHelper.instance.hexMap!.getOccupiedCells()
             
@@ -280,6 +341,62 @@ class GameScene: SKScene {
             for occupiedCell in occupiedCells {
                 occupiedCell.hexPiece?.takeTurn()
             }
+            
+            // Look for merges resulting from hexpiece turns
+            
+            print("calling getFirstMerge")
+            var merges = HexMapHelper.instance.getFirstMerge();
+            while (merges.count>0) {
+                print("turnDidEnd processing merge")
+                print("\(merges)")
+                var mergeFocus: HexPiece?
+                var highestAdded = -1
+                var maxValue = 0
+                
+                for merged in merges {
+                    if (merged.added > highestAdded) {
+                        highestAdded = merged.added
+                        mergeFocus = merged
+                    }
+                    if (merged.value > maxValue) {
+                        maxValue = merged.value
+                    }
+                }
+                
+                // Create merge animation
+                let moveAction = SKAction.moveTo(mergeFocus!.sprite!.position, duration: 0.15)
+                let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
+                
+                var actualMerged: [HexPiece] = Array()
+                
+                // Remove merged pieces from board
+                for merged in merges {
+                    if (merged != mergeFocus) {
+                        actualMerged.append(merged)
+                        merged.sprite!.runAction(moveSequence)
+                        merged.hexCell?.hexPiece = nil
+                    }
+                }
+                
+                // add pieces which were not the merge focus to our list of pieces merged on the last turn
+                self.mergedPieces += actualMerged
+                
+                // let merge focus know it was merged
+                mergeFocus = mergeFocus!.wasPlacedWithMerge(maxValue)
+                
+                // Award points
+                self.awardPointsForPiece(mergeFocus!)
+                self.scrollPoints(self.lastPointsAwarded, position: mergeFocus!.sprite!.position)
+            
+                // Get next merge
+                merges = HexMapHelper.instance.getFirstMerge();
+            }
+            
+            // Stick a proxy for the current piece on to the game board in an empty cell.
+            // Calling this after all other pieces have taken their turn, to avoid doubling up
+            // in a cell where a mobile has recently moved in.
+            self.updateCurrentPieceSprite()
+            
         }
     }
     
@@ -287,38 +404,10 @@ class GameScene: SKScene {
         Rolls back the last move made. Places removed merged pieces back on the board, removes points awarded, and calls self.restoreLastPiece, which puts the last piece played back in the currentPiece property.
     */
     func undoLastMove() {
-        if (self.lastPlacedPiece != nil) {
-            // Clear out cell where the last piece was placed
-            let cell = HexMapHelper.instance.hexMap!.cell(lastPlacedPiece!.lastX,lastPlacedPiece!.lastY)
-            cell!.hexPiece = nil
-            
-            // Remove sprite from gameboard
-            self.lastPlacedPiece!.sprite!.removeFromParent()
+        self.restoreState()
         
-            // Restore last piece in to the current piece
-            self.restoreLastPiece()
-            
-            // Restore piece merged
-            for mergedPiece in self.mergedPieces {
-                self.gameboardLayer.addChild(mergedPiece.sprite!)
-                
-                let cell = HexMapHelper.instance.hexMap!.cell(mergedPiece.lastX,mergedPiece.lastY)
-                
-                cell!.hexPiece = mergedPiece
-            }
-            
-            // Clear merged pieces, since they have been restored
-            self.mergedPieces.removeAll()
-            
-            // Reset lastPlacedPiece, disabling undo
-            self.lastPlacedPiece = nil
-            
-            // Take back points
-            self.score -= self.lastPointsAwarded
-            
-            // Hide undo button
-            self.undoButton!.hidden = true
-        }
+        // Hide undo button
+        self.undoButton!.hidden = true    
     }
     
     /**
@@ -327,34 +416,27 @@ class GameScene: SKScene {
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         let location = touches.first?.locationInNode(self)
         
-        var touchInCell = false
-        
         if (location != nil) {
             let nodes = nodesAtPoint(location!)
          
             for node in nodes {
                 if (node.name == "hexMapCell") {
-                    touchInCell = true
-                    
                     let x = node.userData!.valueForKey("hexMapPositionX") as! Int
                     let y = node.userData!.valueForKey("hexMapPositionY") as! Int
                     
                     let cell = HexMapHelper.instance.hexMap!.cell(x,y)
                     
-                    self.updateMergingPieces(cell!)
-                    
-                    // Move to touched point
-                    currentPiece!.sprite!.removeActionForKey("moveAnimation")
-                    currentPiece!.sprite!.position = self.convertPoint(self.convertPoint(node.position, fromNode: self.gameboardLayer), toNode: self.guiLayer)
+                    if (cell!.willAccept(GameState.instance!.currentPiece!)) {
+                        self.updateMergingPieces(cell!)
+                        
+                        // Move to touched point
+                        currentPieceSprite!.removeActionForKey("moveAnimation")
+                        currentPieceSprite!.position = node.position
+                    }
                 }
             }
         }
         
-        if (!touchInCell) {
-            // Return to home
-            currentPiece!.sprite!.removeActionForKey("moveAnimation")
-            currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.2), withKey: "moveAnimation")
-        }
     }
    
     /**
@@ -364,14 +446,14 @@ class GameScene: SKScene {
             - cell: The cell to test for merging w/ the current piece
     */
     func updateMergingPieces(cell: HexCell) {
-        if (cell.willAccept(self.currentPiece!)) {
+        if (cell.willAccept(GameState.instance!.currentPiece!)) {
             // Stop animation on current merge set
             for hexPiece in self.mergingPieces {
                 hexPiece.sprite!.removeActionForKey("mergeAnimation")
                 hexPiece.sprite!.setScale(1.0)
             }
             
-            self.mergingPieces = cell.getWouldMergeWith(self.currentPiece!)
+            self.mergingPieces = cell.getWouldMergeWith(GameState.instance!.currentPiece!)
             
             // Start animation on new merge set
             for hexPiece in self.mergingPieces {
@@ -413,6 +495,9 @@ class GameScene: SKScene {
         self.stashPieceLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
         self.guiLayer.addChild(self.stashPieceLabel!)
         
+        // Add stash piece sprite, if any
+        self.updateStashPieceSprite()
+        
         // Add reset button
         self.resetButton = self.createUILabel("Start Over")
         self.resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
@@ -452,7 +537,7 @@ class GameScene: SKScene {
         self.updateGuiPositions()
         
         // Set initial visibility of undo button
-        self.undoButton!.hidden = (self.lastPlacedPiece == nil);
+        self.undoButton!.hidden = (GameState.instance!.lastPlacedPiece == nil);
     }
     
     /**
@@ -466,8 +551,8 @@ class GameScene: SKScene {
             
             self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
             
-            if (self.currentPiece != nil && self.currentPiece!.sprite != nil) {
-                self.currentPiece!.sprite!.position = self.currentPieceHome
+            if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece!.sprite != nil) {
+                GameState.instance!.currentPiece!.sprite!.position = self.currentPieceHome
             }
             
             // Stash
@@ -479,8 +564,8 @@ class GameScene: SKScene {
             self.stashPieceLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
             
             self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
-            if (self.stashPiece != nil && self.stashPiece!.sprite != nil) {
-                self.stashPiece!.sprite!.position = self.stashPieceHome
+            if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
+                GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
             }
             
             // Score
@@ -551,6 +636,42 @@ class GameScene: SKScene {
         return label
     }
     
+    func removeTransientGuiSprites() {
+        if (GameState.instance!.stashPiece != nil) {
+            if (GameState.instance!.stashPiece!.sprite != nil) {
+                GameState.instance!.stashPiece!.sprite!.removeFromParent()
+            }
+        }
+        
+        if (GameState.instance!.currentPiece != nil) {
+            if (GameState.instance!.currentPiece!.sprite != nil) {
+                GameState.instance!.currentPiece!.sprite!.removeFromParent()
+            }
+        }
+    }
+    
+    func updateGuiLayer() {
+        self.updateStashPieceSprite()
+        self.updateScore()
+        self.updateHighScore()
+        self.updateCurrentPieceSprite()
+    }
+    
+    func updateStashPieceSprite() {
+        if (GameState.instance!.stashPiece != nil) {
+            if (GameState.instance!.stashPiece!.sprite == nil) {
+                GameState.instance!.stashPiece!.sprite = GameState.instance!.stashPiece!.createSprite()
+                GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
+                self.guiLayer.addChild(GameState.instance!.stashPiece!.sprite!)
+            } else {
+                GameState.instance!.stashPiece!.sprite!.removeFromParent()
+                GameState.instance!.stashPiece!.sprite = GameState.instance!.stashPiece!.createSprite()
+                GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
+                self.guiLayer.addChild(GameState.instance!.stashPiece!.sprite!)
+            }
+        }
+    }
+    
     /**
         Refreshes the text of the score display with a formatted copy of the current self.score value
     */
@@ -603,6 +724,13 @@ class GameScene: SKScene {
     }
     
     func showGameOver() {
+        print("showGameOver")
+    
+        // Disable Undo
+        self.undoButton!.hidden = true
+        self.undoState = nil
+    
+        // Show Game Over text
         self.guiLayer.addChild(self.gameOverLabel!)
     }
     
@@ -617,67 +745,113 @@ class GameScene: SKScene {
         - Parameters:
             - hexPiece: The piece for which points are being awarded.
     */
-    func awardPoints(hexPiece: HexPiece) {
+    func awardPointsForPiece(hexPiece: HexPiece) {
         var modifier = self.mergingPieces.count-1
         
         if (modifier < 1) {
             modifier = 1
         }
         
-        self.lastPointsAwarded = hexPiece.getPointValue() * modifier
+        self.awardPoints(hexPiece.getPointValue() * modifier)
+    }
+    
+    func awardPoints(points: Int) {
+        self.lastPointsAwarded = points
         self.score += lastPointsAwarded
     }
     
     /**
-        Generates a random piece and assigns it to self.currentPiece. This is the piece which will be placed if the player
+        Generates a random piece and assigns it to GameState.instance!.currentPiece. This is the piece which will be placed if the player
         touches a valid cell on the gameboard.
     */
     func generateCurrentPiece() {
+        GameState.instance!.currentPiece = LevelHelper.instance.getRandomPiece()
+    }
     
-        self.currentPiece = LevelHelper.instance.getRandomPiece()
-        self.currentPiece!.sprite = self.currentPiece!.createSprite()
+    func updateCurrentPieceSprite(relocate: Bool = true) {
+        var position: CGPoint?
+    
+        if (GameState.instance!.currentPiece != nil) {
+            if (!relocate) {
+                position = self.currentPieceSprite!.position
+            }
+            
+            // Sprite to go in the GUI
+            
+            if (GameState.instance!.currentPiece!.sprite != nil) {
+                GameState.instance!.currentPiece!.sprite!.removeFromParent()
+            }
+            
+            GameState.instance!.currentPiece!.sprite = GameState.instance!.currentPiece!.createSprite()
+            
+            GameState.instance!.currentPiece!.sprite!.position = self.currentPieceHome
+            GameState.instance!.currentPiece!.sprite!.zPosition = 10
+            guiLayer.addChild(GameState.instance!.currentPiece!.sprite!)
         
-        self.currentPiece!.sprite!.position = self.currentPieceHome
-        self.currentPiece!.sprite!.zPosition = 10
-        guiLayer.addChild(self.currentPiece!.sprite!)
-        
-        // Sprite to go on the game board
-        self.currentPieceSprite = self.currentPiece!.createSprite()
+            // Sprite to go on the game board
+            if (self.currentPieceSprite != nil) {
+                self.currentPieceSprite!.removeFromParent()
+            }
+            
+            // Create sprite
+            self.currentPieceSprite = GameState.instance!.currentPiece!.createSprite()
+            
+            // fix z position
+            self.currentPieceSprite!.zPosition = 999
+            
+            // Pulsate
+            self.currentPieceSprite!.runAction(SKAction.repeatActionForever(SKAction.sequence([
+                SKAction.scaleTo(1.4, duration: 0.4),
+                SKAction.scaleTo(0.8, duration: 0.4)
+            ])))
+            
+            if (relocate || position == nil) {
+                var targetCell: HexCell?
+                
+                // Either use last placed piece, or center of game board, for target position
+                if (GameState.instance!.lastPlacedPiece != nil && GameState.instance!.lastPlacedPiece!.hexCell != nil) {
+                    targetCell = GameState.instance!.lastPlacedPiece!.hexCell!
+                } else {
+                    targetCell = HexMapHelper.instance.hexMap!.cell(Int(HexMapHelper.instance.hexMap!.width/2), Int(HexMapHelper.instance.hexMap!.height/2))!
+                }
+                
+                // Get a random open cell near the target position
+                let boardCell = HexMapHelper.instance.hexMap!.getRandomCellNear(targetCell!)
+            
+                // Get cell position
+                if (boardCell != nil) {
+                    position = HexMapHelper.instance.hexMapToScreen(boardCell!.x, boardCell!.y)
+                }
+            }
+
+            // Position sprite
+            if (position != nil) { // position will be nil if board is full
+                self.currentPieceSprite!.position = position!
+                self.gameboardLayer.addChild(self.currentPieceSprite!)
+            }
+        }
     }
     
     /**
-        Restores self.currentPiece back to the previously placed piece.
-    */
-    func restoreLastPiece() {
-        self.currentPiece!.sprite!.removeFromParent()
-    
-        self.currentPiece = self.lastPlacedPiece
-        
-        self.currentPiece!.sprite!.removeFromParent()
-        
-        self.currentPiece!.wasUnplaced()
-        
-        self.currentPiece!.sprite!.position = self.currentPieceHome
-        self.currentPiece!.sprite!.zPosition = 10
-        
-        guiLayer.addChild(self.currentPiece!.sprite!)
-    }
-    
-    /**
-        Swaps self.currentPiece with the piece currently in the stash, if any. If no piece is in the stash, a new currentPiece is geneated and the old currentPiece is placed in the stash.
+        Swaps GameState.instance!.currentPiece with the piece currently in the stash, if any. If no piece is in the stash, a new currentPiece is geneated and the old currentPiece is placed in the stash.
     */
     func swapStash() {
-        if (self.stashPiece != nil) {
-            let tempPiece = self.currentPiece!
+        if (GameState.instance!.stashPiece != nil) {
+            let tempPiece = GameState.instance!.currentPiece!
             
-            self.currentPiece = self.stashPiece
-            self.stashPiece = tempPiece
+            GameState.instance!.currentPiece = GameState.instance!.stashPiece
+            GameState.instance!.stashPiece = tempPiece
             
-            self.currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.3))
-            self.stashPiece!.sprite!.runAction(SKAction.moveTo(self.stashPieceHome, duration: 0.3))
+            GameState.instance!.currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.3))
+            GameState.instance!.stashPiece!.sprite!.runAction(SKAction.sequence([SKAction.moveTo(self.stashPieceHome, duration: 0.3),SKAction.runBlock({
+                self.updateCurrentPieceSprite(false)
+            })]))
         } else {
-            self.stashPiece = currentPiece
-            self.stashPiece!.sprite!.runAction(SKAction.moveTo(self.stashPieceHome, duration: 0.3))
+            GameState.instance!.stashPiece = GameState.instance!.currentPiece
+            GameState.instance!.stashPiece!.sprite!.runAction(SKAction.sequence([SKAction.moveTo(self.stashPieceHome, duration: 0.3),SKAction.runBlock({
+                self.generateCurrentPiece()
+                self.updateCurrentPieceSprite(false)
+            })]))
             self.generateCurrentPiece()
         }
     }

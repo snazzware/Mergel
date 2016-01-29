@@ -13,6 +13,7 @@ class HexMap : NSObject, NSCoding {
     var cells: [[HexCell]] = Array()
     var width: Int = 0
     var height: Int = 0
+    var isBlank = true
     
     /**
         Initializes a new HexMap.
@@ -53,6 +54,8 @@ class HexMap : NSObject, NSCoding {
                 self.cells[x][y].isVoid = false
             }
         }
+        
+        self.isBlank = true
     }
     
     func getOpenCells() -> [HexCell] {
@@ -119,9 +122,21 @@ class HexMap : NSObject, NSCoding {
         // East/West
         var currentWest = center.northWest
         var currentEast = center.northEast
+        var modifier = 0
+        
+        // top edge
+        if (currentWest == nil) {
+            currentWest = center.southWest
+            modifier = 1
+        }
+        
+        if (currentEast == nil) {
+            currentEast = center.southEast
+            modifier = 1
+        }
         
         for i in 1...radius {
-            for j in ((radius-i))...radius {
+            for j in ((radius-i))...radius-modifier {
                 var targetCell: HexCell?
 
                 if (currentWest != nil) {
@@ -157,6 +172,23 @@ class HexMap : NSObject, NSCoding {
         }
     }
 
+    func getRandomCellNear(center: HexCell) -> HexCell? {
+        var radius = 1;
+        var randomCell: HexCell?
+        
+        while (randomCell == nil && radius < Int(self.width)) {
+            let openCells = self.openCellsForRadius(center, radius: radius)
+            
+            if (openCells.count > 0) {
+                randomCell = openCells[Int(arc4random_uniform(UInt32(openCells.count)))]
+            }
+            
+            radius++
+        }
+        
+        return randomCell
+    }
+
     required convenience init?(coder decoder: NSCoder) {
     
         let width = (decoder.decodeObjectForKey("width") as? Int)!
@@ -164,9 +196,18 @@ class HexMap : NSObject, NSCoding {
     
         self.init(width,height)
         
+        self.cells = (decoder.decodeObjectForKey("cells") as? [[HexCell]])!
+        
+        self.isBlank = (decoder.decodeObjectForKey("isBlank") as? Bool)!
     }
     
     func encodeWithCoder(coder: NSCoder) {
+        coder.encodeObject(self.width, forKey: "width")
+        coder.encodeObject(self.height, forKey: "height")
+        
+        coder.encodeObject(self.cells, forKey: "cells")
+        
+        coder.encodeObject(self.isBlank, forKey: "isBlank")
     }
     
 }
