@@ -37,10 +37,6 @@
 		806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA21C5BD26A00C10664 /* pop_9.wav */; };
 		806CDBA61C5BD6F000C10664 /* BowieBolt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */; };
 		806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */; };
-		806CDBB01C5BF90A00C10664 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBAC1C5BF90A00C10664 /* LICENSE */; };
-		806CDBB11C5BF90A00C10664 /* MKOutlinedLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806CDBAD1C5BF90A00C10664 /* MKOutlinedLabelNode.swift */; };
-		806CDBB21C5BF90A00C10664 /* OutlinedText.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBAE1C5BF90A00C10664 /* OutlinedText.png */; };
-		806CDBB31C5BF90A00C10664 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 806CDBAF1C5BF90A00C10664 /* README.md */; };
 		806CDC6F1C5C21DC00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
 		806CDC701C5C21EA00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
 		806CDC711C5C21EA00C10664 /* SNZSpriteKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -126,10 +122,6 @@
 		806CDBA21C5BD26A00C10664 /* pop_9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop_9.wav; sourceTree = "<group>"; };
 		806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BowieBolt@2x.png"; sourceTree = "<group>"; };
 		806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GoldStar@2x.png"; sourceTree = "<group>"; };
-		806CDBAC1C5BF90A00C10664 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		806CDBAD1C5BF90A00C10664 /* MKOutlinedLabelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MKOutlinedLabelNode.swift; sourceTree = "<group>"; };
-		806CDBAE1C5BF90A00C10664 /* OutlinedText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OutlinedText.png; sourceTree = "<group>"; };
-		806CDBAF1C5BF90A00C10664 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SNZSpriteKitUI.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/HexMatch-fxxqmifrldqznyasncrfnyohtmus/Build/Products/Debug-iphoneos/SNZSpriteKitUI.framework"; sourceTree = "<group>"; };
 		806CDC721C5D391000C10664 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8076BA671C47379300BA62A4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -231,22 +223,9 @@
 			name = Sounds;
 			sourceTree = "<group>";
 		};
-		806CDBAB1C5BF90A00C10664 /* MKOutlinedLabelNode */ = {
-			isa = PBXGroup;
-			children = (
-				806CDBAC1C5BF90A00C10664 /* LICENSE */,
-				806CDBAD1C5BF90A00C10664 /* MKOutlinedLabelNode.swift */,
-				806CDBAE1C5BF90A00C10664 /* OutlinedText.png */,
-				806CDBAF1C5BF90A00C10664 /* README.md */,
-			);
-			name = MKOutlinedLabelNode;
-			path = HexMatch/MKOutlinedLabelNode;
-			sourceTree = "<group>";
-		};
 		806CDBB41C5BF91400C10664 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
-				806CDBAB1C5BF90A00C10664 /* MKOutlinedLabelNode */,
 			);
 			name = 3rdParty;
 			sourceTree = "<group>";
@@ -459,7 +438,6 @@
 				80DCAF301C595A4D00391276 /* EnemyMouthFrown@2x.png in Resources */,
 				80E9DAAF1C4446FA0028BC6D /* LaunchScreen.storyboard in Resources */,
 				80DCAF2E1C595A4D00391276 /* EnemyEyeLeft@2x.png in Resources */,
-				806CDBB21C5BF90A00C10664 /* OutlinedText.png in Resources */,
 				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
 				806CDB991C5BCA7D00C10664 /* paperflip.wav in Resources */,
 				806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */,
@@ -478,7 +456,6 @@
 				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
 				8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */,
 				8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */,
-				806CDBB01C5BF90A00C10664 /* LICENSE in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
 				806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */,
 				8025F97F1C580D8C00A64494 /* EyeClosed@2x.png in Resources */,
@@ -504,7 +481,6 @@
 				8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */,
 				8025F9791C5806DC00A64494 /* MobileHexPiece.swift in Sources */,
 				80E9DAA51C4446FA0028BC6D /* GameScene.swift in Sources */,
-				806CDBB31C5BF90A00C10664 /* README.md in Sources */,
 				80E9DAC51C4555D40028BC6D /* HexCell.swift in Sources */,
 				8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */,
 				80E9DAA71C4446FA0028BC6D /* GameViewController.swift in Sources */,
@@ -516,7 +492,6 @@
 				8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */,
 				80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,
-				806CDBB11C5BF90A00C10664 /* MKOutlinedLabelNode.swift in Sources */,
 				80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */,
 				806CDB8E1C5AB81F00C10664 /* LevelScene.swift in Sources */,
 				80E9DAD41C45DB9E0028BC6D /* HexMapHelper.swift in Sources */,
