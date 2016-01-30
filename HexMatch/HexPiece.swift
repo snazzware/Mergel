@@ -186,6 +186,38 @@ class HexPiece : NSObject, NSCoding {
         return points
     }
     
+    func getPieceDescription() -> String {
+        var description = "Unknown"
+        
+        switch (self.value) {
+            case 0: // Triangle
+                description = "Triangle"
+            break
+            case 1: // Rhombus
+                description = "Rhombus"
+            break
+            case 2: // Square
+                description = "Square"
+            break
+            case 3: // Pentagon
+                description = "Pentagon"
+            break
+            case 4: // Hexagon
+                description = "Hexagon"
+            break
+            case 5: // Star
+                description = "Star"
+            break
+            case 6: // Gold Star
+                description = "Gold Star"
+            break
+            default:
+            break
+        }
+        
+        return description
+    }
+    
     /**
         Creates a sprite to represent the hex piece
     

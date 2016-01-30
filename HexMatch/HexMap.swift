@@ -136,7 +136,7 @@ class HexMap : NSObject, NSCoding {
         }
         
         for i in 1...radius {
-            for j in ((radius-i))...radius-modifier {
+            for j in (0-(radius-i))...radius - modifier {
                 var targetCell: HexCell?
 
                 if (currentWest != nil) {
@@ -154,11 +154,23 @@ class HexMap : NSObject, NSCoding {
             }
             
             if (currentWest != nil) {
-                currentWest = currentWest!.northWest
+                var nextWest = currentWest!.northWest
+                if (nextWest == nil) {
+                    nextWest = currentWest!.southWest
+                    modifier++
+                }
+                                
+                currentWest = nextWest
             }
             
             if (currentEast != nil) {
-                currentEast = currentEast!.northEast
+                var nextEast = currentEast!.northEast
+                if (nextEast == nil) {
+                    nextEast = currentEast!.southEast
+                    modifier++
+                }
+                
+                currentEast = nextEast
             }
         }
         

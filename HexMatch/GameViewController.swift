@@ -62,8 +62,6 @@ class GameViewController: UIViewController {
     }
     
     override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        if (self.scene != nil) {
-            self.scene!.updateGuiPositions()
-        }
+        SceneHelper.instance.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
     }
 }

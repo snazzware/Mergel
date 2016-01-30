@@ -78,6 +78,7 @@ class GameScene: SKScene {
     
     var bankPointsDisplay: SKLabelNode?
     var bankPointsLabel: SKLabelNode?
+    var bankPointBox: SKShapeNode?
     
     var highScoreDisplay: SKLabelNode?
     var highScoreLabel: SKLabelNode?
@@ -203,6 +204,11 @@ class GameScene: SKScene {
                         if (node == self.stashBox) {
                             self.swapStash()
                             
+                            handled = true
+                        } else
+                        if (node == self.bankPointBox) {
+                            self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+
                             handled = true
                         } else
                         if (node == self.resetButton) {
@@ -342,6 +348,9 @@ class GameScene: SKScene {
             
             // Get the hex map and render it
             self.renderFromState()
+            
+            // Restore bank points
+            self.bankPoints = GameState.instance!.bankPoints
             
             // Update gui
             self.updateGuiLayer()
@@ -499,25 +508,44 @@ class GameScene: SKScene {
         self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
         
         // Add current piece label
-        self.currentPieceLabel = self.createUILabel("Current Piece")
+        self.currentPieceLabel = self.createUILabel("Current")
         self.currentPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 40)
         self.guiLayer.addChild(self.currentPieceLabel!)
         
         // Calculate stash piece home position
-        self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
+        self.stashPieceHome = CGPoint(x: 180, y: self.frame.height - 70)
         
         // Add stash box
-        self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-160, self.frame.height-90, 140, 72))
+        self.stashBox = SKShapeNode(rect: CGRectMake(160, self.frame.height-90, 140, 72))
         self.stashBox!.strokeColor = UIColor.blackColor()
         self.guiLayer.addChild(self.stashBox!)
         
         // Add stash piece label
-        self.stashPieceLabel = self.createUILabel("Stash Piece")
-        self.stashPieceLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
+        self.stashPieceLabel = self.createUILabel("Stash")
+        self.stashPieceLabel!.position = CGPoint(x: 150, y: self.frame.height - 40)
         self.guiLayer.addChild(self.stashPieceLabel!)
         
         // Add stash piece sprite, if any
         self.updateStashPieceSprite()
+        
+        
+        // Add bank label
+        self.bankPointsLabel = self.createUILabel("Bank Points")
+        self.bankPointsLabel!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 120)
+        self.guiLayer.addChild(self.bankPointsLabel!)
+        
+        // Add bank display
+        self.bankPointsDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.bankPoints)!)
+        self.bankPointsDisplay!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 144)
+        self.bankPointsDisplay!.fontSize = 24
+        self.guiLayer.addChild(self.bankPointsDisplay!)
+        
+        // Add bank point box
+        self.bankPointBox = SKShapeNode(rect: CGRectMake(self.frame.width - 100, self.frame.height-90, 150, 72))
+        self.bankPointBox!.strokeColor = UIColor.blackColor()
+        self.guiLayer.addChild(self.bankPointBox!)
+        
+        
         
         // Add reset button
         self.resetButton = self.createUILabel("Start Over")
@@ -570,33 +598,59 @@ class GameScene: SKScene {
             // Current Piece
             self.currentPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 40)
             
-            self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
+            self.currentPieceHome = CGPoint(x: 60, y: self.frame.height - 70)
             
             if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece!.sprite != nil) {
                 GameState.instance!.currentPiece!.sprite!.position = self.currentPieceHome
             }
             
             // Stash
-            self.stashBox!.removeFromParent()
-            self.stashBox = SKShapeNode(rect: CGRectMake(self.frame.width-160, self.frame.height-90, 140, 72))
-            self.stashBox!.strokeColor = UIColor.clearColor()
-            self.guiLayer.addChild(self.stashBox!)
-            
-            self.stashPieceLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 40)
-            
-            self.stashPieceHome = CGPoint(x: self.frame.width-80, y: self.frame.height - 70)
-            if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
-                GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
+            if (self.frame.width > self.frame.height) { // landscape
+                self.stashBox!.removeFromParent()
+                self.stashBox = SKShapeNode(rect: CGRectMake(10, self.frame.height-150, 100, 60))
+                self.stashBox!.strokeColor = UIColor.clearColor()
+                self.guiLayer.addChild(self.stashBox!)
+                
+                self.stashPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 110)
+                
+                self.stashPieceHome = CGPoint(x: 60, y: self.frame.height - 140)
+                if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
+                    GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
+                }
+            } else {
+                self.stashBox!.removeFromParent()
+                self.stashBox = SKShapeNode(rect: CGRectMake(120, self.frame.height-90, 100, 72))
+                self.stashBox!.strokeColor = UIColor.clearColor()
+                self.guiLayer.addChild(self.stashBox!)
+                
+                self.stashPieceLabel!.position = CGPoint(x: 140, y: self.frame.height - 40)
+                
+                self.stashPieceHome = CGPoint(x: 180, y: self.frame.height - 70)
+                if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
+                    GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
+                }
             }
             
-            // Score
-            self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 120)
-            self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
+            // bank points
+            self.bankPointsLabel!.position = CGPoint(x: self.frame.width - 120, y: self.frame.height - 40)
+            self.bankPointsDisplay!.position = CGPoint(x: self.frame.width - 120, y: self.frame.height - 64)
             
+            self.bankPointBox!.removeFromParent()
+            self.bankPointBox = SKShapeNode(rect: CGRectMake(self.frame.width - 130, self.frame.height-90, 120, 72))
+            self.bankPointBox!.strokeColor = UIColor.blackColor()
+            self.guiLayer.addChild(self.bankPointBox!)
+            
+            // Score
             if (self.frame.width > self.frame.height) { // landscape
-                self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 170)
-                self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
+                self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 180)
+                self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 204)
+                
+                self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 230)
+                self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 254)
             } else {
+                self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 120)
+                self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
+            
                 self.highScoreLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 120)
                 self.highScoreDisplay!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 144)
             }
@@ -842,6 +896,9 @@ class GameScene: SKScene {
         self.lastPointsAwarded = points
         self.score += lastPointsAwarded
         
+        // Bank 5%
+        self.bankPoints += Int(Double(points) * 0.05)
+        
         self.checkForUnlocks()
     }
     
@@ -859,6 +916,19 @@ class GameScene: SKScene {
     */
     func generateCurrentPiece() {
         GameState.instance!.currentPiece = LevelHelper.instance.getRandomPiece()
+    }
+    
+    func setCurrentPiece(hexPiece: HexPiece) {
+        if (GameState.instance!.currentPiece!.sprite != nil) {
+            GameState.instance!.currentPiece!.sprite!.removeFromParent()
+        }
+        
+        GameState.instance!.currentPiece = hexPiece
+        self.updateCurrentPieceSprite()
+    }
+    
+    func spendBankPoints(points: Int) {
+        self.bankPoints -= points
     }
     
     func updateCurrentPieceSprite(relocate: Bool = true) {
@@ -935,13 +1005,13 @@ class GameScene: SKScene {
             GameState.instance!.currentPiece = GameState.instance!.stashPiece
             GameState.instance!.stashPiece = tempPiece
             
-            GameState.instance!.currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.3))
-            GameState.instance!.stashPiece!.sprite!.runAction(SKAction.sequence([SKAction.moveTo(self.stashPieceHome, duration: 0.3),SKAction.runBlock({
+            GameState.instance!.currentPiece!.sprite!.runAction(SKAction.moveTo(self.currentPieceHome, duration: 0.1))
+            GameState.instance!.stashPiece!.sprite!.runAction(SKAction.sequence([SKAction.moveTo(self.stashPieceHome, duration: 0.1),SKAction.runBlock({
                 self.updateCurrentPieceSprite(false)
             })]))
         } else {
             GameState.instance!.stashPiece = GameState.instance!.currentPiece
-            GameState.instance!.stashPiece!.sprite!.runAction(SKAction.sequence([SKAction.moveTo(self.stashPieceHome, duration: 0.3),SKAction.runBlock({
+            GameState.instance!.stashPiece!.sprite!.runAction(SKAction.sequence([SKAction.moveTo(self.stashPieceHome, duration: 0.1),SKAction.runBlock({
                 self.generateCurrentPiece()
                 self.updateCurrentPieceSprite(false)
             })]))

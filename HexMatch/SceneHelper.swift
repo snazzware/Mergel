@@ -7,8 +7,7 @@
 //
 
 import Foundation
-
-import Foundation
+import UIKit
 
 class SceneHelper: NSObject {
     // singleton
@@ -17,17 +16,28 @@ class SceneHelper: NSObject {
     // scenes
     var gameScene: GameScene
     var levelScene: LevelScene
+    var bankScene: BankScene
     
     override init() {
         self.gameScene = GameScene()
         self.levelScene = LevelScene()
-        
-        self.levelScene.updateGui()
+        self.bankScene = BankScene()
         
         // Resize modes
         self.gameScene.scaleMode = .ResizeFill
         self.levelScene.scaleMode = .ResizeFill
-    
+        self.bankScene.scaleMode = .ResizeFill
+        
+        // Set initial gui positions
+        self.levelScene.updateGui()
+        self.bankScene.updateGui()
+        
         super.init()
+    }
+    
+    func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        self.gameScene.updateGuiPositions()
+        self.levelScene.updateGui()
+        self.bankScene.updateGui()
     }
 }

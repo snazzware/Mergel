@@ -68,12 +68,16 @@ class LevelHelper: NSObject {
                 }
             break
             case .Moat:
-                // Void out center of hex map
+                // Void out moat in center of hex map
                 let voidCells = Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
                 }
+                
+                // left and right bridges
+                hexMap.cell(1,3)!.isVoid = false
+                hexMap.cell(5,3)!.isVoid = false
             break
         }
         

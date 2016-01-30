@@ -11,6 +11,9 @@ class HexMapHelper: NSObject {
     // singleton
     static let instance = HexMapHelper()
     
+    // Debugging
+    let displayCellCoordinates = false
+    
     // Hex Map
     var hexMap: HexMap?
     
@@ -148,6 +151,12 @@ class HexMapHelper: NSObject {
                     hexCell!.hexPiece!.sprite = hexPieceSprite
                     
                     parent.addChild(hexPieceSprite)
+                }
+                
+                if (self.displayCellCoordinates) {
+                    let positionSprite = SKLabelNode(text: "\(x),\(y)")
+                    positionSprite.zPosition = 10000
+                    mapNode.addChild(positionSprite)
                 }
             }
             

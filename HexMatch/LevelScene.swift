@@ -40,8 +40,8 @@ class LevelScene: SNZScene {
         }
         
         let closeButton = SNZButtonWidget(parentNode: self)
-        closeButton.position = CGPointMake(10,100)
-        closeButton.caption = "close"
+        closeButton.position = CGPointMake(10,20)
+        closeButton.caption = "Cancel"
         closeButton.bind("tap",{
             self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
         });
