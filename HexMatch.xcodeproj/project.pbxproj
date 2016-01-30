@@ -44,6 +44,7 @@
 		806CDC6F1C5C21DC00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
 		806CDC701C5C21EA00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
 		806CDC711C5C21EA00C10664 /* SNZSpriteKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		806CDC731C5D391000C10664 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 806CDC721C5D391000C10664 /* LICENSE */; };
 		8076BA681C47379300BA62A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
 		8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA751C48017600BA62A4 /* HexPiece.swift */; };
 		8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA791C480A2300BA62A4 /* LevelHelper.swift */; };
@@ -130,6 +131,7 @@
 		806CDBAE1C5BF90A00C10664 /* OutlinedText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OutlinedText.png; sourceTree = "<group>"; };
 		806CDBAF1C5BF90A00C10664 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SNZSpriteKitUI.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/HexMatch-fxxqmifrldqznyasncrfnyohtmus/Build/Products/Debug-iphoneos/SNZSpriteKitUI.framework"; sourceTree = "<group>"; };
+		806CDC721C5D391000C10664 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8076BA671C47379300BA62A4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8076BA751C48017600BA62A4 /* HexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPiece.swift; sourceTree = "<group>"; };
 		8076BA791C480A2300BA62A4 /* LevelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelHelper.swift; path = HexMatch/LevelHelper.swift; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 		80E9DA941C4446FA0028BC6D = {
 			isa = PBXGroup;
 			children = (
+				806CDC721C5D391000C10664 /* LICENSE */,
 				806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */,
 				806CDBB41C5BF91400C10664 /* 3rdParty */,
 				806CDB9A1C5BCA9800C10664 /* cc attribution.txt */,
@@ -470,6 +473,7 @@
 				806CDB921C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png in Resources */,
 				80DCAF311C595A4D00391276 /* EnemyVanillaBean@2x.png in Resources */,
 				806CDB9B1C5BCA9800C10664 /* cc attribution.txt in Resources */,
+				806CDC731C5D391000C10664 /* LICENSE in Resources */,
 				80E9DAAA1C4446FA0028BC6D /* Main.storyboard in Resources */,
 				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
 				8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */,
