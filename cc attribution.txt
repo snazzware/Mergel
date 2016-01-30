@@ -1,0 +1,15 @@
+
+
+
+SOUND EFFECTS
+-------------
+CC0     paperflip.wav       https://www.freesound.org/people/gynation/sounds/82379/
+CCA     dealcard.wav        https://www.freesound.org/people/f4ngy/sounds/240777/
+CCA     shufflecard.wav     https://www.freesound.org/people/empraetorius/sounds/201253/        (sample cropped as shuffle.aiff)
+CCA     pop_9.aif           https://www.freesound.org/people/SunnySideSound/sounds/67095/
+
+
+
+
+
+

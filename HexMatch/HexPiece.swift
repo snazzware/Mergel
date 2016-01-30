@@ -176,6 +176,9 @@ class HexPiece : NSObject, NSCoding {
             case 5: // Star
                 points = 25000
             break
+            case 6: // Gold Star
+                points = 50000
+            break
             default:
             break
         }

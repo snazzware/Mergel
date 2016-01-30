@@ -70,12 +70,12 @@ class EnemyHexPiece : MobileHexPiece {
         if (self.isCollectible) {
             let scaleUpAction = SKAction.scaleTo(1.1, duration: 0.5)
             let scaleDownAction = SKAction.scaleTo(0.9, duration: 0.5)
-            let rotateRightAction = SKAction.rotateByAngle(0.5, duration: 0.5)
-            let rotateLeftAction = SKAction.rotateByAngle(-0.5, duration: 0.5)
+            let rotateRightAction = SKAction.rotateByAngle(0.5, duration: 0.25)
+            let rotateLeftAction = SKAction.rotateByAngle(-0.5, duration: 0.25)
             
             let collectibleGroup = SKAction.group([
                 SKAction.sequence([scaleUpAction,scaleDownAction]),
-                SKAction.sequence([rotateRightAction,rotateLeftAction])
+                SKAction.sequence([rotateRightAction,rotateLeftAction,rotateLeftAction,rotateRightAction])
             ])
             
             node.runAction(SKAction.repeatActionForever(collectibleGroup))

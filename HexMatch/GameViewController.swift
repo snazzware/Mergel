@@ -16,6 +16,9 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Init sound helper
+        SoundHelper.instance.enableSoundEffects()
+
         self.scene = SceneHelper.instance.gameScene
         
         // Configure the view.

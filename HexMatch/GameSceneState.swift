@@ -26,11 +26,9 @@ class GameSceneInitialState: GameSceneState {
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        print("initial")
-    
         // Set up GUI, etc.
-        self.scene.initGame()
-    
+        SceneHelper.instance.gameScene.initGame()
+        
         // If hexMap is blank, enter restart state to set up new game
         if (GameState.instance!.hexMap.isBlank) {
             GameStateMachine.instance!.enterState(GameSceneRestartState.self)

@@ -17,10 +17,16 @@ class SceneHelper: NSObject {
     // scenes
     var gameScene: GameScene
     var levelScene: LevelScene
-
+    
     override init() {
         self.gameScene = GameScene()
         self.levelScene = LevelScene()
+        
+        self.levelScene.updateGui()
+        
+        // Resize modes
+        self.gameScene.scaleMode = .ResizeFill
+        self.levelScene.scaleMode = .ResizeFill
     
         super.init()
     }

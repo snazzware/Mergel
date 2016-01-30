@@ -8,21 +8,43 @@
 
 import Foundation
 
+enum LevelHelperMode : Int {
+    case Welcome = 1
+    case Moat = 2
+}
+
 class LevelHelper: NSObject {
     // singleton
     static let instance = LevelHelper()
+    
+    var mode: LevelHelperMode = .Welcome    
     
     // Distribution of random piece values. Piece value is index in array, array member value is the pct chance the index will be selected.
     let distribution = [50, 30, 18, 2]
     
     // Chance to generate a wildcard piece (matches any value)
-    let wildcardPercentage = 3
+    let wildcardPercentage = 5
     
     // Chance to generate a mobile piece (moves around board until trapped)
     let mobilePercentage = 10
     
     // Chance to generate an enemy piece (moves around board until trapped)
     let enemyPercentage = 20
+    
+    func getLevelHelperModeCaption(mode: LevelHelperMode) -> String {
+        var caption = "Error"
+        
+        switch mode {
+            case .Welcome:
+                caption = "Welcome"
+            break
+            case .Moat:
+                caption = "The Moat"
+            break
+        }
+        
+        return caption
+    }
 
     /**
         Initializes a HexMap with a randomized starting layout
@@ -36,12 +58,25 @@ class LevelHelper: NSObject {
         // Clear the hexMap
         hexMap.clear()
         
-        // Void out center of hex map
-        let voidCells = hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)
-        
-        for voidCell in voidCells {
-            voidCell.isVoid = true
+        switch mode {
+            case .Welcome:
+                // Void out center of hex map
+                let voidCells = hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)
+                
+                for voidCell in voidCells {
+                    voidCell.isVoid = true
+                }
+            break
+            case .Moat:
+                // Void out center of hex map
+                let voidCells = Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)))
+                
+                for voidCell in voidCells {
+                    voidCell.isVoid = true
+                }
+            break
         }
+        
         
         // Place some initial pieces
         for _ in 0...10 {

@@ -58,8 +58,26 @@ class GameScene: SKScene {
             }
         }
     }
+    
+    var _bankPoints = 0
+    var bankPoints: Int {
+        get {
+            return self._bankPoints
+        }
+        set {
+            self._bankPoints = newValue
+            self.updateBankPoints()
+            
+            // Update score in state
+            GameState.instance!.bankPoints = self._bankPoints
+        }
+    }
+    
     var scoreDisplay: SKLabelNode?
     var scoreLabel: SKLabelNode?
+    
+    var bankPointsDisplay: SKLabelNode?
+    var bankPointsLabel: SKLabelNode?
     
     var highScoreDisplay: SKLabelNode?
     var highScoreLabel: SKLabelNode?
@@ -189,7 +207,6 @@ class GameScene: SKScene {
                         } else
                         if (node == self.resetButton) {
                             self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
-                            //GameStateMachine.instance!.enterState(GameSceneRestartState.self)
 
                             handled = true
                         } else
@@ -260,12 +277,18 @@ class GameScene: SKScene {
                                         hexPiece.hexCell?.hexPiece = nil
                                     }
                                     
+                                    // Play merge sound
+                                    self.runAction(SoundHelper.instance.mergePieces)
+                                    
                                 } else {
                                     // clear merged array, since we are not merging any on this placement
                                     self.mergedPieces.removeAll()
                                     
                                     // let piece know we are placing it
                                     GameState.instance!.currentPiece!.wasPlacedWithoutMerge()
+                                    
+                                    // Play placement sound
+                                    self.runAction(SoundHelper.instance.placePiece)
                                 }
                                 
                                 // Place the piece
@@ -331,9 +354,7 @@ class GameScene: SKScene {
     func turnDidEnd() {
         // Test for game over
         if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
-            print("Game Over!")
-            let result = GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
-            print("switch to game over state: \(result)")
+            GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
         } else {
             let occupiedCells = HexMapHelper.instance.hexMap!.getOccupiedCells()
             
@@ -681,6 +702,12 @@ class GameScene: SKScene {
         }
     }
     
+    func updateBankPoints() {
+        if (self.bankPointsDisplay != nil) {
+            self.bankPointsDisplay!.text = self.scoreFormatter.stringFromNumber(self.bankPoints)
+        }
+    }
+    
     /**
         Refreshes the text of the high score display with a formatted copy of the current high score value
     */
@@ -698,9 +725,11 @@ class GameScene: SKScene {
             
             let scrollFade = SKAction.sequence([SKAction.group([scrollUp, fadeOut]),remove])
             
-            let label = SKLabelNode(text: self.scoreFormatter.stringFromNumber(points))
+            let pointString:String = self.scoreFormatter.stringFromNumber(points)!
+            
+            let label = SKLabelNode(text: pointString)
             label.fontColor = UIColor.whiteColor()
-            label.fontSize = 18
+            label.fontSize = CGFloat(18 + pointString.characters.count)
             label.zPosition = 30
             label.position = position
             label.fontName = "Avenir-Black"
@@ -709,6 +738,60 @@ class GameScene: SKScene {
             label.runAction(scrollFade)
         }
     }
+    
+    func scaleToFitRect(node:SKLabelNode, rect:CGRect) {
+        node.fontSize *= min(rect.width / node.frame.width, rect.height / node.frame.height)
+    }
+    
+    func burstMessage(message: String) {
+        
+        let tokens = message.componentsSeparatedByString("\n").reverse()
+        
+        var totalHeight:CGFloat = 0
+        let padding:CGFloat = 10
+        
+        var labels: [SKLabelNode] = Array()
+        
+        for token in tokens {
+            let label = SKLabelNode(text: token)
+            label.fontColor = UIColor.whiteColor()
+            label.zPosition = 500
+            label.fontName = "Avenir-Black"
+            label.fontSize = 20
+            
+            self.scaleToFitRect(label, rect: CGRectInset(self.frame, 30, 30))
+            
+            totalHeight += label.frame.height + padding
+            
+            label.position = CGPointMake(self.frame.width / 2, (self.frame.height / 2))
+            
+            labels.append(label)
+        }
+        
+        let burstAnimation = SKAction.sequence([
+            SKAction.scaleTo(1.2, duration: 0.4),
+            SKAction.scaleTo(0.8, duration: 0.2),
+            SKAction.scaleTo(1.0, duration: 0.2),
+            SKAction.waitForDuration(1.5),
+            SKAction.group([
+                SKAction.scaleTo(5.0, duration: 1.0),
+                SKAction.fadeOutWithDuration(1.0)
+            ])
+        ])
+        
+        var verticalOffset:CGFloat = 0
+        
+        for label in labels {
+            label.position.y = (self.frame.height / 2) - (totalHeight / 2) + (label.frame.height / 2) + verticalOffset
+        
+            verticalOffset += padding + label.frame.height
+        
+            label.setScale(0)
+            SceneHelper.instance.gameScene.addChild(label)
+            label.runAction(burstAnimation)
+        }
+    }
+
     
     func initGameOver() {
         let label = SKLabelNode(text: "No Moves Remaining!")
@@ -758,6 +841,16 @@ class GameScene: SKScene {
     func awardPoints(points: Int) {
         self.lastPointsAwarded = points
         self.score += lastPointsAwarded
+        
+        self.checkForUnlocks()
+    }
+    
+    func checkForUnlocks() {
+        if (!GameState.instance!.unlockedLevels.contains(.Moat) && self.score > 100000) {
+            GameState.instance!.unlockedLevels.append(.Moat)
+            
+            self.burstMessage("New Map Unlocked\nTHE MOAT")
+        }
     }
     
     /**
