@@ -24,8 +24,8 @@ class LevelScene: SNZScene {
         
         var verticalOffset:CGFloat = self.frame.height - 100
         
+        // Create and position level buttons
         for unlockedLevel in (GameState.instance!.unlockedLevels) {
-            print("\(verticalOffset)")
             let levelButton = SNZButtonWidget(parentNode: self)
             levelButton.position = CGPointMake(10,verticalOffset)
             levelButton.caption = LevelHelper.instance.getLevelHelperModeCaption(unlockedLevel)
@@ -39,6 +39,7 @@ class LevelScene: SNZScene {
             verticalOffset -= 60
         }
         
+        // Add the close button
         let closeButton = SNZButtonWidget(parentNode: self)
         closeButton.position = CGPointMake(10,20)
         closeButton.caption = "Cancel"
@@ -47,6 +48,7 @@ class LevelScene: SNZScene {
         });
         self.addWidget(closeButton)
         
+        // Render the widgets
         self.initWidgets()
     }
     

@@ -164,6 +164,10 @@ class GameScene: SKScene {
         
         // Reset score
         self.score = 0
+        
+        // Clear undo
+        self.undoButton!.hidden = true
+        self.undoState = nil
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -532,7 +536,7 @@ class GameScene: SKScene {
         
         // Add stash box
         self.stashBox = SKShapeNode(rect: CGRectMake(160, self.frame.height-90, 140, 72))
-        self.stashBox!.strokeColor = UIColor.blackColor()
+        self.stashBox!.strokeColor = UIColor.clearColor()
         self.guiLayer.addChild(self.stashBox!)
         
         // Add stash piece label
@@ -557,7 +561,7 @@ class GameScene: SKScene {
         
         // Add bank point box
         self.bankPointBox = SKShapeNode(rect: CGRectMake(self.frame.width - 100, self.frame.height-90, 150, 72))
-        self.bankPointBox!.strokeColor = UIColor.blackColor()
+        self.bankPointBox!.strokeColor = UIColor.clearColor()
         self.guiLayer.addChild(self.bankPointBox!)
         
         
@@ -652,7 +656,7 @@ class GameScene: SKScene {
             
             self.bankPointBox!.removeFromParent()
             self.bankPointBox = SKShapeNode(rect: CGRectMake(self.frame.width - 130, self.frame.height-90, 120, 72))
-            self.bankPointBox!.strokeColor = UIColor.blackColor()
+            self.bankPointBox!.strokeColor = UIColor.clearColor()
             self.guiLayer.addChild(self.bankPointBox!)
             
             // Score
