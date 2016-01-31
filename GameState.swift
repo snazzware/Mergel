@@ -37,6 +37,8 @@ class GameState: NSObject, NSCoding {
         self.levelHelperMode = .Welcome
         
         super.init()
+        
+        self.initBuyablePieces()
     }
 
     required convenience init?(coder decoder: NSCoder) {
