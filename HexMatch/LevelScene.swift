@@ -36,7 +36,7 @@ class LevelScene: SNZScene {
             });
             self.addWidget(levelButton)
             
-            verticalOffset -= 120
+            verticalOffset -= 60
         }
         
         let closeButton = SNZButtonWidget(parentNode: self)

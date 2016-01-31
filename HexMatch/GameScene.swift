@@ -103,6 +103,9 @@ class GameScene: SKScene {
         // Add gameboardLayer to scene
         addChild(self.gameboardLayer)
         
+        // Init bank points
+        self.bankPoints = GameState.instance!.bankPoints
+        
         // Init guiLayer
         self.initGuiLayer()
     }
@@ -142,6 +145,11 @@ class GameScene: SKScene {
         
         // Generate proxy sprite for current piece
         self.updateCurrentPieceSprite()
+        
+        // Reset buyable prices
+        for buyablePiece in GameState.instance!.buyablePieces {
+            buyablePiece.resetPrice()
+        }
         
         // Clear stash
         if (GameState.instance!.stashPiece != nil) {
@@ -193,7 +201,14 @@ class GameScene: SKScene {
         if (location != nil) {
             
             if (GameStateMachine.instance!.currentState is GameSceneGameOverState) {
-                GameStateMachine.instance!.enterState(GameSceneRestartState.self)
+                let nodes = nodesAtPoint(location!)
+             
+                for node in nodes {
+                    if (node == self.resetButton) {
+                        self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+                        break
+                    }
+                }
             } else {
                 let nodes = nodesAtPoint(location!)
              
@@ -802,7 +817,7 @@ class GameScene: SKScene {
         let tokens = message.componentsSeparatedByString("\n").reverse()
         
         var totalHeight:CGFloat = 0
-        let padding:CGFloat = 10
+        let padding:CGFloat = 20
         
         var labels: [SKLabelNode] = Array()
         
@@ -848,7 +863,7 @@ class GameScene: SKScene {
 
     
     func initGameOver() {
-        let label = SKLabelNode(text: "No Moves Remaining!")
+        let label = SKLabelNode(text: "GAME OVER")
         label.fontColor = UIColor.blackColor()
         label.fontSize = 64
         label.zPosition = 20
@@ -861,14 +876,16 @@ class GameScene: SKScene {
     }
     
     func showGameOver() {
-        print("showGameOver")
+        self.burstMessage("NO MOVES REMAINING\nGAME OVER")
     
         // Disable Undo
         self.undoButton!.hidden = true
         self.undoState = nil
     
-        // Show Game Over text
-        self.guiLayer.addChild(self.gameOverLabel!)
+        self.runAction(SKAction.sequence([SKAction.waitForDuration(2.0),SKAction.runBlock({
+             // Show Game Over text
+            self.guiLayer.addChild(self.gameOverLabel!)
+        })]))
     }
     
     
@@ -903,7 +920,13 @@ class GameScene: SKScene {
     }
     
     func checkForUnlocks() {
-        if (!GameState.instance!.unlockedLevels.contains(.Moat) && self.score > 100000) {
+        if (LevelHelper.instance.mode == .Hexagon && !GameState.instance!.unlockedLevels.contains(.Pit) && self.score >= 500000) {
+            GameState.instance!.unlockedLevels.append(.Pit)
+            
+            self.burstMessage("New Map Unlocked\nTHE PIT")
+        }
+        
+        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Pit) && self.score >= 1000000) {
             GameState.instance!.unlockedLevels.append(.Moat)
             
             self.burstMessage("New Map Unlocked\nTHE MOAT")

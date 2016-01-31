@@ -49,6 +49,8 @@
 		80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */; };
 		80CA3AB01C5D687800E814DF /* BankScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AAF1C5D687800E814DF /* BankScene.swift */; };
 		80CA3AB31C5D6FF200E814DF /* BuyableButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */; };
+		80CA3AB51C5EB7E600E814DF /* BuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AB41C5EB7E600E814DF /* BuyablePiece.swift */; };
+		80CA3AB81C5EBA9000E814DF /* WildcardBuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AB71C5EBA9000E814DF /* WildcardBuyablePiece.swift */; };
 		80DCAF281C5959E300391276 /* EnemyHexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DCAF271C5959E300391276 /* EnemyHexPiece.swift */; };
 		80DCAF2E1C595A4D00391276 /* EnemyEyeLeft@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80DCAF2A1C595A4D00391276 /* EnemyEyeLeft@2x.png */; };
 		80DCAF2F1C595A4D00391276 /* EnemyEyeRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80DCAF2B1C595A4D00391276 /* EnemyEyeRight@2x.png */; };
@@ -133,6 +135,8 @@
 		80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPieceSeries.swift; sourceTree = "<group>"; };
 		80CA3AAF1C5D687800E814DF /* BankScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankScene.swift; sourceTree = "<group>"; };
 		80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyableButtonWidget.swift; sourceTree = "<group>"; };
+		80CA3AB41C5EB7E600E814DF /* BuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyablePiece.swift; sourceTree = "<group>"; };
+		80CA3AB71C5EBA9000E814DF /* WildcardBuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WildcardBuyablePiece.swift; sourceTree = "<group>"; };
 		80DCAF271C5959E300391276 /* EnemyHexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyHexPiece.swift; sourceTree = "<group>"; };
 		80DCAF2A1C595A4D00391276 /* EnemyEyeLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyEyeLeft@2x.png"; sourceTree = "<group>"; };
 		80DCAF2B1C595A4D00391276 /* EnemyEyeRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyEyeRight@2x.png"; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 		8033FE5E1C4D9F930035D1A7 /* Pieces */ = {
 			isa = PBXGroup;
 			children = (
+				80CA3AB61C5EB8F800E814DF /* Buyable */,
 				8076BA751C48017600BA62A4 /* HexPiece.swift */,
 				8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */,
 				8025F9781C5806DC00A64494 /* MobileHexPiece.swift */,
@@ -280,6 +285,15 @@
 				80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */,
 			);
 			name = Widgets;
+			sourceTree = "<group>";
+		};
+		80CA3AB61C5EB8F800E814DF /* Buyable */ = {
+			isa = PBXGroup;
+			children = (
+				80CA3AB41C5EB7E600E814DF /* BuyablePiece.swift */,
+				80CA3AB71C5EBA9000E814DF /* WildcardBuyablePiece.swift */,
+			);
+			name = Buyable;
 			sourceTree = "<group>";
 		};
 		80DCAF291C595A4200391276 /* Enemies */ = {
@@ -508,7 +522,9 @@
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
 				8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */,
 				806CDB961C5B14FA00C10664 /* SceneHelper.swift in Sources */,
+				80CA3AB81C5EBA9000E814DF /* WildcardBuyablePiece.swift in Sources */,
 				8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */,
+				80CA3AB51C5EB7E600E814DF /* BuyablePiece.swift in Sources */,
 				80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,
 				80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */,

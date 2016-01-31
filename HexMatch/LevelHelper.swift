@@ -10,7 +10,9 @@ import Foundation
 
 enum LevelHelperMode : Int {
     case Welcome = 1
-    case Moat = 2
+    case Hexagon = 2
+    case Pit = 3
+    case Moat = 4
 }
 
 class LevelHelper: NSObject {
@@ -38,6 +40,12 @@ class LevelHelper: NSObject {
             case .Welcome:
                 caption = "Welcome"
             break
+            case .Hexagon:
+                caption = "Big Hexagon"
+            break
+            case .Pit:
+                caption = "The Pit"
+            break
             case .Moat:
                 caption = "The Moat"
             break
@@ -60,6 +68,22 @@ class LevelHelper: NSObject {
         
         switch mode {
             case .Welcome:
+                // Create radius 2 hexagon
+                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)))
+                
+                for voidCell in voidCells {
+                    voidCell.isVoid = true
+                }
+            break
+            case .Hexagon:
+                // Create radius 3 hexagon
+                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                
+                for voidCell in voidCells {
+                    voidCell.isVoid = true
+                }
+            break
+            case .Pit:
                 // Void out center of hex map
                 let voidCells = hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)
                 
@@ -75,7 +99,7 @@ class LevelHelper: NSObject {
                     voidCell.isVoid = true
                 }
                 
-                // left and right bridges
+                // add back left and right bridges
                 hexMap.cell(1,3)!.isVoid = false
                 hexMap.cell(5,3)!.isVoid = false
             break

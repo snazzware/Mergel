@@ -103,6 +103,18 @@ class HexMap : NSObject, NSCoding {
         }
     }
     
+    func getAllCells() -> [HexCell] {
+        var allCells:[HexCell] = Array();
+        
+        for x in 0...self.width-1 {
+            for y in 0...self.height-1 {
+                allCells.append(self.cells[x][y]);
+            }
+        }
+                
+        return allCells;
+    }
+    
     func cellsForRadius(center: HexCell, radius: Int) -> [HexCell] {
         if (radius == 0) {
             return [center]

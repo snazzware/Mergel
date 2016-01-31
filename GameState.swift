@@ -23,6 +23,7 @@ class GameState: NSObject, NSCoding {
     var stashPiece: HexPiece?
     var unlockedLevels: [LevelHelperMode] = Array()
     var levelHelperMode: LevelHelperMode
+    var buyablePieces: [BuyablePiece] = Array()
     
     override init() {
         self.highScore = 0
@@ -31,6 +32,7 @@ class GameState: NSObject, NSCoding {
         self.hexMap = HexMap(7,7)
         
         self.unlockedLevels.append(.Welcome)
+        self.unlockedLevels.append(.Hexagon)
         
         self.levelHelperMode = .Welcome
         
@@ -83,6 +85,22 @@ class GameState: NSObject, NSCoding {
         if (levelHelperMode != nil) {
             LevelHelper.instance.mode = LevelHelperMode(rawValue: levelHelperMode as! Int)!
         }
+        
+        let buyablePieces = decoder.decodeObjectForKey("buyablePieces")
+        if (buyablePieces != nil) {
+            self.buyablePieces = buyablePieces as! [BuyablePiece]
+        } else {
+            self.initBuyablePieces()
+        }
+        
+        // Ensure that we always have Welcome and Hexagon levels available
+        if (!self.unlockedLevels.contains(.Welcome)) {
+             self.unlockedLevels.append(.Welcome)
+        }
+        
+        if (!self.unlockedLevels.contains(.Hexagon)) {
+             self.unlockedLevels.append(.Hexagon)
+        }
     }
     
     func encodeWithCoder(coder: NSCoder) {
@@ -102,5 +120,23 @@ class GameState: NSObject, NSCoding {
         coder.encodeObject(levels, forKey: "unlockedLevels")
         
         coder.encodeObject(LevelHelper.instance.mode.rawValue, forKey: "levelHelperMode")
+        
+        coder.encodeObject(self.buyablePieces, forKey: "buyablePieces")
+    }
+    
+    func initBuyablePieces() {
+        self.buyablePieces.removeAll()
+        
+        for pieceValue in 0...2 {
+            let buyablePiece = BuyablePiece()
+            
+            buyablePiece.value = pieceValue
+            buyablePiece.basePrice = (pieceValue + 1) * 1000
+            buyablePiece.currentPrice = (pieceValue + 1) * 1000
+            
+            self.buyablePieces.append(buyablePiece)
+        }
+        
+        self.buyablePieces.append(WildcardBuyablePiece())
     }
 }

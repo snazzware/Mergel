@@ -137,6 +137,10 @@ class WildcardHexPiece : HexPiece {
         coder.encodeObject(self.isWild, forKey: "isWild")
     }
     
+    override func getPieceDescription() -> String {
+        return "Wildcard"
+    }
+    
     override func wasCollected() {
         let collectedPoints = 80313
         

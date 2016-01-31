@@ -50,51 +50,29 @@ class BankScene: SNZScene {
         
         // Create array of buyable button widgets to represent the pieces we have available
         var buyables: [BuyableButtonWidget] = Array()
-        var buyable: BuyableButtonWidget?
         
-        // Load up three pieces in to buyable array
-        for pieceValue in 0...2 {
-            buyable = BuyableButtonWidget(parentNode: self)
+        // Create buttons for buyables
+        for buyablePiece in GameState.instance!.buyablePieces {
+            let buyable = BuyableButtonWidget(parentNode: self)
             
-            let hexPiece = HexPiece()
-            hexPiece.value = pieceValue
+            let hexPiece = buyablePiece.createPiece()
             
-            buyable!.buyableSprite = hexPiece.createSprite()
+            buyable.buyableSprite = hexPiece.createSprite()
+            buyable.caption = hexPiece.getPieceDescription()
+            buyable.points = buyablePiece.currentPrice
             
-            buyable!.caption = hexPiece.getPieceDescription()
-            
-            buyable!.points = (pieceValue + 1) * 1000
-            
-            buyable!.bind("tap",{
+            buyable.bind("tap",{
                 SceneHelper.instance.gameScene.captureState()
-                SceneHelper.instance.gameScene.spendBankPoints(buyable!.points)
+                SceneHelper.instance.gameScene.spendBankPoints(buyable.points)
                 SceneHelper.instance.gameScene.setCurrentPiece(hexPiece)
+                buyablePiece.wasPurchased()
                 self.close()
             });
-            buyables.append(buyable!)
+            buyables.append(buyable)
         }
         
-        // Load up wildcard piece in to buyable array
-        buyable = BuyableButtonWidget(parentNode: self)
-        buyable!.caption = "Wildcard"
-        buyable!.points = 10000
-        
-        let hexPiece = WildcardHexPiece()
-        hexPiece.value = 0
-        
-        buyable!.buyableSprite = hexPiece.createSprite()
-        
-        buyable!.bind("tap",{
-            SceneHelper.instance.gameScene.captureState()
-            SceneHelper.instance.gameScene.spendBankPoints(buyable!.points)
-            SceneHelper.instance.gameScene.setCurrentPiece(hexPiece)
-            self.close()
-        });
-        buyables.append(buyable!)
-        
-        // Add the buyable array widgets
+        // Position and add the buyable button widgets
         let verticalStart:CGFloat = self.frame.height - 110
-        
         var horizontalOffset:CGFloat = 10
         var verticalOffset = verticalStart
         
