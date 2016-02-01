@@ -930,7 +930,7 @@ class GameScene: SKScene {
             self.burstMessage("New Map Unlocked\nTHE PIT")
         }
         
-        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Pit) && self.score >= 1000000) {
+        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Moat) && self.score >= 1000000) {
             GameState.instance!.unlockedLevels.append(.Moat)
             
             self.burstMessage("New Map Unlocked\nTHE MOAT")
