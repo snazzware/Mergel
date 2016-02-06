@@ -53,7 +53,7 @@ class BankScene: SNZScene {
         
         // Create buttons for buyables
         for buyablePiece in GameState.instance!.buyablePieces {
-            let buyable = BuyableButtonWidget(parentNode: self)
+            let buyable = BuyableButtonWidget()
             
             let hexPiece = buyablePiece.createPiece()
             
@@ -90,7 +90,7 @@ class BankScene: SNZScene {
         
         // Add the close button
         let closeButton = SNZButtonWidget(parentNode: self)
-        closeButton.position = CGPointMake(10,20)
+        closeButton.anchorPoint = CGPointMake(0,0)
         closeButton.caption = "Cancel"
         closeButton.bind("tap",{
             self.close()

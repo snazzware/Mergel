@@ -15,8 +15,8 @@ class BuyableButtonWidget : SNZButtonWidget {
     var points: Int = 0
     var buyableSprite: SKSpriteNode?
     
-    internal override init(parentNode: SKNode) {
-        super.init(parentNode: parentNode)
+    override init() {
+        super.init()
         
         self.size = CGSizeMake(230, 48)
     }

@@ -25,13 +25,13 @@ class LevelHelper: NSObject {
     let distribution = [50, 30, 18, 2]
     
     // Chance to generate a wildcard piece (matches any value)
-    let wildcardPercentage = 5
+    var wildcardPercentage = 5
     
     // Chance to generate a mobile piece (moves around board until trapped)
-    let mobilePercentage = 10
+    var mobilePercentage = 10
     
     // Chance to generate an enemy piece (moves around board until trapped)
-    let enemyPercentage = 20
+    var enemyPercentage = 20
     
     func getLevelHelperModeCaption(mode: LevelHelperMode) -> String {
         var caption = "Error"
@@ -62,6 +62,10 @@ class LevelHelper: NSObject {
     */
     func initLevel(hexMap: HexMap) {
         var targetCell: HexCell? = nil
+        
+        // Process options
+        self.mobilePercentage = GameState.instance!.getIntForKey("include_mobile_pieces", 1) == 1 ? 10 : 0
+        self.enemyPercentage = GameState.instance!.getIntForKey("include_enemy_pieces", 1) == 1 ? (10 + self.mobilePercentage) : 0
         
         // Clear the hexMap
         hexMap.clear()
@@ -134,14 +138,14 @@ class LevelHelper: NSObject {
         // Create a new hexPiece
         var hexPiece: HexPiece?
         
-        let specialRoll = Int(arc4random_uniform(100))
+        let specialRoll = Int(arc4random_uniform(100)) + 1
 
         if (specialRoll<self.wildcardPercentage) { // Generate wildcard
             hexPiece = WildcardHexPiece()
         } else {
             if (specialRoll<self.mobilePercentage) { // Generate mobile
                 hexPiece = MobileHexPiece()
-            } else if (specialRoll<self.enemyPercentage) { // Generate mobile
+            } else if (specialRoll<self.enemyPercentage) { // Generate enemy
                 hexPiece = EnemyHexPiece()
             } else {
                 hexPiece = HexPiece()

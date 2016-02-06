@@ -9,10 +9,6 @@
 import SpriteKit
 
 class HexPiece : NSObject, NSCoding {
-
-    // Last coordinates that this piece was placed on a hex map
-    var lastX = -1
-    var lastY = -1
     
     // Controls whether or not the player can take the piece from the board
     var isCollectible = false
@@ -31,8 +27,7 @@ class HexPiece : NSObject, NSCoding {
                 if (self._hexCell != newValue) {
                     self._hexCell!.hexPiece = nil
                 }
-                self.lastX = self._hexCell!.x
-                self.lastY = self._hexCell!.y
+                
                 self.added = HexMapHelper.instance.addedCounter++
             }
         }
@@ -74,8 +69,6 @@ class HexPiece : NSObject, NSCoding {
     
         self.originalValue = (decoder.decodeObjectForKey("originalValue") as? Int)!
         self.value = (decoder.decodeObjectForKey("value") as? Int)!
-        self.lastX = (decoder.decodeObjectForKey("lastX") as? Int)!
-        self.lastY = (decoder.decodeObjectForKey("lastY") as? Int)!
         
         let hexCell = decoder.decodeObjectForKey("hexCell")
         if (hexCell != nil) {
@@ -94,8 +87,6 @@ class HexPiece : NSObject, NSCoding {
     func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(self.originalValue, forKey: "originalValue")
         coder.encodeObject(self.value, forKey: "value")
-        coder.encodeObject(self.lastX, forKey: "lastX")
-        coder.encodeObject(self.lastY, forKey: "lastY")
         
         coder.encodeObject(self._hexCell, forKey: "hexCell")
         
@@ -113,14 +104,16 @@ class HexPiece : NSObject, NSCoding {
         return self.value
     }
     
+    func getStatsKey() -> String {
+        return "piece_value_\(self.value)"
+    }
+    
     func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
         var result = false
         
         if (self.value == hexPiece.value && self.value < HexMapHelper.instance.maxPieceValue) {
             result = true
         }
-        
-        print("\(self) canMergeWithPiece \(hexPiece) equals \(result)")
         
         return result
     }
@@ -137,6 +130,9 @@ class HexPiece : NSObject, NSCoding {
         self.value--
     }
     
+    /**
+        Called after piece has been placed on a hexmap and was merged with other piece(s)
+    */
     func wasPlacedWithMerge(mergeValue: Int = -1) -> HexPiece {
         // Update to the next value in sequence, or cap at maxPieceValue
         self.value = mergeValue + 1
@@ -151,10 +147,16 @@ class HexPiece : NSObject, NSCoding {
         return self
     }
     
+    /**
+        Called when piece was placed on a hexmap without merging with any other piece(s)
+    */
     func wasPlacedWithoutMerge() {
         self.skipTurnCounter = self.skipTurnsOnPlace
     }
     
+    /**
+        - Returns: Calculated point value based on the piece's value
+    */
     func getPointValue() -> Int {
         var points = 10
         
@@ -186,6 +188,9 @@ class HexPiece : NSObject, NSCoding {
         return points
     }
     
+    /**
+        - Returns: Description of this piece, suitable for display to player
+    */
     func getPieceDescription() -> String {
         var description = "Unknown"
         
@@ -231,6 +236,11 @@ class HexPiece : NSObject, NSCoding {
         return node
     }
     
+    /**
+        Allow piece to do something after player has taken a turn.
+    
+        - Returns: True if piece did something.
+    */
     func takeTurn() -> Bool {
         if (self.skipTurnCounter > 0) {
             self.skipTurnCounter--
@@ -242,14 +252,37 @@ class HexPiece : NSObject, NSCoding {
         return self.didTakeTurn
     }
     
+    /**
+        Called when piece is collected by player
+    */
     func wasCollected() {
         let scaleAction = SKAction.scaleTo(0.0, duration: 0.25)
         let collectSequence = SKAction.sequence([scaleAction, SKAction.removeFromParent()])
         
         // Animate the collection
         self.sprite!.runAction(collectSequence)
+    }
+    
+    /**
+        Called when piece is removed from the gameboard without collection / merge, i.e. by player using a RemovePiece.
+    */
+    func wasRemoved() {
+        let collectSequence = SKAction.sequence([
+            SKAction.scaleTo(1.2, duration: 0.08),
+            SKAction.scaleTo(0.8, duration: 0.08),
+            SKAction.scaleTo(1.0, duration: 0.08),
+            SKAction.scaleTo(0.8, duration: 0.08),
+            SKAction.scaleTo(0.9, duration: 0.08),
+            SKAction.scaleTo(0.7, duration: 0.08),
+            SKAction.scaleTo(0.8, duration: 0.08),
+            SKAction.scaleTo(0.5, duration: 0.08),
+            SKAction.scaleTo(0.2, duration: 0.08),
+            SKAction.scaleTo(0.0, duration: 0.08),
+            SKAction.removeFromParent()
+        ])
         
-        
+        // Animate the collection
+        self.sprite!.runAction(collectSequence)
     }
 
     

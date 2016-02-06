@@ -8,8 +8,9 @@
 
 import SpriteKit
 import CoreData
+import SNZSpriteKitUI
 
-class GameScene: SKScene {
+class GameScene: SNZScene {
     var gameboardLayer = SKNode()
     var guiLayer = SKNode()
     
@@ -21,8 +22,8 @@ class GameScene: SKScene {
     var stashPieceHome = CGPointMake(0,0)
     var stashBox: SKShapeNode?
     
-    var resetButton: SKLabelNode?
-    var undoButton: SKLabelNode?
+    var resetButton: SNZButtonWidget?
+    var undoButton: SNZButtonWidget?
     var gameOverLabel: SKLabelNode?
     
     var mergingPieces: [HexPiece] = Array()
@@ -84,7 +85,7 @@ class GameScene: SKScene {
     var highScoreLabel: SKLabelNode?
     
     override func didMoveToView(view: SKView) {        
-        
+        self.updateGuiPositions()
     }
     
     func initGame() {
@@ -108,6 +109,12 @@ class GameScene: SKScene {
         
         // Init guiLayer
         self.initGuiLayer()
+        
+        // Check to see if we are already out of open cells, and change to end game state if so
+        // e.g. in case state was saved during end game.
+        if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
+            GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
+        }
     }
     
     func renderFromState() {
@@ -146,10 +153,8 @@ class GameScene: SKScene {
         // Generate proxy sprite for current piece
         self.updateCurrentPieceSprite()
         
-        // Reset buyable prices
-        for buyablePiece in GameState.instance!.buyablePieces {
-            buyablePiece.resetPrice()
-        }
+        // Reset buyables
+        GameState.instance!.resetBuyablePieces()
         
         // Clear stash
         if (GameState.instance!.stashPiece != nil) {
@@ -171,6 +176,10 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (self.widgetTouchesBegan(touches, withEvent: event)) {
+            return
+        }
+        
         let location = touches.first?.locationInNode(self)
         
         if (location != nil) {
@@ -182,7 +191,10 @@ class GameScene: SKScene {
                     let y = node.userData!.valueForKey("hexMapPositionY") as! Int
                     
                     let cell = HexMapHelper.instance.hexMap!.cell(x,y)
-                    
+    
+                    if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
+                        currentPieceSprite!.position = node.position
+                    } else
                     if (cell!.willAccept(GameState.instance!.currentPiece!)) {
                         self.updateMergingPieces(cell!)
                         
@@ -196,6 +208,10 @@ class GameScene: SKScene {
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (self.widgetTouchesEnded(touches, withEvent: event)) {
+            return
+        }
+
         if (touches.first == nil) {
             return
         }
@@ -204,16 +220,7 @@ class GameScene: SKScene {
         
         if (location != nil) {
             
-            if (GameStateMachine.instance!.currentState is GameSceneGameOverState) {
-                let nodes = nodesAtPoint(location!)
-             
-                for node in nodes {
-                    if (node == self.resetButton) {
-                        self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
-                        break
-                    }
-                }
-            } else {
+            if (!(GameStateMachine.instance!.currentState is GameSceneGameOverState)) {
                 let nodes = nodesAtPoint(location!)
              
                 var handled = false
@@ -225,18 +232,13 @@ class GameScene: SKScene {
                             
                             handled = true
                         } else
+                        if (([self.scoreDisplay!,self.scoreLabel!,self.highScoreDisplay!,self.highScoreLabel!] as [SKNode]).contains(node)) {
+                            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
+
+                            handled = true
+                        }
                         if (node == self.bankPointBox) {
                             self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
-
-                            handled = true
-                        } else
-                        if (node == self.resetButton) {
-                            self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
-
-                            handled = true
-                        } else
-                        if (node == self.undoButton) {
-                            self.undoLastMove()
 
                             handled = true
                         } else
@@ -249,6 +251,31 @@ class GameScene: SKScene {
                             // Refresh merging pieces
                             self.updateMergingPieces(cell!)
                             
+                            // Do we have a Remove piece?
+                            if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
+                                if (cell!.hexPiece != nil) {
+                                    // Capture state for undo
+                                    self.captureState()
+                                   
+                                    // Let the piece know it was collected
+                                    cell!.hexPiece!.wasRemoved()
+                                    
+                                    // Clear out the hex cell
+                                    cell!.hexPiece = nil
+                                    
+                                    // Remove sprite
+                                    GameState.instance!.currentPiece!.sprite!.removeFromParent()
+                                    
+                                    // Generate new piece
+                                    self.generateCurrentPiece()
+                                    
+                                    // Update current piece sprite
+                                    self.updateCurrentPieceSprite()
+                                    
+                                    // End turn
+                                    self.turnDidEnd()
+                                }
+                            } else
                             // Does the cell contain a collectible hex piece?
                             if (cell!.hexPiece != nil && cell!.hexPiece!.isCollectible) {
                                 // Capture state for undo
@@ -292,10 +319,6 @@ class GameScene: SKScene {
                                     let moveAction = SKAction.moveTo(node.position, duration: 0.15)
                                     let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
                                     
-                                    print("touchesEnded processing merge")
-                                    print("\(GameState.instance!.currentPiece!)")
-                                    print("\(self.mergingPieces)")
-                                    
                                     // Remove merged pieces from board
                                     for hexPiece in self.mergingPieces {
                                         hexPiece.sprite!.runAction(moveSequence)
@@ -318,6 +341,9 @@ class GameScene: SKScene {
                                 
                                 // Place the piece
                                 cell!.hexPiece = GameState.instance!.currentPiece
+                                
+                                // Record statistic
+                                GameStats.instance!.incIntForKey(cell!.hexPiece!.getStatsKey())
                                 
                                 // Move sprite from GUI to gameboard layer
                                 GameState.instance!.currentPiece!.sprite!.moveToParent(self.gameboardLayer)
@@ -346,6 +372,7 @@ class GameScene: SKScene {
             }
         }
     }
+    
     
     func captureState() {
         self.undoState = NSKeyedArchiver.archivedDataWithRootObject(GameState.instance!)
@@ -379,6 +406,9 @@ class GameScene: SKScene {
         }
     }
     
+    /**
+        Called after player has placed a piece. Processes moves for mobile pieces, checks for end game state.
+    */
     func turnDidEnd() {
         // Test for game over
         if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
@@ -392,12 +422,8 @@ class GameScene: SKScene {
             }
             
             // Look for merges resulting from hexpiece turns
-            
-            print("calling getFirstMerge")
             var merges = HexMapHelper.instance.getFirstMerge();
             while (merges.count>0) {
-                print("turnDidEnd processing merge")
-                print("\(merges)")
                 var mergeFocus: HexPiece?
                 var highestAdded = -1
                 var maxValue = 0
@@ -463,6 +489,10 @@ class GameScene: SKScene {
         Handles touch move events. Updates animations for any pieces which would be merged if the player were to end the touch event in the cell being touched, if any.
     */
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        if (self.widgetTouchesMoved(touches, withEvent: event)) {
+            return
+        }
+        
         let location = touches.first?.locationInNode(self)
         
         if (location != nil) {
@@ -475,6 +505,9 @@ class GameScene: SKScene {
                     
                     let cell = HexMapHelper.instance.hexMap!.cell(x,y)
                     
+                    if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
+                        currentPieceSprite!.position = node.position
+                    } else
                     if (cell!.willAccept(GameState.instance!.currentPiece!)) {
                         self.updateMergingPieces(cell!)
                         
@@ -547,7 +580,6 @@ class GameScene: SKScene {
         // Add stash piece sprite, if any
         self.updateStashPieceSprite()
         
-        
         // Add bank label
         self.bankPointsLabel = self.createUILabel("Bank Points")
         self.bankPointsLabel!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 120)
@@ -564,17 +596,25 @@ class GameScene: SKScene {
         self.bankPointBox!.strokeColor = UIColor.clearColor()
         self.guiLayer.addChild(self.bankPointBox!)
         
-        
-        
         // Add reset button
-        self.resetButton = self.createUILabel("Start Over")
-        self.resetButton!.position = CGPoint(x: self.frame.width-150, y: 40)
-        self.guiLayer.addChild(self.resetButton!)
+        self.resetButton = SNZButtonWidget(parentNode: guiLayer)
+        self.resetButton!.autoSize = true
+        self.resetButton!.anchorPoint = CGPointMake(0,0)
+        self.resetButton!.caption = "Start Over"
+        self.resetButton!.bind("tap",{
+            self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+        })
+        self.addWidget(self.resetButton!)
         
         // Add undo button
-        self.undoButton = self.createUILabel("Undo")
-        self.undoButton!.position = CGPoint(x: self.frame.width-150, y: 140)
-        self.guiLayer.addChild(self.undoButton!)
+        self.undoButton = SNZButtonWidget(parentNode: guiLayer)
+        self.undoButton!.autoSize = true
+        self.undoButton!.anchorPoint = CGPointMake(1,0)
+        self.undoButton!.caption = "Undo"
+        self.undoButton!.bind("tap",{
+            self.undoLastMove()
+        })
+        self.addWidget(self.undoButton!)
         
         // Add score label
         self.scoreLabel = self.createUILabel("Score")
@@ -606,6 +646,9 @@ class GameScene: SKScene {
         
         // Set initial visibility of undo button
         self.undoButton!.hidden = (GameState.instance!.lastPlacedPiece == nil);
+        
+        // Render the widgets
+        self.initWidgets()
     }
     
     /**
@@ -673,42 +716,42 @@ class GameScene: SKScene {
                 self.highScoreLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 120)
                 self.highScoreDisplay!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 144)
             }
+                        
+            // Gameboard
+            self.updateGameboardLayerPosition()
             
-            
-            // Buttons
-            self.resetButton!.position = CGPoint(x: 20, y: 40)
-            
-            self.undoButton!.position = CGPoint(x: self.frame.width-100, y: 40)
+            // Widgets
+            self.updateWidgets()
         }
-        
-        // Gameboard
-        self.updateGameboardLayerPosition()
     }
     
     func updateGameboardLayerPosition() {
-        var scale: CGFloat = 1.0
-        var shiftY: CGFloat = 0
-        
-        let marginPortrait: CGFloat = 90
-        let marginLandscape: CGFloat = 60
-        
-        let gameboardWidth = HexMapHelper.instance.getRenderedWidth()
-        let gameboardHeight = HexMapHelper.instance.getRenderedHeight()
-        
-        // Calculate scaling factor to make gameboard fit screen
-        if (self.frame.width > self.frame.height) { // landscape
-            scale = self.frame.height / (gameboardHeight + marginLandscape)
-        } else { // portrait
-            scale = self.frame.width / (gameboardWidth + marginPortrait)
+        if (HexMapHelper.instance.hexMap != nil) {
+            var scale: CGFloat = 1.0
+            var shiftY: CGFloat = 0
             
-            shiftY = 30 // shift down a little bit if we are in portrait, so that we don't overlap UI elements.
+            let marginPortrait: CGFloat = 90
+            let marginLandscape: CGFloat = 60
+            
+            
+            let gameboardWidth = HexMapHelper.instance.getRenderedWidth()
+            let gameboardHeight = HexMapHelper.instance.getRenderedHeight()
+            
+            // Calculate scaling factor to make gameboard fit screen
+            if (self.frame.width > self.frame.height) { // landscape
+                scale = self.frame.height / (gameboardHeight + marginLandscape)
+            } else { // portrait
+                scale = self.frame.width / (gameboardWidth + marginPortrait)
+                
+                shiftY = 30 // shift down a little bit if we are in portrait, so that we don't overlap UI elements.
+            }
+            
+            // Scale gameboard layer
+            self.gameboardLayer.setScale(scale)
+            
+            // Reposition gameboard layer to center in view
+            self.gameboardLayer.position = CGPointMake(((self.frame.width) - (gameboardWidth * scale))/2, (((self.frame.height) - (gameboardHeight * scale))/2) - shiftY)
         }
-        
-        // Scale gameboard layer
-        self.gameboardLayer.setScale(scale)
-        
-        // Reposition gameboard layer to center in view
-        self.gameboardLayer.position = CGPointMake(((self.frame.width) - (gameboardWidth * scale))/2, (((self.frame.height) - (gameboardHeight * scale))/2) - shiftY)
     }
     
     /**
@@ -1010,7 +1053,7 @@ class GameScene: SKScene {
             
                 // Get cell position
                 if (boardCell != nil) {
-                    position = HexMapHelper.instance.hexMapToScreen(boardCell!.x, boardCell!.y)
+                    position = HexMapHelper.instance.hexMapToScreen(boardCell!.position)
                 }
             }
 

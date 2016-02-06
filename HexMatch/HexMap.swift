@@ -58,6 +58,11 @@ class HexMap : NSObject, NSCoding {
         self.isBlank = true
     }
     
+    /**
+        Scans cell array and generates a set of cells which are open.
+        
+        - Returns: Array of HexCells which are open (i.e. do not contain a piece)
+    */
     func getOpenCells() -> [HexCell] {
         var openCells:[HexCell] = Array();
         
@@ -72,6 +77,11 @@ class HexMap : NSObject, NSCoding {
         return openCells;
     }
     
+    /**
+        Scans cell array and generates a set of cells which are not open.
+        
+        - Returns: Array of HexCells which are not open (i.e. contain a piece)
+    */
     func getOccupiedCells() -> [HexCell] {
         var occupiedCells:[HexCell] = Array();
         
@@ -103,6 +113,15 @@ class HexMap : NSObject, NSCoding {
         }
     }
     
+    func cell(position: HCPosition) -> HexCell? {
+        return self.cell(position.x, position.y)
+    }
+    
+    /**
+        Generates a set of all hexcells in the HexMap's cells array.
+        
+        - Returns: Array of all HexCells
+    */
     func getAllCells() -> [HexCell] {
         var allCells:[HexCell] = Array();
         
@@ -115,6 +134,11 @@ class HexMap : NSObject, NSCoding {
         return allCells;
     }
     
+    /**
+        Generates a set of all hex cells in a given radius from a given center cell
+        
+        - Returns: Array of HexCells
+    */
     func cellsForRadius(center: HexCell, radius: Int) -> [HexCell] {
         if (radius == 0) {
             return [center]
@@ -124,83 +148,69 @@ class HexMap : NSObject, NSCoding {
         var cells = [HexCell]()
         
         // Middle
-        for i in (center.y-radius)...(center.y+radius) {
-            let targetCell = self.cell(center.x,i)
+        for i in (center.position.y-radius)...(center.position.y+radius) {
+            let targetCell = self.cell(center.position.x,i)
             if (targetCell != nil) {
                 cells.append(targetCell!)
             }
         }
         
+        let centerPosition = center.position
+        
         // East/West
-        var currentWest = center.northWest
-        var currentEast = center.northEast
-        var modifier = 0
-        
-        // top edge
-        if (currentWest == nil) {
-            currentWest = center.southWest
-            modifier = 1
-        }
-        
-        if (currentEast == nil) {
-            currentEast = center.southEast
-            modifier = 1
-        }
+        var currentWest = centerPosition.northWest
+        var currentEast = centerPosition.northEast
         
         for i in 1...radius {
-            for j in (0-(radius-i))...radius - modifier {
+            for j in (0-(radius-i))...radius {
                 var targetCell: HexCell?
 
-                if (currentWest != nil) {
-                    targetCell = self.cell(currentWest!.x,currentWest!.y-j)
-                    if (targetCell != nil) {
-                        cells.append(targetCell!)
-                    }
+                targetCell = self.cell(currentWest.x,currentWest.y-j)
+                if (targetCell != nil) {
+                    cells.append(targetCell!)
                 }
-                if (currentEast != nil) {
-                    targetCell = self.cell(currentEast!.x,currentEast!.y-j)
-                    if (targetCell != nil) {
-                        cells.append(targetCell!)
-                    }
+            
+                targetCell = self.cell(currentEast.x,currentEast.y-j)
+                if (targetCell != nil) {
+                    cells.append(targetCell!)
                 }
             }
-            
-            if (currentWest != nil) {
-                var nextWest = currentWest!.northWest
-                if (nextWest == nil) {
-                    nextWest = currentWest!.southWest
-                    modifier++
-                }
                                 
-                currentWest = nextWest
-            }
-            
-            if (currentEast != nil) {
-                var nextEast = currentEast!.northEast
-                if (nextEast == nil) {
-                    nextEast = currentEast!.southEast
-                    modifier++
-                }
-                
-                currentEast = nextEast
-            }
+            currentWest = currentWest.northWest
+            currentEast = currentEast.northEast
         }
         
         // Return cells, filtered to remove any nil values
         return cells.filter{ $0 != nil }
     }
     
+    /**
+        Generates a set of open Hex Cells in a given radius from a given center cell.
+        
+        - Returns: Array of HexCells
+    */
     func openCellsForRadius(center: HexCell, radius: Int) -> [HexCell] {
         return self.cellsForRadius(center, radius: radius).filter{
             ($0 != nil) && ($0 as HexCell).isOpen()
         }
     }
 
+    /**
+        Attempts to locate a random open hex cell near a given center cell, starting at radius 1 and searching outward
+        until a maximum of the HexMap's width divided by two, or the height divided by two, whichever is greater.
+        
+        - Returns: HexCell, or nil if none was found
+    */
     func getRandomCellNear(center: HexCell) -> HexCell? {
         var radius = 1;
         var randomCell: HexCell?
         
-        while (randomCell == nil && radius < Int(self.width)) {
+        let xRadius = Int(ceil(Double(self.width) / 2))
+        let yRadius = Int(ceil(Double(self.height) / 2))
+        
+        let maxRadius = xRadius > yRadius ? xRadius : yRadius
+        
+        while (randomCell == nil && radius < maxRadius) {
             let openCells = self.openCellsForRadius(center, radius: radius)
             
             if (openCells.count > 0) {

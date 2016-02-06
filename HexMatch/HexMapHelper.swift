@@ -88,6 +88,10 @@ class HexMapHelper: NSObject {
         return CGPointMake(CGFloat(x2+self.offsetLeft),CGFloat(y2+self.offsetBottom))
     }
     
+    func hexMapToScreen(position: HCPosition) -> CGPoint {
+        return self.hexMapToScreen(position.x, position.y)
+    }
+    
     func getRenderedWidth() -> CGFloat {
         return CGFloat(self.cellNodeHorizontalAdvance*(self.hexMap!.width)) + CGFloat(self.cellActualWidth - self.cellNodeHorizontalAdvance)
     }
@@ -241,20 +245,15 @@ class HexMapHelper: NSObject {
         if (occupiedCells != nil) {
             for occupiedCell in occupiedCells! {
                 if (occupiedCell.hexPiece != nil) {
-                    print("------------------------------------------------")
-                    print("getFirstMerge checking \(occupiedCell.hexPiece!)")
                     merged = occupiedCell.getWouldMergeWith(occupiedCell.hexPiece!)
                     
                     if (merged.count>0) {
                         merged.append(occupiedCell.hexPiece!)
-                        print("getFirstMerge for \(occupiedCell.hexPiece!) found \(merged)")
                         break;
                     }
                 }
             }
         }
-        
-        print("------------------------------------------------")
         
         return merged
     }

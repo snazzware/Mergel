@@ -26,6 +26,17 @@
 		804BA2351C55ACF600951162 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2331C55ACF600951162 /* Star@2x.png */; };
 		804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2341C55ACF600951162 /* Wildcard@2x.png */; };
 		804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2371C55AD2700951162 /* Blackstar@2x.png */; };
+		806B000C1C6158BB00CF4652 /* RemovePiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */; };
+		806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B000D1C61590500CF4652 /* RemovePiece.swift */; };
+		806B00121C615D5E00CF4652 /* RemoveBuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */; };
+		806B00181C62781600CF4652 /* checkboxChecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B00161C62781600CF4652 /* checkboxChecked@2x.png */; };
+		806B00191C62781600CF4652 /* checkboxUnchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B00171C62781600CF4652 /* checkboxUnchecked@2x.png */; };
+		806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */; };
+		806B001E1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B001C1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png */; };
+		806B00201C63C0F700CF4652 /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B001F1C63C0F700CF4652 /* GameStats.swift */; };
+		806B00221C63C63500CF4652 /* SpinLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00211C63C63500CF4652 /* SpinLock.swift */; };
+		806B00241C63DDA400CF4652 /* StatsScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00231C63DDA400CF4652 /* StatsScene.swift */; };
+		806B00271C65176E00CF4652 /* HCPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00261C65176E00CF4652 /* HCPosition.swift */; };
 		806CDB8E1C5AB81F00C10664 /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806CDB8D1C5AB81F00C10664 /* LevelScene.swift */; };
 		806CDB921C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */; };
 		806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */; };
@@ -46,7 +57,6 @@
 		8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA791C480A2300BA62A4 /* LevelHelper.swift */; };
 		8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */; };
 		80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F51C4C4B0500FAB024 /* GameState.swift */; };
-		80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */; };
 		80CA3AB01C5D687800E814DF /* BankScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AAF1C5D687800E814DF /* BankScene.swift */; };
 		80CA3AB31C5D6FF200E814DF /* BuyableButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */; };
 		80CA3AB51C5EB7E600E814DF /* BuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CA3AB41C5EB7E600E814DF /* BuyablePiece.swift */; };
@@ -114,6 +124,17 @@
 		804BA2331C55ACF600951162 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
 		804BA2341C55ACF600951162 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
 		804BA2371C55AD2700951162 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
+		806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RemovePiece@2x.png"; path = "../../../Art/Better Art/RemovePiece@2x.png"; sourceTree = "<group>"; };
+		806B000D1C61590500CF4652 /* RemovePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemovePiece.swift; sourceTree = "<group>"; };
+		806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveBuyablePiece.swift; sourceTree = "<group>"; };
+		806B00161C62781600CF4652 /* checkboxChecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkboxChecked@2x.png"; sourceTree = "<group>"; };
+		806B00171C62781600CF4652 /* checkboxUnchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkboxUnchecked@2x.png"; sourceTree = "<group>"; };
+		806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBean_WalkA@2x.png"; sourceTree = "<group>"; };
+		806B001C1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBean_WalkB@2x.png"; sourceTree = "<group>"; };
+		806B001F1C63C0F700CF4652 /* GameStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStats.swift; sourceTree = "<group>"; };
+		806B00211C63C63500CF4652 /* SpinLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpinLock.swift; sourceTree = "<group>"; };
+		806B00231C63DDA400CF4652 /* StatsScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatsScene.swift; sourceTree = "<group>"; };
+		806B00261C65176E00CF4652 /* HCPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HCPosition.swift; sourceTree = "<group>"; };
 		806CDB8D1C5AB81F00C10664 /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBeanSuper@2x.png"; sourceTree = "<group>"; };
 		806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CollectibleVanillaBean@2x.png"; sourceTree = "<group>"; };
@@ -132,7 +153,6 @@
 		8076BA791C480A2300BA62A4 /* LevelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LevelHelper.swift; path = HexMatch/LevelHelper.swift; sourceTree = "<group>"; };
 		8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellVoid@2x.png"; sourceTree = "<group>"; };
 		80B230F51C4C4B0500FAB024 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameState.swift; path = ../GameState.swift; sourceTree = "<group>"; };
-		80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPieceSeries.swift; sourceTree = "<group>"; };
 		80CA3AAF1C5D687800E814DF /* BankScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankScene.swift; sourceTree = "<group>"; };
 		80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyableButtonWidget.swift; sourceTree = "<group>"; };
 		80CA3AB41C5EB7E600E814DF /* BuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyablePiece.swift; sourceTree = "<group>"; };
@@ -199,6 +219,7 @@
 				8033FE5F1C4D9FA90035D1A7 /* WildcardHexPiece.swift */,
 				8025F9781C5806DC00A64494 /* MobileHexPiece.swift */,
 				80DCAF271C5959E300391276 /* EnemyHexPiece.swift */,
+				806B000D1C61590500CF4652 /* RemovePiece.swift */,
 			);
 			name = Pieces;
 			sourceTree = "<group>";
@@ -220,6 +241,37 @@
 			name = Backgrounds;
 			sourceTree = "<group>";
 		};
+		806B00151C6277E600CF4652 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				806B00161C62781600CF4652 /* checkboxChecked@2x.png */,
+				806B00171C62781600CF4652 /* checkboxUnchecked@2x.png */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		806B001A1C62DC8800CF4652 /* Vanilla Bean */ = {
+			isa = PBXGroup;
+			children = (
+				806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */,
+				806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */,
+				80DCAF2D1C595A4D00391276 /* EnemyVanillaBean@2x.png */,
+				806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */,
+				806B001C1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png */,
+			);
+			name = "Vanilla Bean";
+			sourceTree = "<group>";
+		};
+		806B00251C65175A00CF4652 /* HexMap */ = {
+			isa = PBXGroup;
+			children = (
+				80E9DAC41C4555D40028BC6D /* HexCell.swift */,
+				80E9DAC81C455F1D0028BC6D /* HexMap.swift */,
+				806B00261C65176E00CF4652 /* HCPosition.swift */,
+			);
+			name = HexMap;
+			sourceTree = "<group>";
+		};
 		806CDB971C5BCA6200C10664 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +285,7 @@
 		806CDBB41C5BF91400C10664 /* 3rdParty */ = {
 			isa = PBXGroup;
 			children = (
+				806B00211C63C63500CF4652 /* SpinLock.swift */,
 			);
 			name = 3rdParty;
 			sourceTree = "<group>";
@@ -244,12 +297,14 @@
 				8042BDAE1C5187E90029922B /* Backgrounds */,
 				8076BA6A1C473AC800BA62A4 /* Graphics */,
 			);
-			path = Assets;
+			name = Assets;
+			path = ../Assets;
 			sourceTree = "<group>";
 		};
 		8076BA6A1C473AC800BA62A4 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				806B00151C6277E600CF4652 /* UI */,
 				80DCAF291C595A4200391276 /* Enemies */,
 				8025F9801C580D8F00A64494 /* Eyes */,
 				8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */,
@@ -258,6 +313,7 @@
 				806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */,
 				804BA2341C55ACF600951162 /* Wildcard@2x.png */,
 				806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */,
+				806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */,
 				8042BDD01C51A3940029922B /* Pentagon@2x.png */,
 				8042BDC11C519AAE0029922B /* Rhombus@2x.png */,
 				8042BDD31C51A6110029922B /* Hexagon@2x.png */,
@@ -275,6 +331,7 @@
 				80E9DAA41C4446FA0028BC6D /* GameScene.swift */,
 				806CDB8D1C5AB81F00C10664 /* LevelScene.swift */,
 				80CA3AAF1C5D687800E814DF /* BankScene.swift */,
+				806B00231C63DDA400CF4652 /* StatsScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -291,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				80CA3AB41C5EB7E600E814DF /* BuyablePiece.swift */,
+				806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */,
 				80CA3AB71C5EBA9000E814DF /* WildcardBuyablePiece.swift */,
 			);
 			name = Buyable;
@@ -299,12 +357,10 @@
 		80DCAF291C595A4200391276 /* Enemies */ = {
 			isa = PBXGroup;
 			children = (
+				806B001A1C62DC8800CF4652 /* Vanilla Bean */,
 				80DCAF2A1C595A4D00391276 /* EnemyEyeLeft@2x.png */,
 				80DCAF2B1C595A4D00391276 /* EnemyEyeRight@2x.png */,
 				80DCAF2C1C595A4D00391276 /* EnemyMouthFrown@2x.png */,
-				80DCAF2D1C595A4D00391276 /* EnemyVanillaBean@2x.png */,
-				806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */,
-				806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */,
 			);
 			name = Enemies;
 			sourceTree = "<group>";
@@ -316,9 +372,7 @@
 				806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */,
 				806CDBB41C5BF91400C10664 /* 3rdParty */,
 				806CDB9A1C5BCA9800C10664 /* cc attribution.txt */,
-				8076BA691C473AC800BA62A4 /* Assets */,
 				8076BA671C47379300BA62A4 /* README.md */,
-				80E9DACF1C45DB3D0028BC6D /* Helpers */,
 				80E9DA9F1C4446FA0028BC6D /* HexMatch */,
 				80E9DAB81C4446FA0028BC6D /* HexMatchTests */,
 				80E9DA9E1C4446FA0028BC6D /* Products */,
@@ -337,20 +391,21 @@
 		80E9DA9F1C4446FA0028BC6D /* HexMatch */ = {
 			isa = PBXGroup;
 			children = (
+				806B00251C65175A00CF4652 /* HexMap */,
+				8076BA691C473AC800BA62A4 /* Assets */,
+				80E9DACF1C45DB3D0028BC6D /* Helpers */,
 				80CA3AB11C5D6FA200E814DF /* Widgets */,
 				80CA3AAE1C5D3BA700E814DF /* Scenes */,
 				8033FE611C4ED4260035D1A7 /* StateMachine */,
 				8033FE5E1C4D9F930035D1A7 /* Pieces */,
 				80B230F51C4C4B0500FAB024 /* GameState.swift */,
+				806B001F1C63C0F700CF4652 /* GameStats.swift */,
 				80E9DAA61C4446FA0028BC6D /* GameViewController.swift */,
 				80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */,
 				80E9DAA81C4446FA0028BC6D /* Main.storyboard */,
 				80E9DAAB1C4446FA0028BC6D /* Assets.xcassets */,
 				80E9DAAD1C4446FA0028BC6D /* LaunchScreen.storyboard */,
 				80E9DAB01C4446FA0028BC6D /* Info.plist */,
-				80E9DAC41C4555D40028BC6D /* HexCell.swift */,
-				80E9DAC81C455F1D0028BC6D /* HexMap.swift */,
-				80B230F91C4C864B00FAB024 /* HexPieceSeries.swift */,
 			);
 			path = HexMatch;
 			sourceTree = "<group>";
@@ -375,6 +430,7 @@
 				806CDB9F1C5BCD7200C10664 /* SoundHelper.swift */,
 			);
 			name = Helpers;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -465,12 +521,15 @@
 				8042BDC81C519FFB0029922B /* Triangle@2x.png in Resources */,
 				8042BDB41C5188FB0029922B /* tartan2014.png in Resources */,
 				804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */,
+				806B00191C62781600CF4652 /* checkboxUnchecked@2x.png in Resources */,
 				806CDBA31C5BD26A00C10664 /* shuffle.wav in Resources */,
 				806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */,
 				80DCAF301C595A4D00391276 /* EnemyMouthFrown@2x.png in Resources */,
+				806B00181C62781600CF4652 /* checkboxChecked@2x.png in Resources */,
 				80E9DAAF1C4446FA0028BC6D /* LaunchScreen.storyboard in Resources */,
 				80DCAF2E1C595A4D00391276 /* EnemyEyeLeft@2x.png in Resources */,
 				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
+				806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */,
 				806CDB991C5BCA7D00C10664 /* paperflip.wav in Resources */,
 				806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */,
 				804BA2351C55ACF600951162 /* Star@2x.png in Resources */,
@@ -485,9 +544,11 @@
 				806CDB9B1C5BCA9800C10664 /* cc attribution.txt in Resources */,
 				806CDC731C5D391000C10664 /* LICENSE in Resources */,
 				80E9DAAA1C4446FA0028BC6D /* Main.storyboard in Resources */,
+				806B001E1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png in Resources */,
 				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
 				8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */,
 				8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */,
+				806B000C1C6158BB00CF4652 /* RemovePiece@2x.png in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
 				806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */,
 				8025F97F1C580D8C00A64494 /* EyeClosed@2x.png in Resources */,
@@ -513,11 +574,14 @@
 				8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */,
 				8025F9791C5806DC00A64494 /* MobileHexPiece.swift in Sources */,
 				80E9DAA51C4446FA0028BC6D /* GameScene.swift in Sources */,
+				806B00201C63C0F700CF4652 /* GameStats.swift in Sources */,
 				80E9DAC51C4555D40028BC6D /* HexCell.swift in Sources */,
 				8033FE601C4D9FA90035D1A7 /* WildcardHexPiece.swift in Sources */,
 				80E9DAA71C4446FA0028BC6D /* GameViewController.swift in Sources */,
 				80CA3AB31C5D6FF200E814DF /* BuyableButtonWidget.swift in Sources */,
+				806B00241C63DDA400CF4652 /* StatsScene.swift in Sources */,
 				8076BA681C47379300BA62A4 /* README.md in Sources */,
+				806B00221C63C63500CF4652 /* SpinLock.swift in Sources */,
 				80DCAF281C5959E300391276 /* EnemyHexPiece.swift in Sources */,
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
 				8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */,
@@ -525,14 +589,16 @@
 				80CA3AB81C5EBA9000E814DF /* WildcardBuyablePiece.swift in Sources */,
 				8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */,
 				80CA3AB51C5EB7E600E814DF /* BuyablePiece.swift in Sources */,
-				80B230FA1C4C864B00FAB024 /* HexPieceSeries.swift in Sources */,
+				806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,
 				80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */,
 				806CDB8E1C5AB81F00C10664 /* LevelScene.swift in Sources */,
 				80CA3AB01C5D687800E814DF /* BankScene.swift in Sources */,
 				80E9DAD41C45DB9E0028BC6D /* HexMapHelper.swift in Sources */,
+				806B00121C615D5E00CF4652 /* RemoveBuyablePiece.swift in Sources */,
 				80E9DAA11C4446FA0028BC6D /* AppDelegate.swift in Sources */,
 				806CDBA01C5BCD7200C10664 /* SoundHelper.swift in Sources */,
+				806B00271C65176E00CF4652 /* HCPosition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -44,13 +44,11 @@ class GameSceneRestartState: GameSceneState {
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         let result = (stateClass is GameScenePlayingState.Type)
-        print("is valid next state for \(self) \(stateClass) = \(result)")
+        
         return result
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        print("restart")
-        
         // Start fresh copy of level
         self.scene.resetLevel()
         
@@ -64,12 +62,12 @@ class GameSceneRestartState: GameSceneState {
 class GameScenePlayingState: GameSceneState {
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        print("playing")
+        
     }
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
         let result = ((stateClass is GameSceneGameOverState.Type) || (stateClass is GameSceneRestartState.Type))
-        print("is valid next state for \(self) \(stateClass) = \(result)")
+        
         return result
     }
     
@@ -85,7 +83,7 @@ class GameSceneGameOverState: GameSceneState {
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        print("gameover")
+        
         self.scene.showGameOver()
     }
     

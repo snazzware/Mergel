@@ -1,14 +1,14 @@
 //
-//  WildcardBuyablePiece.swift
+//  RemoveBuyablePiece.swift
 //  HexMatch
 //
-//  Created by Josh McKee on 1/31/16.
+//  Created by Josh McKee on 2/2/16.
 //  Copyright © 2016 Josh McKee. All rights reserved.
 //
 
 import Foundation
 
-class WildcardBuyablePiece: BuyablePiece {
+class RemoveBuyablePiece: BuyablePiece {
  
     override init() {
         super.init()
@@ -22,7 +22,7 @@ class WildcardBuyablePiece: BuyablePiece {
     }
 
     override func createPiece() -> HexPiece {
-        let hexPiece = WildcardHexPiece()
+        let hexPiece = RemovePiece()
         
         hexPiece.value = self.value
         

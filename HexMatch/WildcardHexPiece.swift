@@ -114,7 +114,6 @@ class WildcardHexPiece : HexPiece {
     }
     
     required init(coder decoder: NSCoder) {
-        print("wildcard init with coder")
         super.init(coder: decoder)
     
         let isWild = decoder.decodeObjectForKey("isWild")
@@ -124,10 +123,7 @@ class WildcardHexPiece : HexPiece {
         
         // Enforce no-wildcards on board rule
         if (self.hexCell != nil) {
-            self.isWild = false
-            print("\(self) isWild = \(self.isWild)")
-        } else {
-            print("\(self) is not in a hex cell")
+            self.isWild = false            
         }
     }
     
@@ -139,6 +135,14 @@ class WildcardHexPiece : HexPiece {
     
     override func getPieceDescription() -> String {
         return "Wildcard"
+    }
+    
+    override func getStatsKey() -> String {
+        if (self.value == 999) {
+            return "piece_wildcard_999"
+        }
+        
+        return "piece_wildcard_0"
     }
     
     override func wasCollected() {

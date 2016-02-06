@@ -24,6 +24,7 @@ class GameState: NSObject, NSCoding {
     var unlockedLevels: [LevelHelperMode] = Array()
     var levelHelperMode: LevelHelperMode
     var buyablePieces: [BuyablePiece] = Array()
+    var optionsInt: [String:Int]
     
     override init() {
         self.highScore = 0
@@ -36,9 +37,22 @@ class GameState: NSObject, NSCoding {
         
         self.levelHelperMode = .Welcome
         
+        self.optionsInt = [
+            "include_mobile_pieces": 1,
+            "include_enemy_pieces": 1
+        ]
+        
         super.init()
         
-        self.initBuyablePieces()
+        self.resetBuyablePieces()
+    }
+
+    func getIntForKey(key: String, _ defaultValue: Int) -> Int {
+        return self.optionsInt[key] != nil ? self.optionsInt[key]! : defaultValue
+    }
+    
+    func setIntForKey(key: String, _ value: Int) {
+        self.optionsInt[key] = value
     }
 
     required convenience init?(coder decoder: NSCoder) {
@@ -92,7 +106,12 @@ class GameState: NSObject, NSCoding {
         if (buyablePieces != nil) {
             self.buyablePieces = buyablePieces as! [BuyablePiece]
         } else {
-            self.initBuyablePieces()
+            self.resetBuyablePieces()
+        }
+        
+        let optionsInt = decoder.decodeObjectForKey("optionsInt")
+        if (optionsInt != nil) {
+            self.optionsInt = optionsInt as! [String:Int]
         }
         
         // Ensure that we always have Welcome and Hexagon levels available
@@ -114,6 +133,8 @@ class GameState: NSObject, NSCoding {
         coder.encodeObject(self.lastPlacedPiece, forKey: "lastPlacedPiece")
         coder.encodeObject(self.stashPiece, forKey: "stashPiece")
         
+        coder.encodeObject(self.optionsInt, forKey: "optionsInt")
+        
         var levels:[Int] = Array()
         
         for unlockedLevel in self.unlockedLevels {
@@ -126,19 +147,21 @@ class GameState: NSObject, NSCoding {
         coder.encodeObject(self.buyablePieces, forKey: "buyablePieces")
     }
     
-    func initBuyablePieces() {
+    func resetBuyablePieces() {
         self.buyablePieces.removeAll()
         
         for pieceValue in 0...2 {
             let buyablePiece = BuyablePiece()
             
             buyablePiece.value = pieceValue
-            buyablePiece.basePrice = (pieceValue + 1) * 1000
-            buyablePiece.currentPrice = (pieceValue + 1) * 1000
+            buyablePiece.basePrice = (pieceValue + 1) * 500
+            buyablePiece.currentPrice = (pieceValue + 1) * 500
             
             self.buyablePieces.append(buyablePiece)
         }
         
         self.buyablePieces.append(WildcardBuyablePiece())
+        
+        self.buyablePieces.append(RemoveBuyablePiece())
     }
 }

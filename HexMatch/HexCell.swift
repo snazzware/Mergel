@@ -20,8 +20,9 @@ enum MergeStyle : String {
 }
 
 class HexCell : NSObject, NSCoding {
-    var x: Int
-    var y: Int
+    //var x: Int
+    //var y: Int
+    var position: HCPosition
     var isVoid = false
     
     var mergeStyle: MergeStyle = .Cluster
@@ -53,8 +54,7 @@ class HexCell : NSObject, NSCoding {
     }
     
     init(_ map: HexMap, _ x: Int, _ y: Int) {
-        self.x = x
-        self.y = y
+        self.position = HCPosition(x, y)
         self.hexMap = map
     }
     
@@ -77,58 +77,42 @@ class HexCell : NSObject, NSCoding {
     
     var north:HexCell? {
         get {
-            return self.hexMap.cell(x,y+1)
+            return self.hexMap.cell(self.position.north)
         }
     }
     
     var northEast:HexCell? {
         get {
-            if (x % 2 == 0) { // even
-                return self.hexMap.cell(x+1,y+1)
-            } else {
-                return self.hexMap.cell(x+1,y)
-            }
+            return self.hexMap.cell(self.position.northEast)
         }
     }
     
     var northWest:HexCell? {
         get {
-            if (x % 2 == 0) { // even
-                return self.hexMap.cell(x-1,y+1)
-            } else {
-                return self.hexMap.cell(x-1,y)
-            }
+            return self.hexMap.cell(self.position.northWest)
         }
     }
     
     var south:HexCell? {
         get {
-            return self.hexMap.cell(x,y-1)
+            return self.hexMap.cell(self.position.south)
         }
     }
     
     var southEast:HexCell? {
         get {
-            if (x % 2 == 0) { // even
-                return self.hexMap.cell(x+1,y)
-            } else {
-                return self.hexMap.cell(x+1,y-1)
-            }
+            return self.hexMap.cell(self.position.southEast)
         }
     }
     
     var southWest:HexCell? {
         get {
-            if (x % 2 == 0) { // even
-                return self.hexMap.cell(x-1,y)
-            } else {
-                return self.hexMap.cell(x-1,y-1)
-            }
+            return self.hexMap.cell(self.position.southWest)
         }
     }
     
     override var description: String {
-        return "HexCell \(x) \(y)"
+        return "HexCell \(self.position)"
     }
     
     /**
@@ -191,7 +175,6 @@ class HexCell : NSObject, NSCoding {
         
         // Loop over possible values for the piece being placed, starting with highest, until we find a merge
         while (samePieceCount<2 && value >= firstValue) {
-            print("getWouldMergeWith \(hexPiece) checking \(value)")
             merges.removeAll()
             
             samePieceCount = 0
@@ -244,9 +227,7 @@ class HexCell : NSObject, NSCoding {
                     hexPiece.rollbackValueForMergeTest()
                 }
             }
-        }
-        
-         print("getWouldMergeWith \(hexPiece) done")
+        }        
         
         return merges
     }
@@ -266,8 +247,8 @@ class HexCell : NSObject, NSCoding {
     }
     
     func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.x, forKey: "x")
-        coder.encodeObject(self.y, forKey: "y")
+        coder.encodeObject(self.position.x, forKey: "x")
+        coder.encodeObject(self.position.y, forKey: "y")
         coder.encodeObject(self.hexMap, forKey: "hexMap")
         
         coder.encodeObject(self.isVoid, forKey: "isVoid")
