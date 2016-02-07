@@ -244,87 +244,84 @@ class GameScene: SNZScene {
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (self.widgetTouchesEnded(touches, withEvent: event)) {
-            return
-        }
-
-        if (touches.first == nil) {
+        if (self.widgetTouchesEnded(touches, withEvent: event) || touches.first == nil) {
             return
         }
         
         let location = touches.first?.locationInNode(self)
         
-        if (location != nil) {
-            
-            if (!(GameStateMachine.instance!.currentState is GameSceneGameOverState)) {
-                let nodes = nodesAtPoint(location!)
-             
-                var handled = false
-             
-                for node in nodes {
-                    if (!handled) {
-                        if (node == self.stashBox) {
-                            self.swapStash()
-                            
-                            handled = true
-                        } else
-                        if (([self.scoreDisplay!,self.scoreLabel!,self.highScoreDisplay!,self.highScoreLabel!] as [SKNode]).contains(node)) {
-                            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
-
-                            handled = true
-                        }
-                        if (node == self.bankPointBox) {
-                            self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
-
-                            handled = true
-                        } else
-                        if (node.name == "hexMapCell") {
-                            let x = node.userData!.valueForKey("hexMapPositionX") as! Int
-                            let y = node.userData!.valueForKey("hexMapPositionY") as! Int
-                            
-                            let cell = HexMapHelper.instance.hexMap!.cell(x,y)
-                            
-                            // Refresh merging pieces
-                            self.updateMergingPieces(cell!)
-                            
-                            // Do we have a Remove piece?
-                            if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
-                                // Capture state for undo
-                                self.captureState()
-                                
-                                // Process the removal
-                                self.playRemovePiece(cell!)
-                            } else
-                            // Does the cell contain a collectible hex piece?
-                            if (cell!.hexPiece != nil && cell!.hexPiece!.isCollectible) {
-                                // Capture state for undo
-                                self.captureState()
-                                
-                                // Let the piece know it was collected
-                                cell!.hexPiece!.wasCollected()
-                                
-                                // Clear out the hex cell
-                                cell!.hexPiece = nil
-                            } else
-                            // Will the target cell accept our current piece, and will the piece either allow placement
-                            // without a merge, or if not, do we have a merge?
-                            if (cell!.willAccept(GameState.instance!.currentPiece!) && (GameState.instance!.currentPiece!.canPlaceWithoutMerge() || self.mergingPieces.count>0)) {
-                                // Capture state for undo
-                                self.captureState()
-                            
-                                // Store last placed piece, prior to any merging
-                                GameState.instance!.lastPlacedPiece = GameState.instance!.currentPiece
-            
-                                // Place the current piece
-                                self.placeCurrentPiece(cell!)
-                            }
-                            
-                            handled = true
-                        }
-                    }
+        if ((location != nil) && (GameStateMachine.instance!.currentState is GameScenePlayingState)) {
+            for node in self.nodesAtPoint(location!) {
+                if (self.nodeWasTouched(node)) {
+                    break;
                 }
             }
         }
+    }
+    
+    func nodeWasTouched(node: SKNode) -> Bool {
+        var handled = false
+        
+        if (node == self.stashBox) {
+            self.swapStash()
+            
+            handled = true
+        } else
+        if (([self.scoreDisplay!,self.scoreLabel!,self.highScoreDisplay!,self.highScoreLabel!] as [SKNode]).contains(node)) {
+            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
+
+            handled = true
+        }
+        if (node == self.bankPointBox) {
+            self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+
+            handled = true
+        } else
+        if (node.name == "hexMapCell") {
+            let x = node.userData!.valueForKey("hexMapPositionX") as! Int
+            let y = node.userData!.valueForKey("hexMapPositionY") as! Int
+            
+            let cell = HexMapHelper.instance.hexMap!.cell(x,y)
+            
+            // Refresh merging pieces
+            self.updateMergingPieces(cell!)
+            
+            // Do we have a Remove piece?
+            if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
+                // Capture state for undo
+                self.captureState()
+                
+                // Process the removal
+                self.playRemovePiece(cell!)
+            } else
+            // Does the cell contain a collectible hex piece?
+            if (cell!.hexPiece != nil && cell!.hexPiece!.isCollectible) {
+                // Capture state for undo
+                self.captureState()
+                
+                // Let the piece know it was collected
+                cell!.hexPiece!.wasCollected()
+                
+                // Clear out the hex cell
+                cell!.hexPiece = nil
+            } else
+            // Will the target cell accept our current piece, and will the piece either allow placement
+            // without a merge, or if not, do we have a merge?
+            if (cell!.willAccept(GameState.instance!.currentPiece!) && (GameState.instance!.currentPiece!.canPlaceWithoutMerge() || self.mergingPieces.count>0)) {
+                // Capture state for undo
+                self.captureState()
+            
+                // Store last placed piece, prior to any merging
+                GameState.instance!.lastPlacedPiece = GameState.instance!.currentPiece
+
+                // Place the current piece
+                self.placeCurrentPiece(cell!)
+            }
+            
+            handled = true
+        }
+        
+        return handled
     }
     
     func handleMerge(cell: HexCell) {
@@ -460,68 +457,67 @@ class GameScene: SNZScene {
         Called after player has placed a piece. Processes moves for mobile pieces, checks for end game state.
     */
     func turnDidEnd() {
+        let occupiedCells = HexMapHelper.instance.hexMap!.getOccupiedCells()
+        
+        // Give each piece a turn
+        for occupiedCell in occupiedCells {
+            occupiedCell.hexPiece?.takeTurn()
+        }
+        
+        // Look for merges resulting from hexpiece turns
+        var merges = HexMapHelper.instance.getFirstMerge();
+        while (merges.count>0) {
+            var mergeFocus: HexPiece?
+            var highestAdded = -1
+            var maxValue = 0
+            
+            for merged in merges {
+                if (merged.added > highestAdded) {
+                    highestAdded = merged.added
+                    mergeFocus = merged
+                }
+                if (merged.value > maxValue) {
+                    maxValue = merged.value
+                }
+            }
+            
+            // Create merge animation
+            let moveAction = SKAction.moveTo(mergeFocus!.sprite!.position, duration: 0.15)
+            let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
+            
+            var actualMerged: [HexPiece] = Array()
+            
+            // Remove merged pieces from board
+            for merged in merges {
+                if (merged != mergeFocus) {
+                    actualMerged.append(merged)
+                    merged.sprite!.runAction(moveSequence)
+                    merged.hexCell?.hexPiece = nil
+                }
+            }
+            
+            // add pieces which were not the merge focus to our list of pieces merged on the last turn
+            self.mergedPieces += actualMerged
+            
+            // let merge focus know it was merged
+            mergeFocus = mergeFocus!.wasPlacedWithMerge(maxValue)
+            
+            // Award points
+            self.awardPointsForPiece(mergeFocus!)
+            self.scrollPoints(self.lastPointsAwarded, position: mergeFocus!.sprite!.position)
+        
+            // Get next merge
+            merges = HexMapHelper.instance.getFirstMerge();
+        }
+        
+        // Stick a proxy for the current piece on to the game board in an empty cell.
+        // Calling this after all other pieces have taken their turn, to avoid doubling up
+        // in a cell where a mobile has recently moved in.
+        self.updateCurrentPieceSprite()
+            
         // Test for game over
         if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
             GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
-        } else {
-            let occupiedCells = HexMapHelper.instance.hexMap!.getOccupiedCells()
-            
-            // Give each piece a turn
-            for occupiedCell in occupiedCells {
-                occupiedCell.hexPiece?.takeTurn()
-            }
-            
-            // Look for merges resulting from hexpiece turns
-            var merges = HexMapHelper.instance.getFirstMerge();
-            while (merges.count>0) {
-                var mergeFocus: HexPiece?
-                var highestAdded = -1
-                var maxValue = 0
-                
-                for merged in merges {
-                    if (merged.added > highestAdded) {
-                        highestAdded = merged.added
-                        mergeFocus = merged
-                    }
-                    if (merged.value > maxValue) {
-                        maxValue = merged.value
-                    }
-                }
-                
-                // Create merge animation
-                let moveAction = SKAction.moveTo(mergeFocus!.sprite!.position, duration: 0.15)
-                let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
-                
-                var actualMerged: [HexPiece] = Array()
-                
-                // Remove merged pieces from board
-                for merged in merges {
-                    if (merged != mergeFocus) {
-                        actualMerged.append(merged)
-                        merged.sprite!.runAction(moveSequence)
-                        merged.hexCell?.hexPiece = nil
-                    }
-                }
-                
-                // add pieces which were not the merge focus to our list of pieces merged on the last turn
-                self.mergedPieces += actualMerged
-                
-                // let merge focus know it was merged
-                mergeFocus = mergeFocus!.wasPlacedWithMerge(maxValue)
-                
-                // Award points
-                self.awardPointsForPiece(mergeFocus!)
-                self.scrollPoints(self.lastPointsAwarded, position: mergeFocus!.sprite!.position)
-            
-                // Get next merge
-                merges = HexMapHelper.instance.getFirstMerge();
-            }
-            
-            // Stick a proxy for the current piece on to the game board in an empty cell.
-            // Calling this after all other pieces have taken their turn, to avoid doubling up
-            // in a cell where a mobile has recently moved in.
-            self.updateCurrentPieceSprite()
-            
         }
     }
     
