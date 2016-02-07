@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "51B7F12DD45EF431843EDF997FE671436D953FF8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "51B7F12DD45EF431843EDF997FE671436D953FF8" : 0,
+    "27CD181793DFE3DA0DE19F78F0840328C8A15F12" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EB3FFF30-E75D-4772-9F14-AEC06A4F951C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "51B7F12DD45EF431843EDF997FE671436D953FF8" : "HexMatch\/",
+    "27CD181793DFE3DA0DE19F78F0840328C8A15F12" : "HexMatch\/HexMatch\/MKOutlinedLabelNode\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "HexMatch",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "HexMatch.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/marioklaver\/MKOutlinedLabelNode.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "27CD181793DFE3DA0DE19F78F0840328C8A15F12"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/snazzware\/HexMatch.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "51B7F12DD45EF431843EDF997FE671436D953FF8"
+    }
+  ]
+}
