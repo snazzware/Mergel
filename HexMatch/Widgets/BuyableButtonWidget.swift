@@ -21,8 +21,8 @@ class BuyableButtonWidget : SNZButtonWidget {
         self.size = CGSizeMake(230, 48)
     }
     
-    override func show() {
-        super.show()
+    override func render() {
+        super.render()
         
         let pointsLabel = SKLabelNode(fontNamed: "Avenir-Black")
         pointsLabel.text = "\(self.points) pts"

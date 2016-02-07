@@ -83,7 +83,7 @@ class LevelScene: SNZScene {
         self.addWidget(closeButton)
         
         // Render the widgets
-        self.initWidgets()
+        self.renderWidgets()
     }
     
     func captureSettings() {

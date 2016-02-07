@@ -658,7 +658,7 @@ class GameScene: SNZScene {
         self.undoButton!.hidden = (GameState.instance!.lastPlacedPiece == nil);
         
         // Render the widgets
-        self.initWidgets()
+        self.renderWidgets()
     }
     
     /**

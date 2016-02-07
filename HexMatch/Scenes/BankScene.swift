@@ -98,7 +98,7 @@ class BankScene: SNZScene {
         self.addWidget(closeButton)
         
         // Render the widgets
-        self.initWidgets()
+        self.renderWidgets()
     }
     
 }
