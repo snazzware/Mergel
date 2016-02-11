@@ -11,53 +11,82 @@ import SpriteKit
 import SNZSpriteKitUI
 
 class StatsScene: SNZScene {
-   
-    override func didMoveToView(view: SKView) {        
+    
+    override func didMoveToView(view: SKView) {
+        super.didMoveToView(view)
+        
         self.updateGui()
     }
     
     func updateGui() {        
         self.removeAllChildren()
         self.widgets.removeAll()
-    
+        
         // Set background
         self.backgroundColor = UIColor(red: 0x69/255, green: 0x65/255, blue: 0x6f/255, alpha: 1.0)
         
-        // Statistics
-        let caption = SKLabelNode(fontNamed: "Avenir-Black")
-        caption.text = "Statistics"
-        caption.fontColor = UIColor.whiteColor()
-        caption.fontSize = 24
-        caption.horizontalAlignmentMode = .Center
-        caption.verticalAlignmentMode = .Center
-        caption.position = CGPointMake(self.size.width / 2, self.size.height - 20)
-        caption.ignoreTouches = true
-        self.addChild(caption)
+        // Create stats frame
+        let statsFrame = SNZScrollableFrame()
+        statsFrame.size = CGSizeMake(self.frame.width - 40, self.frame.height - 200)
+        statsFrame.position = CGPointMake(20, 100)
+        self.addWidget(statsFrame)
         
-        var verticalOffset = self.frame.height - 100
+        // Create primary header
+        let header = SNZSceneHeaderWidget()
+        header.caption = "Scores and Statistics"
+        self.addWidget(header)
+        
+        var verticalOffset:CGFloat = -20
+        
+        var statGroups = [String: [String: String]]()
         
         for (key, description) in GameStats.instance!.statNames {
+            let toks = description.componentsSeparatedByString("/")
+            if (toks.count >= 2) {
+                if (statGroups[toks[0]] == nil) {
+                    statGroups[toks[0]] = [String: String]()
+                }
+                
+                statGroups[toks[0]]![key] = toks[1]
+            }
+        }
+        
+        for (description, keys) in statGroups {
             let label = SKLabelNode(fontNamed: "Avenir-Black")
             label.text = description
-            label.fontColor = UIColor.whiteColor()
+            label.fontColor = UIColor.blackColor()
             label.fontSize = 18
             label.horizontalAlignmentMode = .Left
             label.verticalAlignmentMode = .Center
             label.position = CGPointMake(10, verticalOffset)
             label.ignoreTouches = true
-            self.addChild(label)
-            
-            let value = SKLabelNode(fontNamed: "Avenir-Black")
-            value.text = "\(GameStats.instance!.getIntForKey(key, 0))"
-            value.fontColor = UIColor.whiteColor()
-            value.fontSize = 18
-            value.horizontalAlignmentMode = .Right
-            value.verticalAlignmentMode = .Center
-            value.position = CGPointMake(self.frame.width-10, verticalOffset)
-            value.ignoreTouches = true
-            self.addChild(value)
+            statsFrame.content.addChild(label)
             
             verticalOffset -= 30
+            
+            for (key, caption) in keys {
+                let label = SKLabelNode(fontNamed: "Avenir-Black")
+                label.text = caption
+                label.fontColor = UIColor.blackColor()
+                label.fontSize = 14
+                label.horizontalAlignmentMode = .Left
+                label.verticalAlignmentMode = .Center
+                label.position = CGPointMake(10, verticalOffset)
+                label.ignoreTouches = true
+                statsFrame.content.addChild(label)
+                
+                let value = SKLabelNode(fontNamed: "Avenir-Black")
+                value.text = "\(GameStats.instance!.getIntForKey(key, 0))"
+                value.fontColor = UIColor.blackColor()
+                value.fontSize = 14
+                value.horizontalAlignmentMode = .Right
+                value.verticalAlignmentMode = .Center
+                value.position = CGPointMake(statsFrame.size.width-10, verticalOffset)
+                value.ignoreTouches = true
+                statsFrame.content.addChild(value)
+            
+                verticalOffset -= 30
+            }
         }
         
         // Add the close button
