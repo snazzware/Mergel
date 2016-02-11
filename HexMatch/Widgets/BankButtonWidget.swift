@@ -7,3 +7,40 @@
 //
 
 import Foundation
+import SpriteKit
+import SNZSpriteKitUI
+
+class BankButtonWidget : SNZButtonWidget {
+
+    var points: Int = 0
+    var buyableSprite: SKSpriteNode?
+    
+    override init() {
+        super.init()
+        
+        self.size = CGSizeMake(230, 48)
+    }
+    
+    override func render() {
+        super.render()
+        
+        // position & add icon
+        let bankIcon = SKSpriteNode(texture: SKTexture(imageNamed: "savings1"))
+        bankIcon.setScale(0.8)
+        bankIcon.position = CGPointMake(self.size.width - 32,self.size.height - 32)
+        bankIcon.ignoreTouches = true
+        self.sprite!.addChild(bankIcon)
+        
+        // position & add caption
+        let bankSpendCaption = SKLabelNode(text: "Tap to spend")
+        bankSpendCaption.fontColor = UIColor(red: 0xf7/255, green: 0xef/255, blue: 0xed/255, alpha: 0.8)
+        bankSpendCaption.fontSize = 12
+        bankSpendCaption.zPosition = 20
+        bankSpendCaption.fontName = "Avenir-Black"
+        bankSpendCaption.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        bankSpendCaption.position = CGPoint(x: SNZSpriteKitUITheme.instance.uiInnerMargins.left, y: SNZSpriteKitUITheme.instance.uiInnerMargins.bottom)
+        bankSpendCaption.ignoreTouches = true
+        self.sprite!.addChild(bankSpendCaption)
+    }
+
+}
