@@ -16,11 +16,9 @@
 		8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */; };
 		8033FE651C4ED4ED0035D1A7 /* GameSceneState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */; };
 		8042BDB41C5188FB0029922B /* tartan2014.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDB31C5188FB0029922B /* tartan2014.png */; };
-		8042BDBF1C5197B10029922B /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDBD1C5197B10029922B /* HexCell@2x.png */; };
 		8042BDC31C519AAE0029922B /* Rhombus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC11C519AAE0029922B /* Rhombus@2x.png */; };
 		8042BDC81C519FFB0029922B /* Triangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC71C519FFB0029922B /* Triangle@2x.png */; };
 		8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC91C51A02B0029922B /* Square@2x.png */; };
-		8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDCD1C51A1460029922B /* HexCellShadow@2x.png */; };
 		8042BDD21C51A3940029922B /* Pentagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDD01C51A3940029922B /* Pentagon@2x.png */; };
 		8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDD31C51A6110029922B /* Hexagon@2x.png */; };
 		804BA2351C55ACF600951162 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2331C55ACF600951162 /* Star@2x.png */; };
@@ -29,8 +27,6 @@
 		806B000C1C6158BB00CF4652 /* RemovePiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */; };
 		806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B000D1C61590500CF4652 /* RemovePiece.swift */; };
 		806B00121C615D5E00CF4652 /* RemoveBuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */; };
-		806B00181C62781600CF4652 /* checkboxChecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B00161C62781600CF4652 /* checkboxChecked@2x.png */; };
-		806B00191C62781600CF4652 /* checkboxUnchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B00171C62781600CF4652 /* checkboxUnchecked@2x.png */; };
 		806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */; };
 		806B001E1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B001C1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png */; };
 		806B00201C63C0F700CF4652 /* GameStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B001F1C63C0F700CF4652 /* GameStats.swift */; };
@@ -52,6 +48,21 @@
 		806CDC701C5C21EA00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
 		806CDC711C5C21EA00C10664 /* SNZSpriteKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		806CDC731C5D391000C10664 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 806CDC721C5D391000C10664 /* LICENSE */; };
+		8075D1201C68FFAD003DC454 /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D11E1C68FFAD003DC454 /* HexCell@2x.png */; };
+		8075D1211C68FFAD003DC454 /* HexCellShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */; };
+		8075D1251C696045003DC454 /* SWIPE Whoosh Double 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1241C696045003DC454 /* SWIPE Whoosh Double 01.wav */; };
+		8075D1271C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1261C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav */; };
+		8075D1291C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1281C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav */; };
+		8075D12B1C6960EE003DC454 /* NEGATIVE Failure Descending Chime 05.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D12A1C6960EE003DC454 /* NEGATIVE Failure Descending Chime 05.wav */; };
+		8075D12D1C6963A6003DC454 /* DM-CGS-19.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D12C1C6963A6003DC454 /* DM-CGS-19.wav */; };
+		8075D12F1C6963E6003DC454 /* DM-CGS-44.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D12E1C6963E6003DC454 /* DM-CGS-44.wav */; };
+		8075D1311C6A5038003DC454 /* DM-CGS-48.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1301C6A5038003DC454 /* DM-CGS-48.wav */; };
+		8075D1361C6A598C003DC454 /* menu51@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1331C6A598C003DC454 /* menu51@2x.png */; };
+		8075D1371C6A598C003DC454 /* savings1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1341C6A598C003DC454 /* savings1@2x.png */; };
+		8075D1381C6A598C003DC454 /* curve4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1351C6A598C003DC454 /* curve4@2x.png */; };
+		8075D13C1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8075D13B1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas */; };
+		8075D13E1C6AAB67003DC454 /* BankButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8075D13D1C6AAB67003DC454 /* BankButtonWidget.swift */; };
+		8075D1401C6BD6D0003DC454 /* SNZGenerics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8075D13F1C6BD6D0003DC454 /* SNZGenerics.swift */; };
 		8076BA681C47379300BA62A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
 		8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA751C48017600BA62A4 /* HexPiece.swift */; };
 		8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA791C480A2300BA62A4 /* LevelHelper.swift */; };
@@ -114,11 +125,9 @@
 		8033FE621C4ED4430035D1A7 /* GameStateMachine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStateMachine.swift; sourceTree = "<group>"; };
 		8033FE641C4ED4ED0035D1A7 /* GameSceneState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSceneState.swift; sourceTree = "<group>"; };
 		8042BDB31C5188FB0029922B /* tartan2014.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tartan2014.png; sourceTree = "<group>"; };
-		8042BDBD1C5197B10029922B /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
 		8042BDC11C519AAE0029922B /* Rhombus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rhombus@2x.png"; sourceTree = "<group>"; };
 		8042BDC71C519FFB0029922B /* Triangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Triangle@2x.png"; sourceTree = "<group>"; };
 		8042BDC91C51A02B0029922B /* Square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Square@2x.png"; sourceTree = "<group>"; };
-		8042BDCD1C51A1460029922B /* HexCellShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellShadow@2x.png"; sourceTree = "<group>"; };
 		8042BDD01C51A3940029922B /* Pentagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pentagon@2x.png"; sourceTree = "<group>"; };
 		8042BDD31C51A6110029922B /* Hexagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hexagon@2x.png"; sourceTree = "<group>"; };
 		804BA2331C55ACF600951162 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
@@ -127,8 +136,6 @@
 		806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RemovePiece@2x.png"; path = "../../../../Art/Better Art/RemovePiece@2x.png"; sourceTree = "<group>"; };
 		806B000D1C61590500CF4652 /* RemovePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemovePiece.swift; sourceTree = "<group>"; };
 		806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveBuyablePiece.swift; sourceTree = "<group>"; };
-		806B00161C62781600CF4652 /* checkboxChecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkboxChecked@2x.png"; sourceTree = "<group>"; };
-		806B00171C62781600CF4652 /* checkboxUnchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkboxUnchecked@2x.png"; sourceTree = "<group>"; };
 		806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBean_WalkA@2x.png"; sourceTree = "<group>"; };
 		806B001C1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBean_WalkB@2x.png"; sourceTree = "<group>"; };
 		806B001F1C63C0F700CF4652 /* GameStats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStats.swift; sourceTree = "<group>"; };
@@ -148,6 +155,21 @@
 		806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GoldStar@2x.png"; sourceTree = "<group>"; };
 		806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SNZSpriteKitUI.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/HexMatch-fxxqmifrldqznyasncrfnyohtmus/Build/Products/Debug-iphoneos/SNZSpriteKitUI.framework"; sourceTree = "<group>"; };
 		806CDC721C5D391000C10664 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		8075D11E1C68FFAD003DC454 /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
+		8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellShadow@2x.png"; sourceTree = "<group>"; };
+		8075D1241C696045003DC454 /* SWIPE Whoosh Double 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "SWIPE Whoosh Double 01.wav"; sourceTree = "<group>"; };
+		8075D1261C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "SUCCESS CHEERS Win Cute Vocal Chime 03.wav"; sourceTree = "<group>"; };
+		8075D1281C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "SUCCESS PICKUP Collect Chime 01.wav"; sourceTree = "<group>"; };
+		8075D12A1C6960EE003DC454 /* NEGATIVE Failure Descending Chime 05.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "NEGATIVE Failure Descending Chime 05.wav"; sourceTree = "<group>"; };
+		8075D12C1C6963A6003DC454 /* DM-CGS-19.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "DM-CGS-19.wav"; sourceTree = "<group>"; };
+		8075D12E1C6963E6003DC454 /* DM-CGS-44.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "DM-CGS-44.wav"; sourceTree = "<group>"; };
+		8075D1301C6A5038003DC454 /* DM-CGS-48.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "DM-CGS-48.wav"; sourceTree = "<group>"; };
+		8075D1331C6A598C003DC454 /* menu51@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu51@2x.png"; sourceTree = "<group>"; };
+		8075D1341C6A598C003DC454 /* savings1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "savings1@2x.png"; sourceTree = "<group>"; };
+		8075D1351C6A598C003DC454 /* curve4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "curve4@2x.png"; sourceTree = "<group>"; };
+		8075D13B1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = SNZSpriteKitUIGraphics.atlas; path = ../../../../SNZSpriteKitUI/SNZSpriteKitUI/SNZSpriteKitUIGraphics.atlas; sourceTree = "<group>"; };
+		8075D13D1C6AAB67003DC454 /* BankButtonWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankButtonWidget.swift; sourceTree = "<group>"; };
+		8075D13F1C6BD6D0003DC454 /* SNZGenerics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SNZGenerics.swift; path = HexMatch/SNZGenerics.swift; sourceTree = "<group>"; };
 		8076BA671C47379300BA62A4 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8076BA751C48017600BA62A4 /* HexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPiece.swift; sourceTree = "<group>"; };
 		8076BA791C480A2300BA62A4 /* LevelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelHelper.swift; sourceTree = "<group>"; };
@@ -241,15 +263,6 @@
 			path = Backgrounds;
 			sourceTree = "<group>";
 		};
-		806B00151C6277E600CF4652 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				806B00161C62781600CF4652 /* checkboxChecked@2x.png */,
-				806B00171C62781600CF4652 /* checkboxUnchecked@2x.png */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		806B001A1C62DC8800CF4652 /* Vanilla Bean */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,8 +288,15 @@
 		806CDB971C5BCA6200C10664 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				8075D12C1C6963A6003DC454 /* DM-CGS-19.wav */,
+				8075D12E1C6963E6003DC454 /* DM-CGS-44.wav */,
+				8075D1301C6A5038003DC454 /* DM-CGS-48.wav */,
 				806CDB981C5BCA7D00C10664 /* paperflip.wav */,
 				806CDBA21C5BD26A00C10664 /* pop_9.wav */,
+				8075D1261C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav */,
+				8075D1241C696045003DC454 /* SWIPE Whoosh Double 01.wav */,
+				8075D1281C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav */,
+				8075D12A1C6960EE003DC454 /* NEGATIVE Failure Descending Chime 05.wav */,
 				806CDBA11C5BD26A00C10664 /* shuffle.wav */,
 			);
 			path = Sounds;
@@ -288,6 +308,16 @@
 				806B00211C63C63500CF4652 /* SpinLock.swift */,
 			);
 			path = 3rdParty;
+			sourceTree = "<group>";
+		};
+		8075D1321C6A5981003DC454 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				8075D1331C6A598C003DC454 /* menu51@2x.png */,
+				8075D1341C6A598C003DC454 /* savings1@2x.png */,
+				8075D1351C6A598C003DC454 /* curve4@2x.png */,
+			);
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 		8076BA691C473AC800BA62A4 /* Assets */ = {
@@ -303,15 +333,16 @@
 		8076BA6A1C473AC800BA62A4 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
+				8075D13B1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas */,
+				8075D1321C6A5981003DC454 /* Buttons */,
 				80DCAF291C595A4200391276 /* Enemies */,
 				8025F9801C580D8F00A64494 /* Eyes */,
-				806B00151C6277E600CF4652 /* UI */,
 				804BA2371C55AD2700951162 /* Blackstar@2x.png */,
 				806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */,
 				806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */,
-				8042BDBD1C5197B10029922B /* HexCell@2x.png */,
-				8042BDCD1C51A1460029922B /* HexCellShadow@2x.png */,
 				8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */,
+				8075D11E1C68FFAD003DC454 /* HexCell@2x.png */,
+				8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */,
 				8042BDD31C51A6110029922B /* Hexagon@2x.png */,
 				8042BDD01C51A3940029922B /* Pentagon@2x.png */,
 				806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */,
@@ -339,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */,
+				8075D13D1C6AAB67003DC454 /* BankButtonWidget.swift */,
 			);
 			path = Widgets;
 			sourceTree = "<group>";
@@ -367,6 +399,7 @@
 		80E9DA941C4446FA0028BC6D = {
 			isa = PBXGroup;
 			children = (
+				8075D13F1C6BD6D0003DC454 /* SNZGenerics.swift */,
 				806CDBB41C5BF91400C10664 /* 3rdParty */,
 				80E9DA9F1C4446FA0028BC6D /* HexMatch */,
 				80E9DAB81C4446FA0028BC6D /* HexMatchTests */,
@@ -518,23 +551,32 @@
 				8042BDC31C519AAE0029922B /* Rhombus@2x.png in Resources */,
 				8042BDC81C519FFB0029922B /* Triangle@2x.png in Resources */,
 				8042BDB41C5188FB0029922B /* tartan2014.png in Resources */,
+				8075D1371C6A598C003DC454 /* savings1@2x.png in Resources */,
+				8075D12D1C6963A6003DC454 /* DM-CGS-19.wav in Resources */,
 				804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */,
-				806B00191C62781600CF4652 /* checkboxUnchecked@2x.png in Resources */,
 				806CDBA31C5BD26A00C10664 /* shuffle.wav in Resources */,
 				806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */,
 				80DCAF301C595A4D00391276 /* EnemyMouthFrown@2x.png in Resources */,
-				806B00181C62781600CF4652 /* checkboxChecked@2x.png in Resources */,
 				80E9DAAF1C4446FA0028BC6D /* LaunchScreen.storyboard in Resources */,
+				8075D1311C6A5038003DC454 /* DM-CGS-48.wav in Resources */,
+				8075D1381C6A598C003DC454 /* curve4@2x.png in Resources */,
 				80DCAF2E1C595A4D00391276 /* EnemyEyeLeft@2x.png in Resources */,
+				8075D1291C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav in Resources */,
+				8075D13C1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas in Resources */,
 				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
+				8075D1251C696045003DC454 /* SWIPE Whoosh Double 01.wav in Resources */,
 				806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */,
 				806CDB991C5BCA7D00C10664 /* paperflip.wav in Resources */,
 				806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */,
 				804BA2351C55ACF600951162 /* Star@2x.png in Resources */,
+				8075D1201C68FFAD003DC454 /* HexCell@2x.png in Resources */,
+				8075D1361C6A598C003DC454 /* menu51@2x.png in Resources */,
 				806CDBA61C5BD6F000C10664 /* BowieBolt@2x.png in Resources */,
+				8075D12F1C6963E6003DC454 /* DM-CGS-44.wav in Resources */,
 				80E9DAAC1C4446FA0028BC6D /* Assets.xcassets in Resources */,
 				8025F97D1C58075000A64494 /* Eyes@2x.png in Resources */,
 				8025F9841C580E3F00A64494 /* EyeLookRight@2x.png in Resources */,
+				8075D1211C68FFAD003DC454 /* HexCellShadow@2x.png in Resources */,
 				804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */,
 				8042BDD21C51A3940029922B /* Pentagon@2x.png in Resources */,
 				806CDB921C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png in Resources */,
@@ -544,14 +586,14 @@
 				80E9DAAA1C4446FA0028BC6D /* Main.storyboard in Resources */,
 				806B001E1C62DCA500CF4652 /* EnemyVanillaBean_WalkB@2x.png in Resources */,
 				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
+				8075D1271C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav in Resources */,
 				8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */,
-				8042BDCE1C51A1460029922B /* HexCellShadow@2x.png in Resources */,
 				806B000C1C6158BB00CF4652 /* RemovePiece@2x.png in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
+				8075D12B1C6960EE003DC454 /* NEGATIVE Failure Descending Chime 05.wav in Resources */,
 				806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */,
 				8025F97F1C580D8C00A64494 /* EyeClosed@2x.png in Resources */,
 				80DCAF2F1C595A4D00391276 /* EnemyEyeRight@2x.png in Resources */,
-				8042BDBF1C5197B10029922B /* HexCell@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +624,7 @@
 				806B00221C63C63500CF4652 /* SpinLock.swift in Sources */,
 				80DCAF281C5959E300391276 /* EnemyHexPiece.swift in Sources */,
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
+				8075D1401C6BD6D0003DC454 /* SNZGenerics.swift in Sources */,
 				8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */,
 				806CDB961C5B14FA00C10664 /* SceneHelper.swift in Sources */,
 				80CA3AB81C5EBA9000E814DF /* WildcardBuyablePiece.swift in Sources */,
@@ -589,6 +632,7 @@
 				80CA3AB51C5EB7E600E814DF /* BuyablePiece.swift in Sources */,
 				806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */,
 				80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */,
+				8075D13E1C6AAB67003DC454 /* BankButtonWidget.swift in Sources */,
 				80B230F61C4C4B0500FAB024 /* GameState.swift in Sources */,
 				806CDB8E1C5AB81F00C10664 /* LevelScene.swift in Sources */,
 				80CA3AB01C5D687800E814DF /* BankScene.swift in Sources */,
@@ -729,6 +773,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = "";
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "";
+				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = HexMatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.HexMatch;
@@ -740,6 +788,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = "";
+				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = HexMatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.HexMatch;
