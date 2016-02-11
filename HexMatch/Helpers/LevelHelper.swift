@@ -33,12 +33,15 @@ class LevelHelper: NSObject {
     // Chance to generate an enemy piece (moves around board until trapped)
     var enemyPercentage = 20
     
+    // stack of pieces
+    var pieceStack = Stack<HexPiece>()
+    
     func getLevelHelperModeCaption(mode: LevelHelperMode) -> String {
         var caption = "Error"
         
         switch mode {
             case .Welcome:
-                caption = "Welcome"
+                caption = "Tutorial"
             break
             case .Hexagon:
                 caption = "Big Hexagon"
@@ -62,6 +65,10 @@ class LevelHelper: NSObject {
     */
     func initLevel(hexMap: HexMap) {
         var targetCell: HexCell? = nil
+        var randomStartingCount: Int = 10
+        
+        // Clear piece stack
+        self.pieceStack.clear()
         
         // Process options
         self.mobilePercentage = GameState.instance!.getIntForKey("include_mobile_pieces", 1) == 1 ? 10 : 0
@@ -73,11 +80,85 @@ class LevelHelper: NSObject {
         switch mode {
             case .Welcome:
                 // Create radius 2 hexagon
-                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)))
+                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
                 }
+                
+                // Disable random starting pieces
+                randomStartingCount = 0
+                
+                // Generate tutorial pieces
+                var piece: HexPiece = HexPiece()
+                
+                piece.value = 0
+                piece.caption = "Welcome to HexMatch! Start by tapping on the pulsing triangle."
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 0
+                piece.caption = "You can tap shapes to place it where it is, or tap an empty spot to place there instead."
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 0
+                piece.caption = "By forming a group of three or more of the same shape, they will merge to create the next shape in the series."
+                self.pushPiece(piece)
+                
+                piece = MobileHexPiece()
+                piece.value = 0
+                piece.caption = "Some shapes are alive, and will move until they are blocked."
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 1
+                piece.caption = "Sometimes, you get bigger shapes to play."
+                self.pushPiece(piece)
+                
+                piece = EnemyHexPiece()
+                piece.value = 0
+                piece.caption = "And sometimes, you get gel! Turn three gel in to a bean, and three beans in to a collectible."
+                self.pushPiece(piece)
+                
+                piece = WildcardHexPiece()
+                piece.value = 0
+                piece.caption = "Wildcard shapes will merge with any other shape, but not gel!"
+                self.pushPiece(piece)
+                
+                piece = WildcardHexPiece()
+                piece.value = 0
+                piece.caption = "If you place a wildcard without merging, it will become a black star."
+                self.pushPiece(piece)
+                
+                piece = self.getRandomPiece()
+                piece.caption = "You can save a piece for later by tapping the Stash button. Try it!"
+                self.pushPiece(piece)
+                
+                piece = self.getRandomPiece()
+                piece.caption = "When you score points, you get 5% matching deposited in to your Bank."
+                self.pushPiece(piece)
+                
+                piece = self.getRandomPiece()
+                piece.caption = "If you get stuck, tap on the piggy bank to spend Bank Points on pieces."
+                self.pushPiece(piece)
+                
+                piece = self.getRandomPiece()
+                piece.caption = "Prices go up every time you buy something, and don't go back down until the game is over!"
+                self.pushPiece(piece)
+                
+                piece = self.getRandomPiece()
+                piece.caption = "If you make a mistake, you can use the undo button to take back your last move."
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 0
+                piece.caption = "Tap the menu button when you are ready to start a real game on the first map: Big Hexagon!"
+                self.pushPiece(piece)
+                
+                // Flip order so that newest pieces come off last
+                self.pieceStack.reverseInPlace()
+                
             break
             case .Hexagon:
                 // Create radius 3 hexagon
@@ -88,16 +169,22 @@ class LevelHelper: NSObject {
                 }
             break
             case .Pit:
-                // Void out center of hex map
-                let voidCells = hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)
+                // Start with a radius 3 hexagon
+                var voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                
+                // Void out radius 1 hexagon in middle
+                voidCells = voidCells.union(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
                 }
             break
             case .Moat:
+                // Start with a radius 3 hexagon
+                var voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                
                 // Void out moat in center of hex map
-                let voidCells = Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1)))
+                voidCells = voidCells.union(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1))))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
@@ -106,27 +193,53 @@ class LevelHelper: NSObject {
                 // add back left and right bridges
                 hexMap.cell(1,3)!.isVoid = false
                 hexMap.cell(5,3)!.isVoid = false
+                
+                // add four "towers"
+                hexMap.cell(1,0)!.isVoid = false
+                hexMap.cell(1,6)!.isVoid = false
+                hexMap.cell(5,0)!.isVoid = false
+                hexMap.cell(5,6)!.isVoid = false
             break
         }
         
         
         // Place some initial pieces
-        for _ in 0...10 {
-            // Find an empty, valid targe cell
-            while (targetCell == nil || (targetCell != nil && targetCell!.hexPiece != nil) || (targetCell != nil && targetCell!.isVoid)) {
-                // pick a random coordinate
-                let x = Int(arc4random_uniform(UInt32(hexMap.width)))
-                let y = Int(arc4random_uniform(UInt32(hexMap.height)))
+        if (randomStartingCount > 0) {
+            for _ in 0...randomStartingCount {
+                // Find an empty, valid targe cell
+                while (targetCell == nil || (targetCell != nil && targetCell!.hexPiece != nil) || (targetCell != nil && targetCell!.isVoid)) {
+                    // pick a random coordinate
+                    let x = Int(arc4random_uniform(UInt32(hexMap.width)))
+                    let y = Int(arc4random_uniform(UInt32(hexMap.height)))
+                    
+                    // Get the cell
+                    targetCell = hexMap.cell(x,y)
+                }
                 
-                // Get the cell
-                targetCell = hexMap.cell(x,y)
+                // Load a random non-wildcard piece in to the cell
+                while (targetCell!.hexPiece == nil || targetCell!.hexPiece is WildcardHexPiece) {
+                    targetCell!.hexPiece = self.getRandomPiece()
+                }
             }
-            
-            // Load a random non-wildcard piece in to the cell
-            while (targetCell!.hexPiece == nil || targetCell!.hexPiece is WildcardHexPiece) {
-                targetCell!.hexPiece = self.getRandomPiece()
-            }
-        }    
+        }
+    }
+    
+    /**
+        Pops a piece off the stack, or generates a new random one if the stack is empty
+    */
+    func popPiece() -> HexPiece {
+        if (self.pieceStack.count > 0) {
+            return self.pieceStack.pop()
+        } else {
+            return self.getRandomPiece()
+        }
+    }
+    
+    /**
+        Pushes a given HexPiece on to the stack
+    */
+    func pushPiece(piece: HexPiece) {
+        self.pieceStack.push(piece)
     }
     
     /**
