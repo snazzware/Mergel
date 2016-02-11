@@ -154,6 +154,8 @@ class EnemyHexPiece : MobileHexPiece {
         
         self.skipTurnCounter = self.skipTurnsOnPlace
         
+        self.playMergeSound()
+        
         return self
     }
     
@@ -191,6 +193,18 @@ class EnemyHexPiece : MobileHexPiece {
                 })
             ])
         )
+    }
+    
+    override func playCollectionSound() {
+        self.sprite!.runAction(SoundHelper.instance.collect)
+    }
+    
+    override func playPlacementSound() {
+        self.sprite!.runAction(SoundHelper.instance.placeEnemy)
+    }
+    
+    override func playMergeSound() {
+        self.sprite!.runAction(SoundHelper.instance.mergePieces)
     }
     
     override func wasCollected() {

@@ -33,6 +33,7 @@ class HexPiece : NSObject, NSCoding {
         }
     }
     var sprite: SKSpriteNode?
+    var caption: String = ""
     
     // How many turns we have left to skip, and how many we should skip after being placed.
     var skipTurnCounter = 1
@@ -80,6 +81,11 @@ class HexPiece : NSObject, NSCoding {
             self.isCollectible = (isCollectible as? Bool)!
         }
         
+        let caption = decoder.decodeObjectForKey("caption")
+        if (caption != nil) {
+            self.caption = (caption as? String)!
+        }
+        
         self.skipTurnCounter = (decoder.decodeObjectForKey("skipTurnCounter") as? Int)!
         self.skipTurnsOnPlace = (decoder.decodeObjectForKey("skipTurnsOnPlace") as? Int)!
     }
@@ -89,6 +95,8 @@ class HexPiece : NSObject, NSCoding {
         coder.encodeObject(self.value, forKey: "value")
         
         coder.encodeObject(self._hexCell, forKey: "hexCell")
+        
+        coder.encodeObject(self.caption, forKey: "caption")
         
         coder.encodeObject(self.isCollectible, forKey: "isCollectible")
         
@@ -144,6 +152,8 @@ class HexPiece : NSObject, NSCoding {
         self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
         self.skipTurnCounter = self.skipTurnsOnPlace
         
+        self.playMergeSound()
+        
         return self
     }
     
@@ -152,6 +162,8 @@ class HexPiece : NSObject, NSCoding {
     */
     func wasPlacedWithoutMerge() {
         self.skipTurnCounter = self.skipTurnsOnPlace
+        
+        self.playPlacementSound()
     }
     
     /**
@@ -261,6 +273,21 @@ class HexPiece : NSObject, NSCoding {
         
         // Animate the collection
         self.sprite!.runAction(collectSequence)
+        
+        // Play collect sound
+        self.playCollectionSound()
+    }
+    
+    func playCollectionSound() {
+        self.sprite!.runAction(SoundHelper.instance.collect)
+    }
+    
+    func playPlacementSound() {
+        self.sprite!.runAction(SoundHelper.instance.placePiece)
+    }
+    
+    func playMergeSound() {
+        self.sprite!.runAction(SoundHelper.instance.mergePieces)
     }
     
     /**
