@@ -23,9 +23,9 @@ class HexMapHelper: NSObject {
     var hexMapSprites: [[SKSpriteNode]] = Array()
     
     // Constants related to rendering of hex cell nodes
-    let cellNodeHorizontalAdvance = 46
-    let cellNodeVerticalAdvance = 53
-    let cellNodeVerticalStagger = 26
+    let cellNodeHorizontalAdvance = 44
+    let cellNodeVerticalAdvance = 50
+    let cellNodeVerticalStagger = 25
     
     // Actual height/width dimensions of each cell
     let cellActualHeight = 59
@@ -182,7 +182,7 @@ class HexMapHelper: NSObject {
                 
                 var mapNode = SKSpriteNode(texture: emptyCellTexture)
                 
-                mapNode.zPosition = -1;
+                mapNode.zPosition = -1
                 
                 if (hexCell!.isVoid) {
                     mapNode = SKSpriteNode(texture: voidCellTexture)
