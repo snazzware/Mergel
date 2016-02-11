@@ -11,7 +11,9 @@ import SNZSpriteKitUI
 
 class BankScene: SNZScene {
     
-    override func didMoveToView(view: SKView) {        
+    override func didMoveToView(view: SKView) {    
+        super.didMoveToView(view)
+        
         self.updateGui()
     }
     
