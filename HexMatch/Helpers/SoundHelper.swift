@@ -18,6 +18,13 @@ class SoundHelper: NSObject {
     var placePiece = SKAction.runBlock({})
     var mergePieces = SKAction.runBlock({})
     
+    var placeEnemy = SKAction.runBlock({})
+    
+    var unlock = SKAction.runBlock({})
+    var collect = SKAction.runBlock({})
+    
+    var gameover = SKAction.runBlock({})
+    
     override init() {
         // Allow background music
         
@@ -35,7 +42,11 @@ class SoundHelper: NSObject {
     }
     
     func enableSoundEffects() {
-        self.placePiece = SKAction.playSoundFileNamed("pop_9", waitForCompletion: false)
-        self.mergePieces = SKAction.playSoundFileNamed("shuffle", waitForCompletion: false)
+        self.placePiece = SKAction.playSoundFileNamed("DM-CGS-44", waitForCompletion: false)
+        self.mergePieces = SKAction.playSoundFileNamed("DM-CGS-19", waitForCompletion: false)
+        self.placeEnemy = SKAction.playSoundFileNamed("DM-CGS-48", waitForCompletion: false)
+        self.unlock = SKAction.playSoundFileNamed("SUCCESS CHEERS Win Cute Vocal Chime 03", waitForCompletion: false)
+        self.collect = SKAction.playSoundFileNamed("SUCCESS PICKUP Collect Chime 01", waitForCompletion: false)
+        self.gameover = SKAction.playSoundFileNamed("NEGATIVE Failure Descending Chime 05", waitForCompletion: false)
     }
 }
