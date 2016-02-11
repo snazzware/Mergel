@@ -17,14 +17,20 @@ class GameScene: SNZScene {
     var currentPieceLabel: SKLabelNode?
     var currentPieceHome = CGPointMake(0,0)
     var currentPieceSprite: SKSpriteNode?
+    var currentPieceCaption: SKNode?
     
     var stashPieceLabel: SKLabelNode?
     var stashPieceHome = CGPointMake(0,0)
     var stashBox: SKShapeNode?
     
-    var resetButton: SNZButtonWidget?
-    var undoButton: SNZButtonWidget?
+    var menuButton: SNZTextureButtonWidget?
+    var undoButton: SNZTextureButtonWidget?
     var gameOverLabel: SKLabelNode?
+    var bankButton: BankButtonWidget?
+    var stashButton: SNZButtonWidget?
+    var currentButton: SNZButtonWidget?
+    var statsButton: SNZButtonWidget?
+    var highScoreButton: SNZButtonWidget?
     
     var mergingPieces: [HexPiece] = Array()
     var mergedPieces: [HexPiece] = Array()
@@ -79,12 +85,13 @@ class GameScene: SNZScene {
     
     var bankPointsDisplay: SKLabelNode?
     var bankPointsLabel: SKLabelNode?
-    var bankPointBox: SKShapeNode?
     
     var highScoreDisplay: SKLabelNode?
     var highScoreLabel: SKLabelNode?
     
-    override func didMoveToView(view: SKView) {        
+    override func didMoveToView(view: SKView) {
+        super.didMoveToView(view)
+        
         self.updateGuiPositions()
     }
     
@@ -262,21 +269,6 @@ class GameScene: SNZScene {
     func nodeWasTouched(node: SKNode) -> Bool {
         var handled = false
         
-        if (node == self.stashBox) {
-            self.swapStash()
-            
-            handled = true
-        } else
-        if (([self.scoreDisplay!,self.scoreLabel!,self.highScoreDisplay!,self.highScoreLabel!] as [SKNode]).contains(node)) {
-            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
-
-            handled = true
-        }
-        if (node == self.bankPointBox) {
-            self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
-
-            handled = true
-        } else
         if (node.name == "hexMapCell") {
             let x = node.userData!.valueForKey("hexMapPositionX") as! Int
             let y = node.userData!.valueForKey("hexMapPositionY") as! Int
@@ -353,19 +345,12 @@ class GameScene: SNZScene {
                 hexPiece.sprite!.runAction(moveSequence)
                 hexPiece.hexCell?.hexPiece = nil
             }
-            
-            // Play merge sound
-            self.runAction(SoundHelper.instance.mergePieces)
-            
         } else {
             // clear merged array, since we are not merging any on this placement
             self.mergedPieces.removeAll()
             
             // let piece know we are placing it
             GameState.instance!.currentPiece!.wasPlacedWithoutMerge()
-            
-            // Play placement sound
-            self.runAction(SoundHelper.instance.placePiece)
         }
     }
     
@@ -430,6 +415,11 @@ class GameScene: SNZScene {
     
     func restoreState() {
         if (self.undoState != nil) {
+            // Push the current piece back on to the stack
+            if (GameState.instance!.currentPiece != nil) {
+                LevelHelper.instance.pushPiece(GameState.instance!.currentPiece!)
+            }
+            
             // Remove current piece, stash piece sprites
             self.removeTransientGuiSprites()
         
@@ -566,25 +556,57 @@ class GameScene: SNZScene {
         // set up score formatter
         self.scoreFormatter.numberStyle = .DecimalStyle
     
+        // Calculate size of upper UI
+        let upperUsableArea = (self.frame.height < self.frame.width ? self.frame.height : self.frame.width) - SNZSpriteKitUITheme.instance.uiOuterMargins.horizontal
+        
+        var bankButtonWidth = (upperUsableArea / 2) - (SNZSpriteKitUITheme.instance.uiInnerMargins.horizontal / 3)
+        var currentButtonWidth = (upperUsableArea / 4) - (SNZSpriteKitUITheme.instance.uiInnerMargins.horizontal / 3)
+        var stashButtonWidth = currentButtonWidth
+        
+        bankButtonWidth = bankButtonWidth > 200 ? 200 : bankButtonWidth
+        currentButtonWidth = currentButtonWidth > 100 ? 100 : currentButtonWidth
+        stashButtonWidth = stashButtonWidth > 100 ? 100 : stashButtonWidth
+    
         // Calculate current piece home position
         self.currentPieceHome = CGPoint(x: 80, y: self.frame.height - 70)
         
         // Add current piece label
         self.currentPieceLabel = self.createUILabel("Current")
         self.currentPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 40)
+        self.currentPieceLabel!.horizontalAlignmentMode = .Center
         self.guiLayer.addChild(self.currentPieceLabel!)
+        
+        // Add current button
+        self.currentButton = SNZButtonWidget()
+        self.currentButton!.size = CGSizeMake(currentButtonWidth, 72)
+        self.currentButton!.position = CGPoint(x: SNZSpriteKitUITheme.instance.uiOuterMargins.left, y: self.frame.height - 90)
+        self.currentButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        self.currentButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.currentButton!.caption = ""
+        self.currentButton!.bind("tap",{
+            self.swapStash()
+        })
+        self.addWidget(self.currentButton!)
         
         // Calculate stash piece home position
         self.stashPieceHome = CGPoint(x: 180, y: self.frame.height - 70)
         
-        // Add stash box
-        self.stashBox = SKShapeNode(rect: CGRectMake(160, self.frame.height-90, 140, 72))
-        self.stashBox!.strokeColor = UIColor.clearColor()
-        self.guiLayer.addChild(self.stashBox!)
+        // Add stash button
+        self.stashButton = SNZButtonWidget()
+        self.stashButton!.size = CGSizeMake(stashButtonWidth, 72)
+        self.stashButton!.position = CGPoint(x: currentButton!.position.x + (SNZSpriteKitUITheme.instance.uiInnerMargins.left) + currentButtonWidth, y: self.frame.height - 90)
+        self.stashButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        self.stashButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.stashButton!.caption = ""
+        self.stashButton!.bind("tap",{
+            self.swapStash()
+        })
+        self.addWidget(self.stashButton!)
         
         // Add stash piece label
         self.stashPieceLabel = self.createUILabel("Stash")
         self.stashPieceLabel!.position = CGPoint(x: 150, y: self.frame.height - 40)
+        self.stashPieceLabel!.horizontalAlignmentMode = .Center
         self.guiLayer.addChild(self.stashPieceLabel!)
         
         // Add stash piece sprite, if any
@@ -593,34 +615,41 @@ class GameScene: SNZScene {
         // Add bank label
         self.bankPointsLabel = self.createUILabel("Bank Points")
         self.bankPointsLabel!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 120)
+        self.bankPointsLabel!.ignoreTouches = true
         self.guiLayer.addChild(self.bankPointsLabel!)
         
         // Add bank display
         self.bankPointsDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.bankPoints)!)
         self.bankPointsDisplay!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 144)
-        self.bankPointsDisplay!.fontSize = 24
+        self.bankPointsDisplay!.fontSize = 20
         self.guiLayer.addChild(self.bankPointsDisplay!)
+    
+        // Add bank button
+        self.bankButton = BankButtonWidget()
+        self.bankButton!.size = CGSizeMake(bankButtonWidth, 72)
+        self.bankButton!.position = CGPointMake(self.frame.width - 100, self.frame.height-90)
+        self.bankButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        self.bankButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.bankButton!.caption = ""
+        self.bankButton!.bind("tap",{
+            self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+        })
+        self.addWidget(self.bankButton!)
         
-        // Add bank point box
-        self.bankPointBox = SKShapeNode(rect: CGRectMake(self.frame.width - 100, self.frame.height-90, 150, 72))
-        self.bankPointBox!.strokeColor = UIColor.clearColor()
-        self.guiLayer.addChild(self.bankPointBox!)
-        
-        // Add reset button
-        self.resetButton = SNZButtonWidget(parentNode: guiLayer)
-        self.resetButton!.autoSize = true
-        self.resetButton!.anchorPoint = CGPointMake(0,0)
-        self.resetButton!.caption = "Start Over"
-        self.resetButton!.bind("tap",{
+        // Add menu button
+        self.menuButton = SNZTextureButtonWidget(parentNode: guiLayer)
+        self.menuButton!.texture = SKTexture(imageNamed: "menu51")
+        self.menuButton!.anchorPoint = CGPointMake(0,0)
+        self.menuButton!.textureScale = 0.8
+        self.menuButton!.bind("tap",{
             self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
         })
-        self.addWidget(self.resetButton!)
+        self.addWidget(self.menuButton!)
         
         // Add undo button
-        self.undoButton = SNZButtonWidget(parentNode: guiLayer)
-        self.undoButton!.autoSize = true
+        self.undoButton = SNZTextureButtonWidget(parentNode: guiLayer)
+        self.undoButton!.texture = SKTexture(imageNamed: "curve4")
         self.undoButton!.anchorPoint = CGPointMake(1,0)
-        self.undoButton!.caption = "Undo"
         self.undoButton!.bind("tap",{
             self.undoLastMove()
         })
@@ -637,16 +666,45 @@ class GameScene: SNZScene {
         self.scoreDisplay!.fontSize = 24
         self.guiLayer.addChild(self.scoreDisplay!)
         
+        // Add stats button
+        self.statsButton = SNZButtonWidget()
+        self.statsButton!.size = CGSizeMake((self.stashButton!.position.x + self.stashButton!.size.width) - self.currentButton!.position.x, 62)
+        self.statsButton!.position = CGPointMake(20, self.currentButton!.position.y - (self.currentButton!.size.height / 2) - 4 - (self.statsButton!.size.height / 2))
+        self.statsButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        self.statsButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.statsButton!.caption = ""
+        self.statsButton!.bind("tap",{
+            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
+        })
+        self.addWidget(self.statsButton!)
+        
+        self.highScoreButton = SNZButtonWidget()
+        self.highScoreButton!.size = CGSizeMake(bankButtonWidth, 62)
+        self.highScoreButton!.position = CGPointMake(self.bankButton!.position.x, self.statsButton!.position.y)
+        self.highScoreButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        self.highScoreButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.highScoreButton!.caption = ""
+        self.highScoreButton!.bind("tap",{
+            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
+        })
+        self.addWidget(self.highScoreButton!)
+        
         // Add high score label
         self.highScoreLabel = self.createUILabel("High Score")
         self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 170)
+        self.highScoreLabel!.horizontalAlignmentMode = .Right
         self.guiLayer.addChild(self.highScoreLabel!)
         
         // Add high score display
         self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)!)
         self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
         self.highScoreDisplay!.fontSize = 24
+        self.highScoreDisplay!.horizontalAlignmentMode = .Right
         self.guiLayer.addChild(self.highScoreDisplay!)
+    
+        // Current piece caption
+        self.currentPieceCaption = SKNode()
+        self.gameboardLayer.addChild(self.currentPieceCaption!)
     
         // Init the Game Over overlay
         self.initGameOver()
@@ -667,66 +725,68 @@ class GameScene: SNZScene {
     func updateGuiPositions() {
 
         if (self.currentPieceLabel != nil) {
-            // Current Piece
-            self.currentPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 40)
+        
+            // Calculate size of upper UI
+            let upperUsableArea = (self.frame.height < self.frame.width ? self.frame.height : self.frame.width) - SNZSpriteKitUITheme.instance.uiOuterMargins.horizontal
             
-            self.currentPieceHome = CGPoint(x: 60, y: self.frame.height - 70)
+            // Calculate upper button widths
+            var bankButtonWidth = (upperUsableArea / 2) - (SNZSpriteKitUITheme.instance.uiInnerMargins.horizontal / 3)
+            var currentButtonWidth = (upperUsableArea / 4) - (SNZSpriteKitUITheme.instance.uiInnerMargins.horizontal / 3)
+            var stashButtonWidth = currentButtonWidth
+            
+            bankButtonWidth = bankButtonWidth > 200 ? 200 : bankButtonWidth
+            currentButtonWidth = currentButtonWidth > 100 ? 100 : currentButtonWidth
+            stashButtonWidth = stashButtonWidth > 100 ? 100 : stashButtonWidth
+
+            // Current Piece
+            self.currentButton!.position = CGPoint(x: SNZSpriteKitUITheme.instance.uiOuterMargins.left, y: self.frame.height - 90)
+            self.currentButton!.size = CGSizeMake(currentButtonWidth, 72)
+            
+            self.currentPieceLabel!.position = CGPoint(x: self.currentButton!.position.x + (currentButtonWidth / 2), y: self.frame.height - 40)
+            self.currentPieceHome = CGPoint(x: self.currentButton!.position.x + (currentButtonWidth / 2), y: self.frame.height - 70)
             
             if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece!.sprite != nil) {
                 GameState.instance!.currentPiece!.sprite!.position = self.currentPieceHome
             }
             
-            // Stash
-            if (self.frame.width > self.frame.height) { // landscape
-                self.stashBox!.removeFromParent()
-                self.stashBox = SKShapeNode(rect: CGRectMake(10, self.frame.height-150, 100, 60))
-                self.stashBox!.strokeColor = UIColor.clearColor()
-                self.guiLayer.addChild(self.stashBox!)
-                
-                self.stashPieceLabel!.position = CGPoint(x: 20, y: self.frame.height - 110)
-                
-                self.stashPieceHome = CGPoint(x: 60, y: self.frame.height - 140)
-                if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
-                    GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
-                }
-            } else {
-                self.stashBox!.removeFromParent()
-                self.stashBox = SKShapeNode(rect: CGRectMake(120, self.frame.height-90, 100, 72))
-                self.stashBox!.strokeColor = UIColor.clearColor()
-                self.guiLayer.addChild(self.stashBox!)
-                
-                self.stashPieceLabel!.position = CGPoint(x: 140, y: self.frame.height - 40)
-                
-                self.stashPieceHome = CGPoint(x: 180, y: self.frame.height - 70)
-                if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
-                    GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
-                }
+            // Current Piece Caption
+            self.currentPieceCaption!.position = HexMapHelper.instance.hexMapToScreen(HCPosition(3,0))
+            
+            // Stash Piece
+            self.stashButton!.position = CGPoint(x: currentButton!.position.x + (SNZSpriteKitUITheme.instance.uiInnerMargins.left) + currentButtonWidth, y: self.frame.height - 90)
+            self.stashButton!.size = CGSizeMake(stashButtonWidth, 72)
+            
+            self.stashPieceLabel!.position = CGPoint(x: self.stashButton!.position.x + (stashButtonWidth/2), y: self.frame.height - 40)
+            
+            self.stashPieceHome = CGPoint(x: self.stashButton!.position.x + (stashButtonWidth/2), y: self.frame.height - 70)
+            
+            if (GameState.instance!.stashPiece != nil && GameState.instance!.stashPiece!.sprite != nil) {
+                GameState.instance!.stashPiece!.sprite!.position = self.stashPieceHome
             }
+
+            // Bank Button
+            self.bankButton!.position = CGPointMake(self.frame.width - bankButtonWidth - SNZSpriteKitUITheme.instance.uiOuterMargins.right, self.frame.height-90)
+            self.bankButton!.size = CGSizeMake(bankButtonWidth, 72)
             
             // bank points
-            self.bankPointsLabel!.position = CGPoint(x: self.frame.width - 120, y: self.frame.height - 40)
-            self.bankPointsDisplay!.position = CGPoint(x: self.frame.width - 120, y: self.frame.height - 64)
+            self.bankPointsLabel!.position = CGPoint(x: self.bankButton!.position.x + SNZSpriteKitUITheme.instance.uiInnerMargins.left, y: self.frame.height - 40)
+            self.bankPointsDisplay!.position = CGPoint(x: self.bankButton!.position.x + SNZSpriteKitUITheme.instance.uiInnerMargins.left, y: self.frame.height - 64)
             
-            self.bankPointBox!.removeFromParent()
-            self.bankPointBox = SKShapeNode(rect: CGRectMake(self.frame.width - 130, self.frame.height-90, 120, 72))
-            self.bankPointBox!.strokeColor = UIColor.clearColor()
-            self.guiLayer.addChild(self.bankPointBox!)
+            
             
             // Score
-            if (self.frame.width > self.frame.height) { // landscape
-                self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 180)
-                self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 204)
-                
-                self.highScoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 230)
-                self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 254)
-            } else {
-                self.scoreLabel!.position = CGPoint(x: 20, y: self.frame.height - 120)
-                self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
+            self.scoreLabel!.position = CGPoint(x: 30, y: self.frame.height - 120)
+            self.scoreDisplay!.position = CGPoint(x: 30, y: self.frame.height - 145)
             
-                self.highScoreLabel!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 120)
-                self.highScoreDisplay!.position = CGPoint(x: self.frame.width-150, y: self.frame.height - 144)
-            }
-                        
+            self.highScoreLabel!.position = CGPoint(x: self.frame.width - 30, y: self.frame.height - 120)
+            self.highScoreDisplay!.position = CGPoint(x: self.frame.width - 30, y: self.frame.height - 145)
+            
+            // Stats button
+            self.statsButton!.position = CGPointMake(20, self.currentButton!.position.y - (self.currentButton!.size.height / 2) - 4 - (self.statsButton!.size.height / 2))
+            
+            // High Score button
+            self.highScoreButton!.position = CGPointMake(self.bankButton!.position.x, self.statsButton!.position.y)
+            
             // Gameboard
             self.updateGameboardLayerPosition()
             
@@ -761,6 +821,7 @@ class GameScene: SNZScene {
             
             // Reposition gameboard layer to center in view
             self.gameboardLayer.position = CGPointMake(((self.frame.width) - (gameboardWidth * scale))/2, (((self.frame.height) - (gameboardHeight * scale))/2) - shiftY)
+            
         }
     }
     
@@ -778,6 +839,7 @@ class GameScene: SNZScene {
         label.fontSize = 18
         label.zPosition = 20
         label.fontName = "Avenir-Black"
+        label.ignoreTouches = true
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
 
         return label
@@ -933,6 +995,9 @@ class GameScene: SNZScene {
     }
     
     func showGameOver() {
+        // Play game over sound
+        self.runAction(SoundHelper.instance.gameover)
+    
         self.burstMessage("NO MOVES REMAINING\nGAME OVER")
     
         // Disable Undo
@@ -991,11 +1056,11 @@ class GameScene: SNZScene {
     }
     
     /**
-        Generates a random piece and assigns it to GameState.instance!.currentPiece. This is the piece which will be placed if the player
+        Gets the next piece from the level helper and assigns it to GameState.instance!.currentPiece. This is the piece which will be placed if the player
         touches a valid cell on the gameboard.
     */
     func generateCurrentPiece() {
-        GameState.instance!.currentPiece = LevelHelper.instance.getRandomPiece()
+        GameState.instance!.currentPiece = LevelHelper.instance.popPiece()
     }
     
     func setCurrentPiece(hexPiece: HexPiece) {
@@ -1020,12 +1085,15 @@ class GameScene: SNZScene {
             }
             
             // Sprite to go in the GUI
-            
             if (GameState.instance!.currentPiece!.sprite != nil) {
                 GameState.instance!.currentPiece!.sprite!.removeFromParent()
             }
             
+            // Generate sprite
             GameState.instance!.currentPiece!.sprite = GameState.instance!.currentPiece!.createSprite()
+            
+            // Ignore touches
+            GameState.instance!.currentPiece!.sprite!.ignoreTouches = true
             
             GameState.instance!.currentPiece!.sprite!.position = self.currentPieceHome
             GameState.instance!.currentPiece!.sprite!.zPosition = 10
@@ -1038,6 +1106,9 @@ class GameScene: SNZScene {
             
             // Create sprite
             self.currentPieceSprite = GameState.instance!.currentPiece!.createSprite()
+            
+            // Ignore touches
+            self.currentPieceSprite!.ignoreTouches = true
             
             // fix z position
             self.currentPieceSprite!.zPosition = 999
@@ -1072,7 +1143,54 @@ class GameScene: SNZScene {
                 self.currentPieceSprite!.position = position!
                 self.gameboardLayer.addChild(self.currentPieceSprite!)
             }
+            
+            // Update caption, if any
+            if (self.currentPieceCaption != nil) {
+                if (GameState.instance!.currentPiece!.caption != "") {
+                    self.currentPieceCaption!.hidden = false
+                    self.updateCurrentPieceCaption(GameState.instance!.currentPiece!.caption)
+                } else {
+                    self.currentPieceCaption!.hidden = true
+                }
+            }
         }
+    }
+    
+    func updateCurrentPieceCaption(caption: String) {
+        self.currentPieceCaption!.removeAllChildren()
+        
+        let tokens = caption.componentsSeparatedByString(" ")
+        var idx = 0
+        var token = ""
+        var label = self.createUILabel("")
+        var priorText = ""
+        var verticalOffset:CGFloat = 20
+        
+        while (idx < tokens.count) {
+            token = tokens[idx]
+            
+            priorText = label.text!
+            label.text = label.text!+" "+token
+            
+            if (label.frame.width > 300) {
+                label.text = priorText
+                label.horizontalAlignmentMode = .Center
+                label.position = CGPointMake(0,verticalOffset)
+                self.currentPieceCaption!.addChild(label)
+                verticalOffset -= 20
+                
+                label = self.createUILabel("")
+            } else {
+                idx++
+            }
+        }
+        
+        if (label.text != "") {
+            label.horizontalAlignmentMode = .Center
+            label.position = CGPointMake(0,verticalOffset)
+            self.currentPieceCaption!.addChild(label)
+        }
+        
     }
     
     /**
