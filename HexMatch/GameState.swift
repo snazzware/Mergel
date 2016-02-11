@@ -29,7 +29,7 @@ class GameState: NSObject, NSCoding {
     override init() {
         self.highScore = 0
         self.score = 0
-        self.bankPoints = 0
+        self.bankPoints = 25000
         self.hexMap = HexMap(7,7)
         
         self.unlockedLevels.append(.Welcome)
