@@ -43,7 +43,6 @@ class EnemyHexPiece : MobileHexPiece {
     
     override func addAnimation(node: SKSpriteNode) {
         if (self.isAlive) {
-            let eyeTexture = SKTexture(imageNamed: "Eyes")
             let eyeclosedTexture = SKTexture(imageNamed: "EyeClosed")
             let eyeLeftTexture = SKTexture(imageNamed: "EyeLookLeft")
             let eyeRightTexture = SKTexture(imageNamed: "EyeLookRight")
