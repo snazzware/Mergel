@@ -29,6 +29,10 @@ class GameStats: NSObject, NSCoding {
         "piece_vanillabean_0": "Pieces Placed or Merged by Type/Vanilla Gel",
         "piece_vanillabean_1": "Pieces Placed or Merged by Type/Vanilla Jelly Bean",
         "piece_vanillabean_2": "Pieces Placed or Merged by Type/Vanilla Jelly Beans (collectible)",
+        "highscore_"+String(LevelHelperMode.Welcome.rawValue): "High Scores/Tutorial",
+        "highscore_"+String(LevelHelperMode.Hexagon.rawValue): "High Scores/Big Hexagon",
+        "highscore_"+String(LevelHelperMode.Moat.rawValue): "High Scores/The Moat",
+        "highscore_"+String(LevelHelperMode.Pit.rawValue): "High Scores/The Pit"
     ]
     
     override init() {
@@ -45,13 +49,17 @@ class GameStats: NSObject, NSCoding {
             "piece_wildcard_999": 0,
             "piece_vanillabean_0": 0,
             "piece_vanillabean_1": 0,
-            "piece_vanillabean_2": 0
+            "piece_vanillabean_2": 0,
+            "highscore_"+String(LevelHelperMode.Welcome.rawValue): 0,
+            "highscore_"+String(LevelHelperMode.Hexagon.rawValue): 0,
+            "highscore_"+String(LevelHelperMode.Moat.rawValue): 0,
+            "highscore_"+String(LevelHelperMode.Pit.rawValue): 0
         ]
         
         super.init()
     }
 
-    func getIntForKey(key: String, _ defaultValue: Int) -> Int {
+    func getIntForKey(key: String, _ defaultValue: Int = 0) -> Int {
         return self.statsInt[key] != nil ? self.statsInt[key]! : defaultValue
     }
     

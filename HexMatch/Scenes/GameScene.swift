@@ -32,6 +32,15 @@ class GameScene: SNZScene {
     var statsButton: SNZButtonWidget?
     var highScoreButton: SNZButtonWidget?
     
+    var scoreDisplay: SKLabelNode?
+    var scoreLabel: SKLabelNode?
+    
+    var bankPointsDisplay: SKLabelNode?
+    var bankPointsLabel: SKLabelNode?
+    
+    var highScoreDisplay: SKLabelNode?
+    var highScoreLabel: SKLabelNode?
+    
     var mergingPieces: [HexPiece] = Array()
     var mergedPieces: [HexPiece] = Array()
 
@@ -61,6 +70,14 @@ class GameScene: SNZScene {
             // Update high score
             if (self._score > GameState.instance!.highScore) {
                 GameState.instance!.highScore = self._score
+                
+                self.updateHighScore()
+            }
+            
+            // Update level mode specific high score
+            if (self._score > GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue))) {
+                GameStats.instance!.setIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue), self._score)
+                
                 self.updateHighScore()
             }
         }
@@ -79,15 +96,6 @@ class GameScene: SNZScene {
             GameState.instance!.bankPoints = self._bankPoints
         }
     }
-    
-    var scoreDisplay: SKLabelNode?
-    var scoreLabel: SKLabelNode?
-    
-    var bankPointsDisplay: SKLabelNode?
-    var bankPointsLabel: SKLabelNode?
-    
-    var highScoreDisplay: SKLabelNode?
-    var highScoreLabel: SKLabelNode?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
