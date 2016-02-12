@@ -63,7 +63,7 @@
 		8075D13C1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 8075D13B1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas */; };
 		8075D13E1C6AAB67003DC454 /* BankButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8075D13D1C6AAB67003DC454 /* BankButtonWidget.swift */; };
 		8075D1401C6BD6D0003DC454 /* SNZGenerics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8075D13F1C6BD6D0003DC454 /* SNZGenerics.swift */; };
-		8076BA681C47379300BA62A4 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
+		8076BA681C47379300BA62A4 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA671C47379300BA62A4 /* README.md */; };
 		8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA751C48017600BA62A4 /* HexPiece.swift */; };
 		8076BA7A1C480A2300BA62A4 /* LevelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8076BA791C480A2300BA62A4 /* LevelHelper.swift */; };
 		8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */; };
@@ -558,6 +558,7 @@
 				806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */,
 				80DCAF301C595A4D00391276 /* EnemyMouthFrown@2x.png in Resources */,
 				80E9DAAF1C4446FA0028BC6D /* LaunchScreen.storyboard in Resources */,
+				8076BA681C47379300BA62A4 /* README.md in Resources */,
 				8075D1311C6A5038003DC454 /* DM-CGS-48.wav in Resources */,
 				8075D1381C6A598C003DC454 /* curve4@2x.png in Resources */,
 				80DCAF2E1C595A4D00391276 /* EnemyEyeLeft@2x.png in Resources */,
@@ -620,7 +621,6 @@
 				80E9DAA71C4446FA0028BC6D /* GameViewController.swift in Sources */,
 				80CA3AB31C5D6FF200E814DF /* BuyableButtonWidget.swift in Sources */,
 				806B00241C63DDA400CF4652 /* StatsScene.swift in Sources */,
-				8076BA681C47379300BA62A4 /* README.md in Sources */,
 				806B00221C63C63500CF4652 /* SpinLock.swift in Sources */,
 				80DCAF281C5959E300391276 /* EnemyHexPiece.swift in Sources */,
 				8076BA761C48017600BA62A4 /* HexPiece.swift in Sources */,
