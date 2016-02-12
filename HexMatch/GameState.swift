@@ -8,8 +8,6 @@
 
 import Foundation
 
-
-
 class GameState: NSObject, NSCoding {
     // singleton
     static var instance: GameState?

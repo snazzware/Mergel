@@ -67,11 +67,9 @@ class GameScene: SNZScene {
             // Update score in state
             GameState.instance!.score = self._score
             
-            // Update high score
+            // Update overall high score
             if (self._score > GameState.instance!.highScore) {
                 GameState.instance!.highScore = self._score
-                
-                self.updateHighScore()
             }
             
             // Update level mode specific high score
@@ -184,6 +182,9 @@ class GameScene: SNZScene {
         
         // Reset score
         self.score = 0
+        
+        // Update GUI
+        self.updateGuiLayer()
         
         // Clear undo
         self.undoButton!.hidden = true
@@ -685,7 +686,7 @@ class GameScene: SNZScene {
         self.guiLayer.addChild(self.highScoreLabel!)
         
         // Add high score display
-        self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)!)
+        self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))!)
         self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
         self.highScoreDisplay!.fontSize = 24
         self.highScoreDisplay!.horizontalAlignmentMode = .Right
@@ -890,7 +891,7 @@ class GameScene: SNZScene {
     */
     func updateHighScore() {
         if (self.highScoreDisplay != nil) {
-            self.highScoreDisplay!.text = self.scoreFormatter.stringFromNumber(GameState.instance!.highScore)
+            self.highScoreDisplay!.text = self.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))
         }
     }
     
