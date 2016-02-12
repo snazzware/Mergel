@@ -182,6 +182,9 @@ class GameScene: SNZScene {
         self.undoState = nil
     }
     
+    /**
+        Handles touch begin and move events. Updates animations for any pieces which would be merged if the player were to end the touch event in the cell being touched, if any.
+    */
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (self.widgetTouchesBegan(touches, withEvent: event)) {
             return
@@ -194,14 +197,17 @@ class GameScene: SNZScene {
          
             for node in nodes {
                 if (node.name == "hexMapCell") {
+                    // Get cell using stord position from node's user data
                     let x = node.userData!.valueForKey("hexMapPositionX") as! Int
                     let y = node.userData!.valueForKey("hexMapPositionY") as! Int
                     
                     let cell = HexMapHelper.instance.hexMap!.cell(x,y)
     
+                    // If we have a Remove piece, move it to the target cell regardless of contents
                     if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
                         currentPieceSprite!.position = node.position
                     } else
+                    // Otherwise, check to see if the cell will accept the piece
                     if (cell!.willAccept(GameState.instance!.currentPiece!)) {
                         self.updateMergingPieces(cell!)
                         
@@ -214,40 +220,8 @@ class GameScene: SNZScene {
         }
     }
     
-    /**
-        Handles touch move events. Updates animations for any pieces which would be merged if the player were to end the touch event in the cell being touched, if any.
-    */
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        if (self.widgetTouchesMoved(touches, withEvent: event)) {
-            return
-        }
-        
-        let location = touches.first?.locationInNode(self)
-        
-        if (location != nil) {
-            let nodes = nodesAtPoint(location!)
-         
-            for node in nodes {
-                if (node.name == "hexMapCell") {
-                    let x = node.userData!.valueForKey("hexMapPositionX") as! Int
-                    let y = node.userData!.valueForKey("hexMapPositionY") as! Int
-                    
-                    let cell = HexMapHelper.instance.hexMap!.cell(x,y)
-                    
-                    if (GameState.instance!.currentPiece != nil && GameState.instance!.currentPiece is RemovePiece) {
-                        currentPieceSprite!.position = node.position
-                    } else
-                    if (cell!.willAccept(GameState.instance!.currentPiece!)) {
-                        self.updateMergingPieces(cell!)
-                        
-                        // Move to touched point
-                        currentPieceSprite!.removeActionForKey("moveAnimation")
-                        currentPieceSprite!.position = node.position
-                    }
-                }
-            }
-        }
-        
+        self.touchesBegan(touches, withEvent: event)
     }
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -266,6 +240,11 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+     
+        Handle a node being touched. Place piece, merge, collect, etc.
+     
+    */
     func nodeWasTouched(node: SKNode) -> Bool {
         var handled = false
         
@@ -316,6 +295,11 @@ class GameScene: SNZScene {
         return handled
     }
     
+    /**
+        
+        Handle the merging of pieces
+     
+    */
     func handleMerge(cell: HexCell) {
         // Are we merging pieces?
         if (self.mergingPieces.count>0) {
@@ -346,9 +330,6 @@ class GameScene: SNZScene {
                 hexPiece.hexCell?.hexPiece = nil
             }
         } else {
-            // clear merged array, since we are not merging any on this placement
-            self.mergedPieces.removeAll()
-            
             // let piece know we are placing it
             GameState.instance!.currentPiece!.wasPlacedWithoutMerge()
         }
