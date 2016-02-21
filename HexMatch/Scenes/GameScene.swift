@@ -229,10 +229,16 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        touchesMoved override. We just call touchesBegan for this game, since the logic is the same.
+    */
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         self.touchesBegan(touches, withEvent: event)
     }
     
+    /**
+        touchesEnded override. Widgets first, then our own local game nodes.
+    */
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
         if (self.widgetTouchesEnded(touches, withEvent: event) || touches.first == nil) {
             return
@@ -344,6 +350,9 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Take the current piece and place it in a given cell.
+    */
     func placeCurrentPiece(cell: HexCell) {
         // Handle merging, if any
         self.handleMerge(cell)
@@ -374,6 +383,9 @@ class GameScene: SNZScene {
         self.turnDidEnd()
     }
     
+    /**
+        Use a "remove" piece on a given cell. This causes the piece currently in the cell to be removed from play.
+    */
     func playRemovePiece(cell: HexCell) {
         if (cell.hexPiece != nil) {
             // Let the piece know it was collected
@@ -396,6 +408,9 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Captures state for undo.
+    */
     func captureState() {
         self.undoState = NSKeyedArchiver.archivedDataWithRootObject(GameState.instance!)
         
@@ -403,6 +418,9 @@ class GameScene: SNZScene {
         self.undoButton!.hidden = false
     }
     
+    /**
+        Restores the previous state from undo.
+    */
     func restoreState() {
         if (self.undoState != nil) {
             // Push the current piece back on to the stack
@@ -533,10 +551,6 @@ class GameScene: SNZScene {
                 hexPiece.sprite!.setScale(1.2)
             }
         }
-    }
-   
-    override func update(currentTime: CFTimeInterval) {
-        
     }
     
     /**
@@ -785,6 +799,9 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Scales and positions the gameboard to fit the current screen size and orientation.
+    */
     func updateGameboardLayerPosition() {
         if (HexMapHelper.instance.hexMap != nil) {
             var scale: CGFloat = 1.0
@@ -835,6 +852,9 @@ class GameScene: SNZScene {
         return label
     }
     
+    /**
+        Remove sprites which are not a static part of the gui - the current piece and the stash piece.
+    */
     func removeTransientGuiSprites() {
         if (GameState.instance!.stashPiece != nil) {
             if (GameState.instance!.stashPiece!.sprite != nil) {
@@ -849,6 +869,9 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Helper method to call all of the various gui update methods.
+    */
     func updateGuiLayer() {
         self.updateStashPieceSprite()
         self.updateScore()
@@ -856,6 +879,10 @@ class GameScene: SNZScene {
         self.updateCurrentPieceSprite()
     }
     
+    /**
+        Refresh the current stash piece sprite. We call createSprite method of the stash piece to get the new sprite, 
+        so that we also get any associated animations, etc.
+    */
     func updateStashPieceSprite() {
         if (GameState.instance!.stashPiece != nil) {
             if (GameState.instance!.stashPiece!.sprite == nil) {
@@ -880,6 +907,9 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Refreshes the bank point display with a formatted copy of the current self.bankPoints value.
+    */
     func updateBankPoints() {
         if (self.bankPointsDisplay != nil) {
             self.bankPointsDisplay!.text = self.scoreFormatter.stringFromNumber(self.bankPoints)
@@ -895,6 +925,9 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Scrolls a number upward with a fade-out animation, starting from a given point.
+    */
     func scrollPoints(points: Int, position: CGPoint) {
         if (points > 0) {
             let scrollUp = SKAction.moveByX(0, y: 100, duration: 1.0)
@@ -917,12 +950,21 @@ class GameScene: SNZScene {
         }
     }
     
+    /**
+        Calculates and applies a multiplier to the fontSize of an SKLabelNode to make it fit in a given rectangle.
+    */
     func scaleToFitRect(node:SKLabelNode, rect:CGRect) {
         node.fontSize *= min(rect.width / node.frame.width, rect.height / node.frame.height)
     }
     
-    func burstMessage(message: String) {
+    /**
+        Displays a message with a scale up, pause, and fade out effect, centered on the screen.
         
+        - Parameters:
+            - message: The message to be displayed. Newline (\n) characters in the message will be used as delimiters for the creation of separate SKLabelNodes, effectively allowing for the display of multi-line messages.
+            - action: If provided, an SKAction which should be called once the fade-out animation completes.
+    */
+    func burstMessage(message: String, action: SKAction? = nil) {
         let tokens = message.componentsSeparatedByString("\n").reverse()
         
         var totalHeight:CGFloat = 0
@@ -946,7 +988,8 @@ class GameScene: SNZScene {
             labels.append(label)
         }
         
-        let burstAnimation = SKAction.sequence([
+        // Create the burst animation sequence
+        var burstSequence: [SKAction] = [
             SKAction.scaleTo(1.2, duration: 0.4),
             SKAction.scaleTo(0.8, duration: 0.2),
             SKAction.scaleTo(1.0, duration: 0.2),
@@ -955,7 +998,16 @@ class GameScene: SNZScene {
                 SKAction.scaleTo(5.0, duration: 1.0),
                 SKAction.fadeOutWithDuration(1.0)
             ])
-        ])
+        ]
+        
+        // Append the action parameter, if provided
+        if (action != nil) {
+            burstSequence.append(action!)
+        }
+        
+        let burstAnimation = SKAction.sequence(burstSequence)
+        
+        burstAnimation
         
         var verticalOffset:CGFloat = 0
         
@@ -970,10 +1022,9 @@ class GameScene: SNZScene {
         }
     }
 
-    
     func initGameOver() {
         let label = SKLabelNode(text: "GAME OVER")
-        label.fontColor = UIColor.blackColor()
+        label.fontColor = UIColor.whiteColor()
         label.fontSize = 64
         label.zPosition = 20
         label.fontName = "Avenir-Black"
@@ -988,16 +1039,15 @@ class GameScene: SNZScene {
         // Play game over sound
         self.runAction(SoundHelper.instance.gameover)
     
-        self.burstMessage("NO MOVES REMAINING\nGAME OVER")
-    
         // Disable Undo
         self.undoButton!.hidden = true
         self.undoState = nil
     
-        self.runAction(SKAction.sequence([SKAction.waitForDuration(2.0),SKAction.runBlock({
-             // Show Game Over text
+        // Show game over message and display Game Over label afterward
+        self.burstMessage("NO MOVES REMAINING", action: SKAction.runBlock({
             self.guiLayer.addChild(self.gameOverLabel!)
-        })]))
+        }))
+        
     }
     
     
