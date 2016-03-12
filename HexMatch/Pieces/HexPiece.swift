@@ -70,6 +70,9 @@ class HexPiece : NSObject, NSCoding {
         super.init()
     }
     
+    /**
+        Decode for NSCoder
+    */
     required init(coder decoder: NSCoder) {
         super.init()
     
@@ -95,6 +98,9 @@ class HexPiece : NSObject, NSCoding {
         self.skipTurnsOnPlace = (decoder.decodeObjectForKey("skipTurnsOnPlace") as? Int)!
     }
     
+    /**
+        Encode for NSCoder
+    */
     func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(self.originalValue, forKey: "originalValue")
         coder.encodeObject(self.value, forKey: "value")
@@ -109,18 +115,30 @@ class HexPiece : NSObject, NSCoding {
         coder.encodeObject(self.skipTurnsOnPlace, forKey: "skipTurnsOnPlace")
     }
     
+    /**
+        Returns the minimum value that this piece can merge with
+    */
     func getMinMergeValue() -> Int {
         return self.value
     }
     
+    /**
+        Returns the maximum value that this piece can merge with
+    */
     func getMaxMergeValue() -> Int {
         return self.value
     }
     
+    /*
+        Returns string used to identify this piece for statistics purposes
+    */
     func getStatsKey() -> String {
         return "piece_value_\(self.value)"
     }
     
+    /**
+        Returns true if this piece can merge with hexPiece
+    */
     func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
         var result = false
         
@@ -131,14 +149,23 @@ class HexPiece : NSObject, NSCoding {
         return result
     }
     
+    /**
+        Returns true if this piece can be placed on the gameboard without a merge
+    */
     func canPlaceWithoutMerge() -> Bool {
         return true
     }
     
+    /**
+        Increase the value of this piece as though it had been merged, for merge testing purposes
+    */
     func updateValueForMergeTest() {
         self.value++
     }
     
+    /**
+        Decrement the value of this piece after merge testing has finished
+    */
     func rollbackValueForMergeTest() {
         self.value--
     }
