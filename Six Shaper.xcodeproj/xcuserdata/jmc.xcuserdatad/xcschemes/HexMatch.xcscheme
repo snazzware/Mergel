@@ -17,7 +17,7 @@
                BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
                BuildableName = "HexMatch.app"
                BlueprintName = "HexMatch"
-               ReferencedContainer = "container:HexMatch.xcodeproj">
+               ReferencedContainer = "container:Six Shaper.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "80E9DAB41C4446FA0028BC6D"
                BuildableName = "HexMatchTests.xctest"
                BlueprintName = "HexMatchTests"
-               ReferencedContainer = "container:HexMatch.xcodeproj">
+               ReferencedContainer = "container:Six Shaper.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -45,7 +45,7 @@
             BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
             BuildableName = "HexMatch.app"
             BlueprintName = "HexMatch"
-            ReferencedContainer = "container:HexMatch.xcodeproj">
+            ReferencedContainer = "container:Six Shaper.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -68,7 +68,7 @@
             BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
             BuildableName = "HexMatch.app"
             BlueprintName = "HexMatch"
-            ReferencedContainer = "container:HexMatch.xcodeproj">
+            ReferencedContainer = "container:Six Shaper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -87,7 +87,7 @@
             BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
             BuildableName = "HexMatch.app"
             BlueprintName = "HexMatch"
-            ReferencedContainer = "container:HexMatch.xcodeproj">
+            ReferencedContainer = "container:Six Shaper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

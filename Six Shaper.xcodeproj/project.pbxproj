@@ -531,7 +531,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 80E9DA981C4446FA0028BC6D /* Build configuration list for PBXProject "HexMatch" */;
+			buildConfigurationList = 80E9DA981C4446FA0028BC6D /* Build configuration list for PBXProject "Six Shaper" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -841,7 +841,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		80E9DA981C4446FA0028BC6D /* Build configuration list for PBXProject "HexMatch" */ = {
+		80E9DA981C4446FA0028BC6D /* Build configuration list for PBXProject "Six Shaper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80E9DABC1C4446FA0028BC6D /* Debug */,
