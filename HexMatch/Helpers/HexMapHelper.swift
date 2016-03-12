@@ -36,7 +36,7 @@ class HexMapHelper: NSObject {
     let offsetBottom = 60
     
     // Hex piece textures
-    let hexPieceTextureNames = ["Triangle","Rhombus","Square","Pentagon","Hexagon","Star","GoldStar"]
+    let hexPieceTextureNames = ["Triangle","Square","Pentagon","Hexagon","Star","GoldStar"]
     var maxPieceValue = 0
     var hexPieceTextures: [SKTexture] = Array()
     

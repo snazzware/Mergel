@@ -174,6 +174,7 @@
 		8076BA751C48017600BA62A4 /* HexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexPiece.swift; sourceTree = "<group>"; };
 		8076BA791C480A2300BA62A4 /* LevelHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelHelper.swift; sourceTree = "<group>"; };
 		8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellVoid@2x.png"; sourceTree = "<group>"; };
+		808A0DBA1C9491830041FB0E /* HexMatch.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = HexMatch.entitlements; sourceTree = "<group>"; };
 		80B230F51C4C4B0500FAB024 /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		80CA3AAF1C5D687800E814DF /* BankScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BankScene.swift; sourceTree = "<group>"; };
 		80CA3AB21C5D6FF200E814DF /* BuyableButtonWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuyableButtonWidget.swift; sourceTree = "<group>"; };
@@ -423,6 +424,7 @@
 		80E9DA9F1C4446FA0028BC6D /* HexMatch */ = {
 			isa = PBXGroup;
 			children = (
+				808A0DBA1C9491830041FB0E /* HexMatch.entitlements */,
 				8076BA691C473AC800BA62A4 /* Assets */,
 				80E9DACF1C45DB3D0028BC6D /* Helpers */,
 				806B00251C65175A00CF4652 /* HexMap */,
@@ -515,7 +517,12 @@
 				TargetAttributes = {
 					80E9DA9C1C4446FA0028BC6D = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = WF7M5BSK85;
+						DevelopmentTeam = 4WAM63NPM5;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					80E9DAB41C4446FA0028BC6D = {
 						CreatedOnToolsVersion = 7.2;
@@ -773,14 +780,18 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HexMatch/HexMatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj";
 				FRAMEWORK_SEARCH_PATHS = "";
 				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = HexMatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.HexMatch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.SixShaper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -788,13 +799,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = HexMatch/HexMatch.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Snazzware (4WAM63NPM5)";
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj";
 				FRAMEWORK_SEARCH_PATHS = "";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = HexMatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.HexMatch;
+				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.SixShaper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

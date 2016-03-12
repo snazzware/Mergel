@@ -1082,16 +1082,16 @@ class GameScene: SNZScene {
     }
     
     func checkForUnlocks() {
-        if (LevelHelper.instance.mode == .Hexagon && !GameState.instance!.unlockedLevels.contains(.Pit) && self.score >= 500000) {
-            GameState.instance!.unlockedLevels.append(.Pit)
-            
-            self.burstMessage("New Map Unlocked\nTHE PIT")
-        }
-        
-        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Moat) && self.score >= 1000000) {
+        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Moat) && self.score >= 500000) {
             GameState.instance!.unlockedLevels.append(.Moat)
             
             self.burstMessage("New Map Unlocked\nTHE MOAT")
+        }
+        
+        if (LevelHelper.instance.mode == .Moat && !GameState.instance!.unlockedLevels.contains(.Hexagon) && self.score >= 1000000) {
+            GameState.instance!.unlockedLevels.append(.Hexagon)
+            
+            self.burstMessage("New Map Unlocked\nBIG HEXAGON")
         }
     }
     

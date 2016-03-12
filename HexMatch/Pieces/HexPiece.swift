@@ -210,22 +210,19 @@ class HexPiece : NSObject, NSCoding {
             case 0: // Triangle
                 description = "Triangle"
             break
-            case 1: // Rhombus
-                description = "Rhombus"
-            break
-            case 2: // Square
+            case 1: // Square
                 description = "Square"
             break
-            case 3: // Pentagon
+            case 2: // Pentagon
                 description = "Pentagon"
             break
-            case 4: // Hexagon
+            case 3: // Hexagon
                 description = "Hexagon"
             break
-            case 5: // Star
+            case 4: // Star
                 description = "Star"
             break
-            case 6: // Gold Star
+            case 5: // Gold Star
                 description = "Gold Star"
             break
             default:

@@ -108,17 +108,17 @@ class LevelHelper: NSObject {
                 
                 piece = MobileHexPiece()
                 piece.value = 0
-                piece.caption = "Some shapes are alive, and will move until they are blocked."
+                piece.caption = "Some shapes are alive, and will move on their own until they are blocked."
                 self.pushPiece(piece)
                 
                 piece = HexPiece()
                 piece.value = 1
-                piece.caption = "Sometimes, you get bigger shapes to play."
+                piece.caption = "Sometimes, you get different shapes to play."
                 self.pushPiece(piece)
                 
                 piece = EnemyHexPiece()
                 piece.value = 0
-                piece.caption = "And sometimes, you get gel! Turn three gel in to a bean, and three beans in to a collectible."
+                piece.caption = "And sometimes, you get gel, the natural enemy of geometric shapes. Turn three gel in to a bean, and three beans in to a collectible."
                 self.pushPiece(piece)
                 
                 piece = WildcardHexPiece()
@@ -153,7 +153,7 @@ class LevelHelper: NSObject {
                 
                 piece = HexPiece()
                 piece.value = 0
-                piece.caption = "Tap the menu button when you are ready to start a real game on the first map: Big Hexagon!"
+                piece.caption = "Tap the menu button when you are ready to start a real game on the first map: The Pit!"
                 self.pushPiece(piece)
                 
                 // Flip order so that newest pieces come off last
