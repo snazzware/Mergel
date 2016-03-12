@@ -16,6 +16,7 @@ class HexPiece : NSObject, NSCoding {
     // order in which piece was added to board
     var added = 0
 
+    // HexCell that this piece is currently placed in, if any
     var _hexCell: HexCell?
     var hexCell: HexCell? {
         get {
@@ -32,7 +33,11 @@ class HexPiece : NSObject, NSCoding {
             }
         }
     }
+    
+    // Sprite which represents this piece, if any
     var sprite: SKSpriteNode?
+    
+    // Caption which will be displayed when this piece is selected for placement
     var caption: String = ""
     
     // How many turns we have left to skip, and how many we should skip after being placed.
