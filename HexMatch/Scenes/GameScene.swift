@@ -810,7 +810,6 @@ class GameScene: SNZScene {
             let marginPortrait: CGFloat = 90
             let marginLandscape: CGFloat = 60
             
-            
             let gameboardWidth = HexMapHelper.instance.getRenderedWidth()
             let gameboardHeight = HexMapHelper.instance.getRenderedHeight()
             
@@ -828,7 +827,6 @@ class GameScene: SNZScene {
             
             // Reposition gameboard layer to center in view
             self.gameboardLayer.position = CGPointMake(((self.frame.width) - (gameboardWidth * scale))/2, (((self.frame.height) - (gameboardHeight * scale))/2) - shiftY)
-            
         }
     }
     
@@ -877,6 +875,7 @@ class GameScene: SNZScene {
         self.updateScore()
         self.updateHighScore()
         self.updateCurrentPieceSprite()
+        self.updateGuiPositions()
     }
     
     /**

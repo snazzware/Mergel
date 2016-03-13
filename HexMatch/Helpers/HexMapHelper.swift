@@ -35,6 +35,9 @@ class HexMapHelper: NSObject {
     let offsetLeft = 30
     let offsetBottom = 60
     
+    // Bounds
+    var renderedBounds = CGRectMake(0,0,0,0)
+    
     // Hex piece textures
     let hexPieceTextureNames = ["Triangle","Square","Pentagon","Hexagon","Star","GoldStar"]
     var maxPieceValue = 0
@@ -78,8 +81,11 @@ class HexMapHelper: NSObject {
         - Returns: A CGPoint of the on-screen location of the hex cell
     */
     func hexMapToScreen(x: Int, _ y: Int) -> CGPoint {
-        let x2 = self.cellNodeHorizontalAdvance * x
-        var y2 = Int(CGFloat(self.cellNodeVerticalAdvance) * CGFloat(y))
+        let offsetX = x - Int(self.renderedBounds.origin.x)
+        let offsetY = y - Int(self.renderedBounds.origin.y)
+    
+        let x2 = self.cellNodeHorizontalAdvance * offsetX
+        var y2 = Int(CGFloat(self.cellNodeVerticalAdvance) * CGFloat(offsetY))
         
         if (x % 2 != 0) {
             y2 -= self.cellNodeVerticalStagger
@@ -92,12 +98,47 @@ class HexMapHelper: NSObject {
         return self.hexMapToScreen(position.x, position.y)
     }
     
+    func getBounds() -> CGRect {
+        var bounds = CGRectMake(-1,-1,-1,-1)
+        
+        for x in 0...self.hexMap!.width-1 {
+            for y in 0...self.hexMap!.height-1 {
+                if (!(hexMap!.cell(x, y)!.isVoid)) {
+                    // Set origin x and y
+                    if (bounds.origin.x == -1 || bounds.origin.x > CGFloat(x)) {
+                        bounds.origin.x = CGFloat(x)
+                    }
+                    if (bounds.origin.y == -1 || bounds.origin.y > CGFloat(y)) {
+                        bounds.origin.y = CGFloat(y)
+                    }
+                    
+                    // Update width & height
+                    if (abs(CGFloat(x) - bounds.origin.x) > bounds.size.width) {
+                        bounds.size.width = abs(CGFloat(x) - bounds.origin.x)+1
+                    }
+                    if (abs(CGFloat(y) - bounds.origin.y) > bounds.size.height) {
+                        bounds.size.height = abs(CGFloat(y) - bounds.origin.y)+1
+                    }
+                }
+            }
+        }
+        
+        return bounds
+    }
+    
     func getRenderedWidth() -> CGFloat {
-        return CGFloat(self.cellNodeHorizontalAdvance*(self.hexMap!.width)) + CGFloat(self.cellActualWidth - self.cellNodeHorizontalAdvance)
+        let bounds = self.getBounds()
+        
+        print(bounds.width)
+        print(bounds.height)
+        
+        return CGFloat(CGFloat(self.cellNodeHorizontalAdvance)*(bounds.size.width)) + CGFloat(self.cellActualWidth - self.cellNodeHorizontalAdvance)
     }
     
     func getRenderedHeight() -> CGFloat {
-        return CGFloat(self.cellActualHeight*(self.hexMap!.height)) - CGFloat(self.cellActualHeight - self.cellNodeVerticalAdvance)
+        let bounds = self.getBounds()
+        
+        return CGFloat(CGFloat(self.cellActualHeight)*(bounds.size.height)) - CGFloat(self.cellActualHeight - self.cellNodeVerticalAdvance)
     }
     
     /**
@@ -109,13 +150,18 @@ class HexMapHelper: NSObject {
         - Returns: None
     */
     func renderHexMap(parent: SKNode) {
-        self.renderHexMapShadow(parent);
-    
         let emptyCellTexture = SKTexture(imageNamed: "HexCell")
         let voidCellTexture = SKTexture(imageNamed: "HexCellVoid")
         
         var rows:[[SKSpriteNode]] = Array()
         
+        // Calculate current bounds
+        self.renderedBounds = self.getBounds()
+    
+        // Render the shadow
+        self.renderHexMapShadow(parent);
+    
+        // Iterate over map and render each cell
         for x in 0...self.hexMap!.width-1 {
             var rowSprites:[SKSpriteNode] = Array()
             for y in 0...self.hexMap!.height-1 {
