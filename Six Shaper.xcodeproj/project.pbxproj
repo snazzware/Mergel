@@ -185,7 +185,7 @@
 		80DCAF2B1C595A4D00391276 /* EnemyEyeRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyEyeRight@2x.png"; sourceTree = "<group>"; };
 		80DCAF2C1C595A4D00391276 /* EnemyMouthFrown@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyMouthFrown@2x.png"; sourceTree = "<group>"; };
 		80DCAF2D1C595A4D00391276 /* EnemyVanillaBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBean@2x.png"; sourceTree = "<group>"; };
-		80E9DA9D1C4446FA0028BC6D /* HexMatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HexMatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		80E9DA9D1C4446FA0028BC6D /* Six Shaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Six Shaper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E9DAA01C4446FA0028BC6D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		80E9DAA41C4446FA0028BC6D /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		80E9DAA61C4446FA0028BC6D /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
@@ -415,7 +415,7 @@
 		80E9DA9E1C4446FA0028BC6D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				80E9DA9D1C4446FA0028BC6D /* HexMatch.app */,
+				80E9DA9D1C4446FA0028BC6D /* Six Shaper.app */,
 				80E9DAB51C4446FA0028BC6D /* HexMatchTests.xctest */,
 			);
 			name = Products;
@@ -469,9 +469,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		80E9DA9C1C4446FA0028BC6D /* HexMatch */ = {
+		80E9DA9C1C4446FA0028BC6D /* Six Shaper */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80E9DABE1C4446FA0028BC6D /* Build configuration list for PBXNativeTarget "HexMatch" */;
+			buildConfigurationList = 80E9DABE1C4446FA0028BC6D /* Build configuration list for PBXNativeTarget "Six Shaper" */;
 			buildPhases = (
 				80E9DA991C4446FA0028BC6D /* Sources */,
 				80E9DA9A1C4446FA0028BC6D /* Frameworks */,
@@ -482,9 +482,9 @@
 			);
 			dependencies = (
 			);
-			name = HexMatch;
+			name = "Six Shaper";
 			productName = HexMatch;
-			productReference = 80E9DA9D1C4446FA0028BC6D /* HexMatch.app */;
+			productReference = 80E9DA9D1C4446FA0028BC6D /* Six Shaper.app */;
 			productType = "com.apple.product-type.application";
 		};
 		80E9DAB41C4446FA0028BC6D /* HexMatchTests */ = {
@@ -544,7 +544,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				80E9DA9C1C4446FA0028BC6D /* HexMatch */,
+				80E9DA9C1C4446FA0028BC6D /* Six Shaper */,
 				80E9DAB41C4446FA0028BC6D /* HexMatchTests */,
 			);
 		};
@@ -666,7 +666,7 @@
 /* Begin PBXTargetDependency section */
 		80E9DAB71C4446FA0028BC6D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 80E9DA9C1C4446FA0028BC6D /* HexMatch */;
+			target = 80E9DA9C1C4446FA0028BC6D /* Six Shaper */;
 			targetProxy = 80E9DAB61C4446FA0028BC6D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -850,7 +850,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		80E9DABE1C4446FA0028BC6D /* Build configuration list for PBXNativeTarget "HexMatch" */ = {
+		80E9DABE1C4446FA0028BC6D /* Build configuration list for PBXNativeTarget "Six Shaper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				80E9DABF1C4446FA0028BC6D /* Debug */,

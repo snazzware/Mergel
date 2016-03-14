@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
-               BuildableName = "HexMatch.app"
-               BlueprintName = "HexMatch"
+               BuildableName = "Six Shaper.app"
+               BlueprintName = "Six Shaper"
                ReferencedContainer = "container:Six Shaper.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,8 +43,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
-            BuildableName = "HexMatch.app"
-            BlueprintName = "HexMatch"
+            BuildableName = "Six Shaper.app"
+            BlueprintName = "Six Shaper"
             ReferencedContainer = "container:Six Shaper.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,8 +66,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
-            BuildableName = "HexMatch.app"
-            BlueprintName = "HexMatch"
+            BuildableName = "Six Shaper.app"
+            BlueprintName = "Six Shaper"
             ReferencedContainer = "container:Six Shaper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -85,8 +85,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "80E9DA9C1C4446FA0028BC6D"
-            BuildableName = "HexMatch.app"
-            BlueprintName = "HexMatch"
+            BuildableName = "Six Shaper.app"
+            BlueprintName = "Six Shaper"
             ReferencedContainer = "container:Six Shaper.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

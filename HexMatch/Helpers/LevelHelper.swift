@@ -93,7 +93,7 @@ class LevelHelper: NSObject {
                 var piece: HexPiece = HexPiece()
                 
                 piece.value = 0
-                piece.caption = "Welcome to HexMatch! Start by tapping on the pulsing triangle."
+                piece.caption = "Welcome to Six Shaper! Start by tapping on the pulsing triangle."
                 self.pushPiece(piece)
                 
                 piece = HexPiece()
