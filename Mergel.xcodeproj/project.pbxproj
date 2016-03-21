@@ -21,6 +21,7 @@
 		8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDC91C51A02B0029922B /* Square@2x.png */; };
 		8042BDD21C51A3940029922B /* Pentagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDD01C51A3940029922B /* Pentagon@2x.png */; };
 		8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8042BDD31C51A6110029922B /* Hexagon@2x.png */; };
+		804759A31CA07C100026F25E /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = 804759A21CA07C100026F25E /* .travis.yml */; };
 		804BA2351C55ACF600951162 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2331C55ACF600951162 /* Star@2x.png */; };
 		804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2341C55ACF600951162 /* Wildcard@2x.png */; };
 		804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2371C55AD2700951162 /* Blackstar@2x.png */; };
@@ -130,6 +131,7 @@
 		8042BDC91C51A02B0029922B /* Square@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Square@2x.png"; sourceTree = "<group>"; };
 		8042BDD01C51A3940029922B /* Pentagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Pentagon@2x.png"; sourceTree = "<group>"; };
 		8042BDD31C51A6110029922B /* Hexagon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Hexagon@2x.png"; sourceTree = "<group>"; };
+		804759A21CA07C100026F25E /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		804BA2331C55ACF600951162 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
 		804BA2341C55ACF600951162 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
 		804BA2371C55AD2700951162 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
@@ -400,6 +402,7 @@
 		80E9DA941C4446FA0028BC6D = {
 			isa = PBXGroup;
 			children = (
+				804759A21CA07C100026F25E /* .travis.yml */,
 				8075D13F1C6BD6D0003DC454 /* SNZGenerics.swift */,
 				806CDBB41C5BF91400C10664 /* 3rdParty */,
 				80E9DA9F1C4446FA0028BC6D /* HexMatch */,
@@ -573,6 +576,7 @@
 				8075D13C1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas in Resources */,
 				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
 				8075D1251C696045003DC454 /* SWIPE Whoosh Double 01.wav in Resources */,
+				804759A31CA07C100026F25E /* .travis.yml in Resources */,
 				806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */,
 				806CDB991C5BCA7D00C10664 /* paperflip.wav in Resources */,
 				806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */,
