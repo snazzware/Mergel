@@ -17,7 +17,8 @@ class GameScene: SNZScene {
     var currentPieceLabel: SKLabelNode?
     var currentPieceHome = CGPointMake(0,0)
     var currentPieceSprite: SKSpriteNode?
-    var currentPieceCaption: SKNode?
+    var currentPieceCaption: SKShapeNode?
+    var currentPieceCaptionText: String = ""
     
     var stashPieceLabel: SKLabelNode?
     var stashPieceHome = CGPointMake(0,0)
@@ -31,6 +32,8 @@ class GameScene: SNZScene {
     var currentButton: SNZButtonWidget?
     var statsButton: SNZButtonWidget?
     var highScoreButton: SNZButtonWidget?
+    
+    var uiTextScale:CGFloat = 1.0
     
     var scoreDisplay: SKLabelNode?
     var scoreLabel: SKLabelNode?
@@ -104,6 +107,9 @@ class GameScene: SNZScene {
     func initGame() {
         // Set background
         self.backgroundColor = UIColor(red: 0x69/255, green: 0x65/255, blue: 0x6f/255, alpha: 1.0)
+        
+        // Calculate font scale factor
+        self.initScaling()
         
         // Add guiLayer to scene
         addChild(self.guiLayer)
@@ -553,6 +559,18 @@ class GameScene: SNZScene {
         }
     }
     
+    func initScaling() {
+        let width = (self.frame.width < self.frame.height) ? self.frame.width : self.frame.height
+        
+        if (width >= 375) {
+            self.uiTextScale = 1.0
+        } else {
+            self.uiTextScale = width / 375
+        }
+        
+        print("uiTextScale = \(self.uiTextScale)")
+    }
+    
     /**
         Initializes GUI layer components, sets up labels, buttons, etc.
     */
@@ -585,7 +603,7 @@ class GameScene: SNZScene {
         self.currentButton!.size = CGSizeMake(currentButtonWidth, 72)
         self.currentButton!.position = CGPoint(x: SNZSpriteKitUITheme.instance.uiOuterMargins.left, y: self.frame.height - 90)
         self.currentButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        self.currentButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.currentButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.currentButton!.caption = ""
         self.currentButton!.bind("tap",{
             self.swapStash()
@@ -600,7 +618,7 @@ class GameScene: SNZScene {
         self.stashButton!.size = CGSizeMake(stashButtonWidth, 72)
         self.stashButton!.position = CGPoint(x: currentButton!.position.x + (SNZSpriteKitUITheme.instance.uiInnerMargins.left) + currentButtonWidth, y: self.frame.height - 90)
         self.stashButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        self.stashButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.stashButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.stashButton!.caption = ""
         self.stashButton!.bind("tap",{
             self.swapStash()
@@ -625,7 +643,7 @@ class GameScene: SNZScene {
         // Add bank display
         self.bankPointsDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.bankPoints)!)
         self.bankPointsDisplay!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 144)
-        self.bankPointsDisplay!.fontSize = 20
+        self.bankPointsDisplay!.fontSize = 18 * self.uiTextScale
         self.guiLayer.addChild(self.bankPointsDisplay!)
     
         // Add bank button
@@ -633,7 +651,7 @@ class GameScene: SNZScene {
         self.bankButton!.size = CGSizeMake(bankButtonWidth, 72)
         self.bankButton!.position = CGPointMake(self.frame.width - 100, self.frame.height-90)
         self.bankButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        self.bankButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.bankButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.bankButton!.caption = ""
         self.bankButton!.bind("tap",{
             self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
@@ -667,7 +685,7 @@ class GameScene: SNZScene {
         // Add score display
         self.scoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.score)!)
         self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
-        self.scoreDisplay!.fontSize = 24
+        self.scoreDisplay!.fontSize = 24 * self.uiTextScale
         self.guiLayer.addChild(self.scoreDisplay!)
         
         // Add stats button
@@ -675,7 +693,7 @@ class GameScene: SNZScene {
         self.statsButton!.size = CGSizeMake((self.stashButton!.position.x + self.stashButton!.size.width) - self.currentButton!.position.x, 62)
         self.statsButton!.position = CGPointMake(20, self.currentButton!.position.y - (self.currentButton!.size.height / 2) - 4 - (self.statsButton!.size.height / 2))
         self.statsButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        self.statsButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.statsButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.statsButton!.caption = ""
         self.statsButton!.bind("tap",{
             self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
@@ -686,7 +704,7 @@ class GameScene: SNZScene {
         self.highScoreButton!.size = CGSizeMake(bankButtonWidth, 62)
         self.highScoreButton!.position = CGPointMake(self.bankButton!.position.x, self.statsButton!.position.y)
         self.highScoreButton!.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
-        self.highScoreButton!.focusBackgroundColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.15)
+        self.highScoreButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.highScoreButton!.caption = ""
         self.highScoreButton!.bind("tap",{
             self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
@@ -702,13 +720,12 @@ class GameScene: SNZScene {
         // Add high score display
         self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))!)
         self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
-        self.highScoreDisplay!.fontSize = 24
+        self.highScoreDisplay!.fontSize = 24 * self.uiTextScale
         self.highScoreDisplay!.horizontalAlignmentMode = .Right
         self.guiLayer.addChild(self.highScoreDisplay!)
     
         // Current piece caption
-        self.currentPieceCaption = SKNode()
-        self.gameboardLayer.addChild(self.currentPieceCaption!)
+        self.buildCurrentPieceCaption()
     
         // Init the Game Over overlay
         self.initGameOver()
@@ -721,6 +738,29 @@ class GameScene: SNZScene {
         
         // Render the widgets
         self.renderWidgets()
+    }
+    
+    func buildCurrentPieceCaption() {
+        var isHidden = true
+    
+        if (self.currentPieceCaption != nil) {
+            isHidden = self.currentPieceCaption!.hidden
+            self.currentPieceCaption!.removeFromParent()
+        }
+        
+        if (self.frame.width > self.frame.height) {
+            self.currentPieceCaption = SKShapeNode(rect: CGRectMake(0, 0, self.statsButton!.size.width, self.statsButton!.size.width), cornerRadius: 4)
+        } else {
+            self.currentPieceCaption = SKShapeNode(rect: CGRectMake(0, 0, self.size.width - 40, 100), cornerRadius: 4)
+        }
+        self.currentPieceCaption!.fillColor = UIColor(red: 54/255, green: 93/255, blue: 126/255, alpha: 1.0)
+        self.currentPieceCaption!.lineWidth = 0
+        self.currentPieceCaption!.zPosition = 999
+        self.guiLayer.addChild(self.currentPieceCaption!)
+        
+        self.updateCurrentPieceCaption(self.currentPieceCaptionText)
+        
+        self.currentPieceCaption!.hidden = isHidden
     }
     
     /**
@@ -754,7 +794,12 @@ class GameScene: SNZScene {
             }
             
             // Current Piece Caption
-            self.currentPieceCaption!.position = HexMapHelper.instance.hexMapToScreen(HCPosition(3,0))
+            self.buildCurrentPieceCaption()
+            if (self.frame.width > self.frame.height) {
+                self.currentPieceCaption!.position = CGPoint(x: 20, y: (self.frame.height - 145) - (self.currentPieceCaption!.frame.height / 2))
+            } else {
+                self.currentPieceCaption!.position = CGPoint(x: 20, y: (self.frame.height - 145) - (self.currentPieceCaption!.frame.height / 2))
+            }
             
             // Stash Piece
             self.stashButton!.position = CGPoint(x: currentButton!.position.x + (SNZSpriteKitUITheme.instance.uiInnerMargins.left) + currentButtonWidth, y: self.frame.height - 90)
@@ -841,11 +886,13 @@ class GameScene: SNZScene {
     func createUILabel(caption: String) -> SKLabelNode {
         let label = SKLabelNode(text: caption)
         label.fontColor = UIColor(red: 0xf7/255, green: 0xef/255, blue: 0xed/255, alpha: 1.0)
-        label.fontSize = 18
+        label.fontSize = 18 * self.uiTextScale
         label.zPosition = 20
         label.fontName = "Avenir-Black"
         label.ignoreTouches = true
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+
+        print(self.frame.width)
 
         return label
     }
@@ -939,7 +986,7 @@ class GameScene: SNZScene {
             
             let label = SKLabelNode(text: pointString)
             label.fontColor = UIColor.whiteColor()
-            label.fontSize = CGFloat(18 + pointString.characters.count)
+            label.fontSize = CGFloat(18 + pointString.characters.count)  * self.uiTextScale
             label.zPosition = 30
             label.position = position
             label.fontName = "Avenir-Black"
@@ -1024,7 +1071,7 @@ class GameScene: SNZScene {
     func initGameOver() {
         let label = SKLabelNode(text: "GAME OVER")
         label.fontColor = UIColor.whiteColor()
-        label.fontSize = 64
+        label.fontSize = 64 * self.uiTextScale
         label.zPosition = 20
         label.fontName = "Avenir-Black"
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
@@ -1081,16 +1128,16 @@ class GameScene: SNZScene {
     }
     
     func checkForUnlocks() {
-        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Moat) && self.score >= 500000) {
+        if ((LevelHelper.instance.mode == .Hexagon || LevelHelper.instance.mode == .Welcome) && !GameState.instance!.unlockedLevels.contains(.Pit) && self.score >= 500000) {
+            GameState.instance!.unlockedLevels.append(.Pit)
+            
+            self.burstMessage("New Map Unlocked\nTHE PIT")
+        }
+        
+        if (LevelHelper.instance.mode == .Pit && !GameState.instance!.unlockedLevels.contains(.Moat) && self.score >= 1000000) {
             GameState.instance!.unlockedLevels.append(.Moat)
             
             self.burstMessage("New Map Unlocked\nTHE MOAT")
-        }
-        
-        if (LevelHelper.instance.mode == .Moat && !GameState.instance!.unlockedLevels.contains(.Hexagon) && self.score >= 1000000) {
-            GameState.instance!.unlockedLevels.append(.Hexagon)
-            
-            self.burstMessage("New Map Unlocked\nBIG HEXAGON")
         }
     }
     
@@ -1190,12 +1237,15 @@ class GameScene: SNZScene {
                     self.updateCurrentPieceCaption(GameState.instance!.currentPiece!.caption)
                 } else {
                     self.currentPieceCaption!.hidden = true
+                    self.currentPieceCaptionText = ""
                 }
             }
         }
     }
     
     func updateCurrentPieceCaption(caption: String) {
+        self.currentPieceCaptionText = caption
+    
         self.currentPieceCaption!.removeAllChildren()
         
         let tokens = caption.componentsSeparatedByString(" ")
@@ -1203,7 +1253,11 @@ class GameScene: SNZScene {
         var token = ""
         var label = self.createUILabel("")
         var priorText = ""
-        var verticalOffset:CGFloat = 20
+        var verticalOffset:CGFloat = self.currentPieceCaption!.frame.height / 2
+        let horizontalOffset:CGFloat = self.currentPieceCaption!.frame.width / 2
+        
+        var lineHeight:CGFloat = 0
+        var totalHeight:CGFloat = 0
         
         while (idx < tokens.count) {
             token = tokens[idx]
@@ -1211,23 +1265,36 @@ class GameScene: SNZScene {
             priorText = label.text!
             label.text = label.text!+" "+token
             
-            if (label.frame.width > 300) {
+            if (label.frame.width > (self.currentPieceCaption!.frame.width) - 20) {
                 label.text = priorText
                 label.horizontalAlignmentMode = .Center
-                label.position = CGPointMake(0,verticalOffset)
+                label.position = CGPointMake(horizontalOffset,verticalOffset)
                 self.currentPieceCaption!.addChild(label)
                 verticalOffset -= 20
+                
+                totalHeight += label.frame.height
                 
                 label = self.createUILabel("")
             } else {
                 idx++
             }
+            
+            if (lineHeight == 0) {
+                lineHeight = label.frame.height
+            }
         }
         
         if (label.text != "") {
             label.horizontalAlignmentMode = .Center
-            label.position = CGPointMake(0,verticalOffset)
+            label.position = CGPointMake(horizontalOffset,verticalOffset)
             self.currentPieceCaption!.addChild(label)
+            
+            totalHeight += label.frame.height
+        }
+        
+        // Vertically center the entire block
+        for label in self.currentPieceCaption!.children {
+            label.position.y += (totalHeight / 2) - (lineHeight / 2)
         }
         
     }
@@ -1236,6 +1303,10 @@ class GameScene: SNZScene {
         Swaps GameState.instance!.currentPiece with the piece currently in the stash, if any. If no piece is in the stash, a new currentPiece is geneated and the old currentPiece is placed in the stash.
     */
     func swapStash() {
+        // Clear any caption when piece is going to be swapped in to stash
+        GameState.instance!.currentPiece!.caption = ""
+        
+        // Handle the swap
         if (GameState.instance!.stashPiece != nil) {
             let tempPiece = GameState.instance!.currentPiece!
             
