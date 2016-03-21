@@ -26,8 +26,8 @@ class BankButtonWidget : SNZButtonWidget {
         
         // position & add icon
         let bankIcon = SKSpriteNode(texture: SKTexture(imageNamed: "savings1"))
-        bankIcon.setScale(0.8)
-        bankIcon.position = CGPointMake(self.size.width - 32,self.size.height - 32)
+        bankIcon.setScale(0.5)
+        bankIcon.position = CGPointMake(self.size.width - 24,self.size.height - 40)
         bankIcon.ignoreTouches = true
         self.sprite!.addChild(bankIcon)
         
