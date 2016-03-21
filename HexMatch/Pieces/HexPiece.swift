@@ -186,6 +186,9 @@ class HexPiece : NSObject, NSCoding {
         
         self.playMergeSound()
         
+        // Clear caption, if any
+        self.caption = ""
+        
         return self
     }
     
@@ -194,6 +197,9 @@ class HexPiece : NSObject, NSCoding {
     */
     func wasPlacedWithoutMerge() {
         self.skipTurnCounter = self.skipTurnsOnPlace
+        
+        // Clear caption, if any
+        self.caption = ""
         
         self.playPlacementSound()
     }
