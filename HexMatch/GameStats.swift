@@ -29,7 +29,7 @@ class GameStats: NSObject, NSCoding {
         "piece_vanillabean_1": "Pieces Placed or Merged by Type/Vanilla Jelly Bean",
         "piece_vanillabean_2": "Pieces Placed or Merged by Type/Vanilla Jelly Beans (collectible)",
         "highscore_"+String(LevelHelperMode.Welcome.rawValue): "High Scores/Tutorial",
-        "highscore_"+String(LevelHelperMode.Hexagon.rawValue): "High Scores/Big Hexagon",
+        "highscore_"+String(LevelHelperMode.Hexagon.rawValue): "High Scores/Beginner",
         "highscore_"+String(LevelHelperMode.Moat.rawValue): "High Scores/The Moat",
         "highscore_"+String(LevelHelperMode.Pit.rawValue): "High Scores/The Pit"
     ]

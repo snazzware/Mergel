@@ -31,7 +31,7 @@ class GameState: NSObject, NSCoding {
         self.hexMap = HexMap(7,7)
         
         self.unlockedLevels.append(.Welcome)
-        self.unlockedLevels.append(.Pit)
+        self.unlockedLevels.append(.Hexagon)
         
         self.levelHelperMode = .Welcome
         
@@ -120,6 +120,8 @@ class GameState: NSObject, NSCoding {
         if (!self.unlockedLevels.contains(.Hexagon)) {
              self.unlockedLevels.append(.Hexagon)
         }
+        
+        print(self.unlockedLevels);
     }
     
     func encodeWithCoder(coder: NSCoder) {

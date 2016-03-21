@@ -44,7 +44,7 @@ class LevelHelper: NSObject {
                 caption = "Tutorial"
             break
             case .Hexagon:
-                caption = "Big Hexagon"
+                caption = "Beginner"
             break
             case .Pit:
                 caption = "The Pit"
@@ -93,12 +93,12 @@ class LevelHelper: NSObject {
                 var piece: HexPiece = HexPiece()
                 
                 piece.value = 0
-                piece.caption = "Welcome to Six Shaper! Start by tapping on the pulsing triangle."
+                piece.caption = "Welcome to Mergel! Start by tapping on the pulsing triangle."
                 self.pushPiece(piece)
                 
                 piece = HexPiece()
                 piece.value = 0
-                piece.caption = "You can tap shapes to place it where it is, or tap an empty spot to place there instead."
+                piece.caption = "You can tap a shape to place it where it is, or tap an empty spot to place there instead."
                 self.pushPiece(piece)
                 
                 piece = HexPiece()
@@ -118,7 +118,7 @@ class LevelHelper: NSObject {
                 
                 piece = EnemyHexPiece()
                 piece.value = 0
-                piece.caption = "And sometimes, you get gel, the natural enemy of geometric shapes. Turn three gel in to a bean, and three beans in to a collectible."
+                piece.caption = "Gel! The natural enemy of geometric shapes. Three gels become a bean, and three beans become collectible."
                 self.pushPiece(piece)
                 
                 piece = WildcardHexPiece()
@@ -153,7 +153,7 @@ class LevelHelper: NSObject {
                 
                 piece = HexPiece()
                 piece.value = 0
-                piece.caption = "Tap the menu button when you are ready to start a real game on the first map: The Pit!"
+                piece.caption = "When you're ready, tap the menu button and choose the Beginner map."
                 self.pushPiece(piece)
                 
                 // Flip order so that newest pieces come off last
@@ -161,8 +161,8 @@ class LevelHelper: NSObject {
                 
             break
             case .Hexagon:
-                // Create radius 3 hexagon
-                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                // Create radius 2 hexagon
+                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
