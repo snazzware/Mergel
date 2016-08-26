@@ -1,0 +1,6 @@
+framework module Pods_Mergel {
+  umbrella header "Pods-Mergel-umbrella.h"
+
+  export *
+  module * { export * }
+}

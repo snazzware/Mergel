@@ -1,0 +1,21 @@
+PODS:
+  - SNZSpriteKitUI (0.0.1)
+
+DEPENDENCIES:
+  - SNZSpriteKitUI (from `https://github.com/snazzware/SNZSpriteKitUI.git`)
+
+EXTERNAL SOURCES:
+  SNZSpriteKitUI:
+    :git: https://github.com/snazzware/SNZSpriteKitUI.git
+
+CHECKOUT OPTIONS:
+  SNZSpriteKitUI:
+    :commit: eba2d25d882059c03e4983efe4381859a2b630cd
+    :git: https://github.com/snazzware/SNZSpriteKitUI.git
+
+SPEC CHECKSUMS:
+  SNZSpriteKitUI: 043104cad450870a045385eb3917eda40a07837b
+
+PODFILE CHECKSUM: 86cd8bb9c2c60a8f110391210dbc6a04b55679ea
+
+COCOAPODS: 1.0.1

@@ -1,0 +1,6 @@
+framework module SNZSpriteKitUI {
+  umbrella header "SNZSpriteKitUI-umbrella.h"
+
+  export *
+  module * { export * }
+}

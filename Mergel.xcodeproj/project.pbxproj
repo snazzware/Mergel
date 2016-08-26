@@ -25,7 +25,7 @@
 		804BA2351C55ACF600951162 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2331C55ACF600951162 /* Star@2x.png */; };
 		804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2341C55ACF600951162 /* Wildcard@2x.png */; };
 		804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2371C55AD2700951162 /* Blackstar@2x.png */; };
-		806B000C1C6158BB00CF4652 /* RemovePiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */; };
+		80593F641D70AEC400F5A059 /* RemovePiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80593F631D70AEC400F5A059 /* RemovePiece@2x.png */; };
 		806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B000D1C61590500CF4652 /* RemovePiece.swift */; };
 		806B00121C615D5E00CF4652 /* RemoveBuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */; };
 		806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */; };
@@ -45,9 +45,6 @@
 		806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA21C5BD26A00C10664 /* pop_9.wav */; };
 		806CDBA61C5BD6F000C10664 /* BowieBolt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */; };
 		806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */; };
-		806CDC6F1C5C21DC00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
-		806CDC701C5C21EA00C10664 /* SNZSpriteKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; };
-		806CDC711C5C21EA00C10664 /* SNZSpriteKitUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		806CDC731C5D391000C10664 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 806CDC721C5D391000C10664 /* LICENSE */; };
 		8075D1201C68FFAD003DC454 /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D11E1C68FFAD003DC454 /* HexCell@2x.png */; };
 		8075D1211C68FFAD003DC454 /* HexCellShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */; };
@@ -90,6 +87,7 @@
 		80E9DAC91C455F1D0028BC6D /* HexMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAC81C455F1D0028BC6D /* HexMap.swift */; };
 		80E9DACB1C4560530028BC6D /* HexMapTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DACA1C4560530028BC6D /* HexMapTest.swift */; };
 		80E9DAD41C45DB9E0028BC6D /* HexMapHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E9DAD31C45DB9E0028BC6D /* HexMapHelper.swift */; };
+		E17E272CEDED84C9154C5AF7 /* Pods_Mergel.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4AA711BB0DC4D0ADFA5A5C /* Pods_Mergel.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,20 +99,6 @@
 			remoteInfo = HexMatch;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		806CDC3A1C5C1B6C00C10664 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				806CDC711C5C21EA00C10664 /* SNZSpriteKitUI.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8025F9781C5806DC00A64494 /* MobileHexPiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MobileHexPiece.swift; sourceTree = "<group>"; };
@@ -135,7 +119,7 @@
 		804BA2331C55ACF600951162 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
 		804BA2341C55ACF600951162 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
 		804BA2371C55AD2700951162 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
-		806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "RemovePiece@2x.png"; path = "../../../../Art/Better Art/RemovePiece@2x.png"; sourceTree = "<group>"; };
+		80593F631D70AEC400F5A059 /* RemovePiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RemovePiece@2x.png"; sourceTree = "<group>"; };
 		806B000D1C61590500CF4652 /* RemovePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemovePiece.swift; sourceTree = "<group>"; };
 		806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveBuyablePiece.swift; sourceTree = "<group>"; };
 		806B001B1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBean_WalkA@2x.png"; sourceTree = "<group>"; };
@@ -155,7 +139,6 @@
 		806CDBA21C5BD26A00C10664 /* pop_9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop_9.wav; sourceTree = "<group>"; };
 		806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BowieBolt@2x.png"; sourceTree = "<group>"; };
 		806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GoldStar@2x.png"; sourceTree = "<group>"; };
-		806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SNZSpriteKitUI.framework; path = "../../../../../Library/Developer/Xcode/DerivedData/HexMatch-fxxqmifrldqznyasncrfnyohtmus/Build/Products/Debug-iphoneos/SNZSpriteKitUI.framework"; sourceTree = "<group>"; };
 		806CDC721C5D391000C10664 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8075D11E1C68FFAD003DC454 /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
 		8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellShadow@2x.png"; sourceTree = "<group>"; };
@@ -203,6 +186,10 @@
 		80E9DAC81C455F1D0028BC6D /* HexMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexMap.swift; sourceTree = "<group>"; };
 		80E9DACA1C4560530028BC6D /* HexMapTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexMapTest.swift; sourceTree = "<group>"; };
 		80E9DAD31C45DB9E0028BC6D /* HexMapHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HexMapHelper.swift; sourceTree = "<group>"; };
+		80F3A5491D70AABA00DDA7C3 /* SNZSpriteKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SNZSpriteKitUI.framework; path = "../../Library/Developer/Xcode/DerivedData/Mergel-cjvsrhohksaxaedefmoqaaazcpzf/Build/Products/Debug-iphonesimulator/SNZSpriteKitUI/SNZSpriteKitUI.framework"; sourceTree = "<group>"; };
+		D9A28F61CBE9F1CE8721AF32 /* Pods-Mergel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mergel.release.xcconfig"; path = "Pods/Target Support Files/Pods-Mergel/Pods-Mergel.release.xcconfig"; sourceTree = "<group>"; };
+		F1DCF0F16F226A6A0C7378A8 /* Pods-Mergel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Mergel.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Mergel/Pods-Mergel.debug.xcconfig"; sourceTree = "<group>"; };
+		FA4AA711BB0DC4D0ADFA5A5C /* Pods_Mergel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mergel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,8 +197,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				806CDC701C5C21EA00C10664 /* SNZSpriteKitUI.framework in Frameworks */,
-				806CDC6F1C5C21DC00C10664 /* SNZSpriteKitUI.framework in Frameworks */,
+				E17E272CEDED84C9154C5AF7 /* Pods_Mergel.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +211,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E7CC3DF40B2726B11D3BC0D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				80F3A5491D70AABA00DDA7C3 /* SNZSpriteKitUI.framework */,
+				FA4AA711BB0DC4D0ADFA5A5C /* Pods_Mergel.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8025F9801C580D8F00A64494 /* Eyes */ = {
 			isa = PBXGroup;
 			children = (
@@ -346,9 +341,9 @@
 				8076BA7D1C498FA900BA62A4 /* HexCellVoid@2x.png */,
 				8075D11E1C68FFAD003DC454 /* HexCell@2x.png */,
 				8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */,
+				80593F631D70AEC400F5A059 /* RemovePiece@2x.png */,
 				8042BDD31C51A6110029922B /* Hexagon@2x.png */,
 				8042BDD01C51A3940029922B /* Pentagon@2x.png */,
-				806B000B1C6158BA00CF4652 /* RemovePiece@2x.png */,
 				8042BDC11C519AAE0029922B /* Rhombus@2x.png */,
 				8042BDC91C51A02B0029922B /* Square@2x.png */,
 				804BA2331C55ACF600951162 /* Star@2x.png */,
@@ -410,8 +405,9 @@
 				80E9DA9E1C4446FA0028BC6D /* Products */,
 				806CDC721C5D391000C10664 /* LICENSE */,
 				8076BA671C47379300BA62A4 /* README.md */,
-				806CDC6E1C5C21DC00C10664 /* SNZSpriteKitUI.framework */,
 				806CDB9A1C5BCA9800C10664 /* cc attribution.txt */,
+				AB8C4D4DE959A66BF6C31B8E /* Pods */,
+				5E7CC3DF40B2726B11D3BC0D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -469,6 +465,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		AB8C4D4DE959A66BF6C31B8E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F1DCF0F16F226A6A0C7378A8 /* Pods-Mergel.debug.xcconfig */,
+				D9A28F61CBE9F1CE8721AF32 /* Pods-Mergel.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -476,10 +481,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 80E9DABE1C4446FA0028BC6D /* Build configuration list for PBXNativeTarget "Mergel" */;
 			buildPhases = (
+				8A9A60A349471AD9F2CA698B /* [CP] Check Pods Manifest.lock */,
 				80E9DA991C4446FA0028BC6D /* Sources */,
 				80E9DA9A1C4446FA0028BC6D /* Frameworks */,
 				80E9DA9B1C4446FA0028BC6D /* Resources */,
-				806CDC3A1C5C1B6C00C10664 /* Embed Frameworks */,
+				0B2A3B884BFB0BAA257451DE /* [CP] Embed Pods Frameworks */,
+				A9DB623A80E9D04299309AC8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -515,7 +522,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0730;
 				ORGANIZATIONNAME = "Josh McKee";
 				TargetAttributes = {
 					80E9DA9C1C4446FA0028BC6D = {
@@ -561,6 +568,7 @@
 				8042BDC31C519AAE0029922B /* Rhombus@2x.png in Resources */,
 				8042BDC81C519FFB0029922B /* Triangle@2x.png in Resources */,
 				8042BDB41C5188FB0029922B /* tartan2014.png in Resources */,
+				80593F641D70AEC400F5A059 /* RemovePiece@2x.png in Resources */,
 				8075D1371C6A598C003DC454 /* savings1@2x.png in Resources */,
 				8075D12D1C6963A6003DC454 /* DM-CGS-19.wav in Resources */,
 				804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */,
@@ -600,7 +608,6 @@
 				8042BDCA1C51A02B0029922B /* Square@2x.png in Resources */,
 				8075D1271C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav in Resources */,
 				8025F9831C580E3F00A64494 /* EyeLookLeft@2x.png in Resources */,
-				806B000C1C6158BB00CF4652 /* RemovePiece@2x.png in Resources */,
 				8076BA7E1C498FA900BA62A4 /* HexCellVoid@2x.png in Resources */,
 				8075D12B1C6960EE003DC454 /* NEGATIVE Failure Descending Chime 05.wav in Resources */,
 				806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */,
@@ -617,6 +624,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0B2A3B884BFB0BAA257451DE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mergel/Pods-Mergel-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8A9A60A349471AD9F2CA698B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A9DB623A80E9D04299309AC8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Mergel/Pods-Mergel-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		80E9DA991C4446FA0028BC6D /* Sources */ = {
@@ -782,14 +837,14 @@
 		};
 		80E9DABF1C4446FA0028BC6D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1DCF0F16F226A6A0C7378A8 /* Pods-Mergel.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HexMatch/HexMatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj";
-				FRAMEWORK_SEARCH_PATHS = "";
-				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = HexMatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -801,13 +856,14 @@
 		};
 		80E9DAC01C4446FA0028BC6D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9A28F61CBE9F1CE8721AF32 /* Pods-Mergel.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HexMatch/HexMatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Snazzware (4WAM63NPM5)";
 				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch *.xcode* *.xcassets (*) .DS_Store CVS .svn .git .hg *.pbproj *.pbxproj";
-				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = HexMatch/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

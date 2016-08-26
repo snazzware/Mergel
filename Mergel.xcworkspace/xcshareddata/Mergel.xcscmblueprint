@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "51B7F12DD45EF431843EDF997FE671436D953FF8",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "51B7F12DD45EF431843EDF997FE671436D953FF8" : 0,
+    "23CA0623335239BCA2C0D7597010F0ABC022C3EE" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "B64EDD84-6D20-4344-B38B-773D6716BE48",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "51B7F12DD45EF431843EDF997FE671436D953FF8" : "mergel\/",
+    "23CA0623335239BCA2C0D7597010F0ABC022C3EE" : "SNZSpriteKitUI\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Mergel",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Mergel.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:snazzware\/SNZSpriteKitUI.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "23CA0623335239BCA2C0D7597010F0ABC022C3EE"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:snazzware\/Mergel.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "51B7F12DD45EF431843EDF997FE671436D953FF8"
+    }
+  ]
+}

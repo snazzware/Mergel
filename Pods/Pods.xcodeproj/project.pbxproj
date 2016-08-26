@@ -1,0 +1,567 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0626ECC0F99AFE49BA9D783CDD1AE148 /* SNZScrollableFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B87E6D6FBD15124AB0715128F2E0244 /* SNZScrollableFrame.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		24BC15341C8E6E5AC2CFA8A93553A8AA /* SNZWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD0CBE1816D6980B6C04F7319988985 /* SNZWidget.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		3C489DCC22F8E01EAA80F0DE203CC80B /* SNZTextureButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7D97616F67E5704D12CD9E5C644CC0 /* SNZTextureButtonWidget.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		497889638D581BD9138E2D732DD6F4C5 /* SNZCheckButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7839B2C59957DC69369731ABE38101 /* SNZCheckButtonWidget.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		4F91EEAD788209A8A5F54DCF1D6D0B92 /* SNZSceneHeaderWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 738BF8B5B26041CB288879C0D7DF5166 /* SNZSceneHeaderWidget.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		5029FDC14C82332C433F89916892D8AB /* SNZScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700B5FE2E80F514C9B32E89EB2C7540D /* SNZScene.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		5596C161EF98C61E91D83620A02E8A31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		7C4B4C23FE37F37EE47F6084586AA9C2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
+		9E1EB28C2BE8F432DFA02480C077FE5B /* SNZSpriteKitUI-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 269BA2EBDC1D5E47A87B16415DE1F243 /* SNZSpriteKitUI-dummy.m */; };
+		A7747F95EEA2C88E5F981AE4A378C4E3 /* SNZUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2A542EB65741B1EFDE61859D3CFD21D /* SNZUIDelegate.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		ACD2F1B6F0C990CD76F075DEF6B7C86E /* SNZSpriteKitUITheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC4D6095E23DF07CCC907B85362915C /* SNZSpriteKitUITheme.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		B741F92941A67D494FDB347D48261C22 /* SNZLabelWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B08B8ABD8BAC1AB4CADEB3127892BE /* SNZLabelWidget.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		C3EA1BFACBE2056B704D7FD239124918 /* Pods-Mergel-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 17949E22E2D9048AC774F0373BDF08A8 /* Pods-Mergel-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D3F7599E7F5141CB0E694E20023F865F /* SNZButtonWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0242DD67FEBF908EDDCB4B4B35F6A8FB /* SNZButtonWidget.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		DAE7254062B10573F4766157935FB17F /* SNZFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA27E0EB01A0227F8E2515C9C5423F /* SNZFrame.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		EDA5E6E6E3E4B44687610988CA2B22AE /* SNZDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A31D2E64533C043085B65D4613AB89 /* SNZDialog.swift */; settings = {COMPILER_FLAGS = "-DOS_OBJECT_USE_OBJC=0"; }; };
+		F5913891EC8BFC04E1D2DD508FA163B4 /* SNZSpriteKitUI-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A37D175DC80EFAC39BC3212FCE76EA9 /* SNZSpriteKitUI-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F5D167AAF631A17499ECF9F674CF90EB /* Pods-Mergel-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F30DBD7387D8C3A5C7A73AD2523C51BD /* Pods-Mergel-dummy.m */; };
+		FEBBCFA2DEA5FEEA979064B6A141C13C /* SNZSpriteKitUI.h in Headers */ = {isa = PBXBuildFile; fileRef = 33F9C844E584E40F18BE0674A44F4EA1 /* SNZSpriteKitUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0C40F3D5BE98FE2399DF07A6B07C4A12 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8879BD7E8C2FC118293E5EE362A58FC8;
+			remoteInfo = SNZSpriteKitUI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0242DD67FEBF908EDDCB4B4B35F6A8FB /* SNZButtonWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZButtonWidget.swift; path = SNZSpriteKitUI/SNZButtonWidget.swift; sourceTree = "<group>"; };
+		07663726A2CC77F852F88132F0F42619 /* Pods-Mergel-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Mergel-acknowledgements.plist"; sourceTree = "<group>"; };
+		08F8732AA9EAF84E30FA919E1E420E38 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		17949E22E2D9048AC774F0373BDF08A8 /* Pods-Mergel-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Mergel-umbrella.h"; sourceTree = "<group>"; };
+		1B0FFD3EA3226639E8AC3220E83E40EB /* Pods-Mergel.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Mergel.release.xcconfig"; sourceTree = "<group>"; };
+		269BA2EBDC1D5E47A87B16415DE1F243 /* SNZSpriteKitUI-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SNZSpriteKitUI-dummy.m"; sourceTree = "<group>"; };
+		2DB9C1005D4A94AE20044F0BA2244A9D /* SNZSpriteKitUI.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SNZSpriteKitUI.xcconfig; sourceTree = "<group>"; };
+		33F9C844E584E40F18BE0674A44F4EA1 /* SNZSpriteKitUI.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SNZSpriteKitUI.h; path = SNZSpriteKitUI/SNZSpriteKitUI.h; sourceTree = "<group>"; };
+		3A37D175DC80EFAC39BC3212FCE76EA9 /* SNZSpriteKitUI-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SNZSpriteKitUI-umbrella.h"; sourceTree = "<group>"; };
+		4686F860F534A8EC14041F3174F01589 /* SNZSpriteKitUI.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = SNZSpriteKitUI.modulemap; sourceTree = "<group>"; };
+		52679AAB77710DCD0F95B8C5A879CFB0 /* Pods-Mergel.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Mergel.modulemap"; sourceTree = "<group>"; };
+		53B630960E13DCA382C0EEB58028E376 /* Pods_Mergel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Mergel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5EFA27E0EB01A0227F8E2515C9C5423F /* SNZFrame.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZFrame.swift; path = SNZSpriteKitUI/SNZFrame.swift; sourceTree = "<group>"; };
+		6A7D97616F67E5704D12CD9E5C644CC0 /* SNZTextureButtonWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZTextureButtonWidget.swift; path = SNZSpriteKitUI/SNZTextureButtonWidget.swift; sourceTree = "<group>"; };
+		6D7839B2C59957DC69369731ABE38101 /* SNZCheckButtonWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZCheckButtonWidget.swift; path = SNZSpriteKitUI/SNZCheckButtonWidget.swift; sourceTree = "<group>"; };
+		700B5FE2E80F514C9B32E89EB2C7540D /* SNZScene.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZScene.swift; path = SNZSpriteKitUI/SNZScene.swift; sourceTree = "<group>"; };
+		738BF8B5B26041CB288879C0D7DF5166 /* SNZSceneHeaderWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZSceneHeaderWidget.swift; path = SNZSpriteKitUI/SNZSceneHeaderWidget.swift; sourceTree = "<group>"; };
+		73A801B9B5E65201E7BA36AA65C76453 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8C277294988945F8A83A2605B1E0DB5E /* Pods-Mergel-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Mergel-frameworks.sh"; sourceTree = "<group>"; };
+		8CD0CBE1816D6980B6C04F7319988985 /* SNZWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZWidget.swift; path = SNZSpriteKitUI/SNZWidget.swift; sourceTree = "<group>"; };
+		91B08B8ABD8BAC1AB4CADEB3127892BE /* SNZLabelWidget.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZLabelWidget.swift; path = SNZSpriteKitUI/SNZLabelWidget.swift; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9B87E6D6FBD15124AB0715128F2E0244 /* SNZScrollableFrame.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZScrollableFrame.swift; path = SNZSpriteKitUI/SNZScrollableFrame.swift; sourceTree = "<group>"; };
+		9EC4D6095E23DF07CCC907B85362915C /* SNZSpriteKitUITheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZSpriteKitUITheme.swift; path = SNZSpriteKitUI/SNZSpriteKitUITheme.swift; sourceTree = "<group>"; };
+		B2A542EB65741B1EFDE61859D3CFD21D /* SNZUIDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZUIDelegate.swift; path = SNZSpriteKitUI/SNZUIDelegate.swift; sourceTree = "<group>"; };
+		BAE33CB8235A0B9A99631DBC6D19D562 /* Pods-Mergel-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Mergel-resources.sh"; sourceTree = "<group>"; };
+		C5C87B23E60B88464A436F1BD0ECC238 /* SNZSpriteKitUI-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SNZSpriteKitUI-prefix.pch"; sourceTree = "<group>"; };
+		CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		D8A31D2E64533C043085B65D4613AB89 /* SNZDialog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SNZDialog.swift; path = SNZSpriteKitUI/SNZDialog.swift; sourceTree = "<group>"; };
+		EF716ED77A238D7524AA562F9D13458F /* SNZSpriteKitUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SNZSpriteKitUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F30DBD7387D8C3A5C7A73AD2523C51BD /* Pods-Mergel-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Mergel-dummy.m"; sourceTree = "<group>"; };
+		FB15E1DB332A10C003712665B35B9C64 /* Pods-Mergel-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Mergel-acknowledgements.markdown"; sourceTree = "<group>"; };
+		FC3D63C2ADAE54AC944EA8D25B22E8B8 /* Pods-Mergel.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Mergel.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3F423BF654421AFF0401614B9140391F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C4B4C23FE37F37EE47F6084586AA9C2 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		998659AD6BF2141C2C6160383F4CF512 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5596C161EF98C61E91D83620A02E8A31 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0EBE530928EB76DED10563BA9293477F /* SNZSpriteKitUI */ = {
+			isa = PBXGroup;
+			children = (
+				0242DD67FEBF908EDDCB4B4B35F6A8FB /* SNZButtonWidget.swift */,
+				6D7839B2C59957DC69369731ABE38101 /* SNZCheckButtonWidget.swift */,
+				D8A31D2E64533C043085B65D4613AB89 /* SNZDialog.swift */,
+				5EFA27E0EB01A0227F8E2515C9C5423F /* SNZFrame.swift */,
+				91B08B8ABD8BAC1AB4CADEB3127892BE /* SNZLabelWidget.swift */,
+				700B5FE2E80F514C9B32E89EB2C7540D /* SNZScene.swift */,
+				738BF8B5B26041CB288879C0D7DF5166 /* SNZSceneHeaderWidget.swift */,
+				9B87E6D6FBD15124AB0715128F2E0244 /* SNZScrollableFrame.swift */,
+				33F9C844E584E40F18BE0674A44F4EA1 /* SNZSpriteKitUI.h */,
+				9EC4D6095E23DF07CCC907B85362915C /* SNZSpriteKitUITheme.swift */,
+				6A7D97616F67E5704D12CD9E5C644CC0 /* SNZTextureButtonWidget.swift */,
+				B2A542EB65741B1EFDE61859D3CFD21D /* SNZUIDelegate.swift */,
+				8CD0CBE1816D6980B6C04F7319988985 /* SNZWidget.swift */,
+				F4DD10F1D06D3F8BB79ED2D14F59575F /* Support Files */,
+			);
+			path = SNZSpriteKitUI;
+			sourceTree = "<group>";
+		};
+		229899D84F213897CB84684888A1EFB3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				53B630960E13DCA382C0EEB58028E376 /* Pods_Mergel.framework */,
+				EF716ED77A238D7524AA562F9D13458F /* SNZSpriteKitUI.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		54198D0DBA8A877C76D34D330572A7FF /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				598900BE45C5C64D5046D5D2BC5D70EB /* Pods-Mergel */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		598900BE45C5C64D5046D5D2BC5D70EB /* Pods-Mergel */ = {
+			isa = PBXGroup;
+			children = (
+				08F8732AA9EAF84E30FA919E1E420E38 /* Info.plist */,
+				52679AAB77710DCD0F95B8C5A879CFB0 /* Pods-Mergel.modulemap */,
+				FB15E1DB332A10C003712665B35B9C64 /* Pods-Mergel-acknowledgements.markdown */,
+				07663726A2CC77F852F88132F0F42619 /* Pods-Mergel-acknowledgements.plist */,
+				F30DBD7387D8C3A5C7A73AD2523C51BD /* Pods-Mergel-dummy.m */,
+				8C277294988945F8A83A2605B1E0DB5E /* Pods-Mergel-frameworks.sh */,
+				BAE33CB8235A0B9A99631DBC6D19D562 /* Pods-Mergel-resources.sh */,
+				17949E22E2D9048AC774F0373BDF08A8 /* Pods-Mergel-umbrella.h */,
+				FC3D63C2ADAE54AC944EA8D25B22E8B8 /* Pods-Mergel.debug.xcconfig */,
+				1B0FFD3EA3226639E8AC3220E83E40EB /* Pods-Mergel.release.xcconfig */,
+			);
+			name = "Pods-Mergel";
+			path = "Target Support Files/Pods-Mergel";
+			sourceTree = "<group>";
+		};
+		601DBD6ECE80E31456895577109AAADA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0EBE530928EB76DED10563BA9293477F /* SNZSpriteKitUI */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */,
+				601DBD6ECE80E31456895577109AAADA /* Pods */,
+				229899D84F213897CB84684888A1EFB3 /* Products */,
+				54198D0DBA8A877C76D34D330572A7FF /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		BC3CA7F9E30CC8F7E2DD044DD34432FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3DCAB2B7CDE207B3958B6CB957FCC758 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F4DD10F1D06D3F8BB79ED2D14F59575F /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				73A801B9B5E65201E7BA36AA65C76453 /* Info.plist */,
+				4686F860F534A8EC14041F3174F01589 /* SNZSpriteKitUI.modulemap */,
+				2DB9C1005D4A94AE20044F0BA2244A9D /* SNZSpriteKitUI.xcconfig */,
+				269BA2EBDC1D5E47A87B16415DE1F243 /* SNZSpriteKitUI-dummy.m */,
+				C5C87B23E60B88464A436F1BD0ECC238 /* SNZSpriteKitUI-prefix.pch */,
+				3A37D175DC80EFAC39BC3212FCE76EA9 /* SNZSpriteKitUI-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SNZSpriteKitUI";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		55D11BB41EE82269CFA5CB7258D9CF60 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5913891EC8BFC04E1D2DD508FA163B4 /* SNZSpriteKitUI-umbrella.h in Headers */,
+				FEBBCFA2DEA5FEEA979064B6A141C13C /* SNZSpriteKitUI.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C0277A1DBED8D3CDDA4B1B59B17EF2A5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C3EA1BFACBE2056B704D7FD239124918 /* Pods-Mergel-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8879BD7E8C2FC118293E5EE362A58FC8 /* SNZSpriteKitUI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE6F2ED79C59D24BA98CFC3F5E104E0E /* Build configuration list for PBXNativeTarget "SNZSpriteKitUI" */;
+			buildPhases = (
+				675EECF9294F492290AD2908AC361180 /* Sources */,
+				998659AD6BF2141C2C6160383F4CF512 /* Frameworks */,
+				55D11BB41EE82269CFA5CB7258D9CF60 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SNZSpriteKitUI;
+			productName = SNZSpriteKitUI;
+			productReference = EF716ED77A238D7524AA562F9D13458F /* SNZSpriteKitUI.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		C856D7E17B0B16F2CFCEA8F4911AF33D /* Pods-Mergel */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2ACA65AA33B82E6C1678155F116F727 /* Build configuration list for PBXNativeTarget "Pods-Mergel" */;
+			buildPhases = (
+				339829407926C46843A9A6EA9BD6F2EA /* Sources */,
+				3F423BF654421AFF0401614B9140391F /* Frameworks */,
+				C0277A1DBED8D3CDDA4B1B59B17EF2A5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				494DADD702F9DFC938EF7426D895389E /* PBXTargetDependency */,
+			);
+			name = "Pods-Mergel";
+			productName = "Pods-Mergel";
+			productReference = 53B630960E13DCA382C0EEB58028E376 /* Pods_Mergel.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0730;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = 229899D84F213897CB84684888A1EFB3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C856D7E17B0B16F2CFCEA8F4911AF33D /* Pods-Mergel */,
+				8879BD7E8C2FC118293E5EE362A58FC8 /* SNZSpriteKitUI */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		339829407926C46843A9A6EA9BD6F2EA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F5D167AAF631A17499ECF9F674CF90EB /* Pods-Mergel-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		675EECF9294F492290AD2908AC361180 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D3F7599E7F5141CB0E694E20023F865F /* SNZButtonWidget.swift in Sources */,
+				497889638D581BD9138E2D732DD6F4C5 /* SNZCheckButtonWidget.swift in Sources */,
+				EDA5E6E6E3E4B44687610988CA2B22AE /* SNZDialog.swift in Sources */,
+				DAE7254062B10573F4766157935FB17F /* SNZFrame.swift in Sources */,
+				B741F92941A67D494FDB347D48261C22 /* SNZLabelWidget.swift in Sources */,
+				5029FDC14C82332C433F89916892D8AB /* SNZScene.swift in Sources */,
+				4F91EEAD788209A8A5F54DCF1D6D0B92 /* SNZSceneHeaderWidget.swift in Sources */,
+				0626ECC0F99AFE49BA9D783CDD1AE148 /* SNZScrollableFrame.swift in Sources */,
+				9E1EB28C2BE8F432DFA02480C077FE5B /* SNZSpriteKitUI-dummy.m in Sources */,
+				ACD2F1B6F0C990CD76F075DEF6B7C86E /* SNZSpriteKitUITheme.swift in Sources */,
+				3C489DCC22F8E01EAA80F0DE203CC80B /* SNZTextureButtonWidget.swift in Sources */,
+				A7747F95EEA2C88E5F981AE4A378C4E3 /* SNZUIDelegate.swift in Sources */,
+				24BC15341C8E6E5AC2CFA8A93553A8AA /* SNZWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		494DADD702F9DFC938EF7426D895389E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SNZSpriteKitUI;
+			target = 8879BD7E8C2FC118293E5EE362A58FC8 /* SNZSpriteKitUI */;
+			targetProxy = 0C40F3D5BE98FE2399DF07A6B07C4A12 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		84FD87D359382A37B07149A12641B965 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				ONLY_ACTIVE_ARCH = YES;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		A081D63FD47E8384A8A99E56AFFF34E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B0FFD3EA3226639E8AC3220E83E40EB /* Pods-Mergel.release.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Mergel/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Mergel/Pods-Mergel.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Mergel;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		BDA4D20DD83163BFE7F83EA4E498319E /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2DB9C1005D4A94AE20044F0BA2244A9D /* SNZSpriteKitUI.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SNZSpriteKitUI/SNZSpriteKitUI-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SNZSpriteKitUI/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SNZSpriteKitUI/SNZSpriteKitUI.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = SNZSpriteKitUI;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		DB7A6354DC2A54577269F02C2515ACD4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC3D63C2ADAE54AC944EA8D25B22E8B8 /* Pods-Mergel.debug.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Mergel/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Mergel/Pods-Mergel.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Mergel;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		E9D955A79C4E423CF0FF82666DA93FAA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2DB9C1005D4A94AE20044F0BA2244A9D /* SNZSpriteKitUI.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SNZSpriteKitUI/SNZSpriteKitUI-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SNZSpriteKitUI/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/SNZSpriteKitUI/SNZSpriteKitUI.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = SNZSpriteKitUI;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		F594C655D48020EC34B00AA63E001773 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84FD87D359382A37B07149A12641B965 /* Debug */,
+				F594C655D48020EC34B00AA63E001773 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2ACA65AA33B82E6C1678155F116F727 /* Build configuration list for PBXNativeTarget "Pods-Mergel" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DB7A6354DC2A54577269F02C2515ACD4 /* Debug */,
+				A081D63FD47E8384A8A99E56AFFF34E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE6F2ED79C59D24BA98CFC3F5E104E0E /* Build configuration list for PBXNativeTarget "SNZSpriteKitUI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E9D955A79C4E423CF0FF82666DA93FAA /* Debug */,
+				BDA4D20DD83163BFE7F83EA4E498319E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

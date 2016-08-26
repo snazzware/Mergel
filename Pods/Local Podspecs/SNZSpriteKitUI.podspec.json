@@ -1,0 +1,29 @@
+{
+  "name": "SNZSpriteKitUI",
+  "version": "0.0.1",
+  "summary": "General UI for SpriteKit",
+  "description": "General UI for SpriteKit",
+  "homepage": "https://github.com/snazzware/SNZSpriteKitUI",
+  "license": {
+    "type": "LGPL",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Josh M. McKee": "josh@snazzware.com"
+  },
+  "source": {
+    "git": "https://github.com/snazzware/SNZSpriteKitUI.git",
+    "tag": "0.0.1"
+  },
+  "source_files": [
+    "SNZSpriteKitUI",
+    "SNZSpriteKitUI/**/*.{h,m}"
+  ],
+  "exclude_files": "Classes/Exclude",
+  "platforms": {
+    "osx": null,
+    "ios": null,
+    "tvos": null,
+    "watchos": null
+  }
+}
