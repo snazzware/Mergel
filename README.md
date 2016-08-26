@@ -1,11 +1,13 @@
 # Mergel
 (aka HexMatch)
 
+[![Build Status](https://travis-ci.org/snazzware/Mergel.svg?branch=master)](https://travis-ci.org/snazzware/Mergel)
+
 Mergel is a match-and-merge game written in Swift, using SpriteKit. It was created for the purpose of having some fun with SpriteKit and learning the Swift language.
 
 Build Environment
 -----------------
-This project uses [CocoaPods](https://cocoapods.org) for dependency management. 
+This project uses [CocoaPods](https://cocoapods.org) for dependency management.
 
 Dev Blog
 --------
