@@ -265,6 +265,11 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
+				TargetAttributes = {
+					8879BD7E8C2FC118293E5EE362A58FC8 = {
+						DevelopmentTeam = 4WAM63NPM5;
+					};
+				};
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -404,6 +409,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2DB9C1005D4A94AE20044F0BA2244A9D /* SNZSpriteKitUI.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -421,6 +427,7 @@
 				MODULEMAP_FILE = "Target Support Files/SNZSpriteKitUI/SNZSpriteKitUI.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = SNZSpriteKitUI;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -467,6 +474,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2DB9C1005D4A94AE20044F0BA2244A9D /* SNZSpriteKitUI.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -484,6 +492,7 @@
 				MODULEMAP_FILE = "Target Support Files/SNZSpriteKitUI/SNZSpriteKitUI.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_NAME = SNZSpriteKitUI;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";

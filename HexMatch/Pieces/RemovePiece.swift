@@ -23,7 +23,7 @@ class RemovePiece: HexPiece {
     }
 
     override func getPieceDescription() -> String {
-        return "Remove"
+        return "Eraser"
     }
 
 }
