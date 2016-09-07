@@ -29,6 +29,7 @@ class StatsScene: SNZScene {
         let statsFrame = SNZScrollableFrame()
         statsFrame.size = CGSizeMake(self.frame.width - 40, self.frame.height - 200)
         statsFrame.position = CGPointMake(20, 100)
+        statsFrame.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
         self.addWidget(statsFrame)
         
         // Create primary header
