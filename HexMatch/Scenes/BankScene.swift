@@ -66,6 +66,7 @@ class BankScene: SNZScene {
             buyable.bind("tap",{
                 SceneHelper.instance.gameScene.captureState()
                 SceneHelper.instance.gameScene.spendBankPoints(buyable.points)
+                LevelHelper.instance.pushPiece(GameState.instance!.currentPiece!)
                 SceneHelper.instance.gameScene.setCurrentPiece(hexPiece)
                 buyablePiece.wasPurchased()
                 self.close()
