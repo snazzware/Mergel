@@ -135,17 +135,18 @@ class HexCell : NSObject, NSCoding {
         Recursively checks for valid merges in every direction for a given HexPiece, skipping cells which have already
         been checked as part of the current recursion.
     */
-    func getClusterMerges(hexPiece: HexPiece, var _ visitedCells: [HexCell]) -> [HexPiece] {
+    func getClusterMerges(hexPiece: HexPiece, _ visitedCells: [HexCell]) -> [HexPiece] {
         var merges: [HexPiece] = Array()
+        var localVisitedCells = visitedCells
     
         for direction in HexCellDirection.allDirections {
             let targetCell = self.getCellByDirection(direction)
             
-            if (targetCell != nil && !visitedCells.contains(targetCell!)) {
-                visitedCells.append(targetCell!)
+            if (targetCell != nil && !localVisitedCells.contains(targetCell!)) {
+                localVisitedCells.append(targetCell!)
                 if (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece) && hexPiece.canMergeWithPiece(targetCell!.hexPiece!)) {
                     merges.append(targetCell!.hexPiece!)
-                    merges += targetCell!.getClusterMerges(hexPiece, visitedCells)
+                    merges += targetCell!.getClusterMerges(hexPiece, localVisitedCells)
                 }
             }
         }
@@ -188,7 +189,7 @@ class HexCell : NSObject, NSCoding {
                         var targetCell = self.getCellByDirection(direction)
                         while (targetCell != nil && targetCell!.hexPiece != nil && targetCell!.hexPiece!.canMergeWithPiece(hexPiece) && hexPiece.canMergeWithPiece(targetCell!.hexPiece!)) {
                             merges.append(targetCell!.hexPiece!)
-                            samePieceCount++
+                            samePieceCount += 1
                             targetCell = targetCell!.getCellByDirection(direction)
                         }
                     }
@@ -206,7 +207,7 @@ class HexCell : NSObject, NSCoding {
                 break
             }
             
-            value--;
+            value -= 1;
         }
         
         // If we didn't get at least two of the same piece, clear our merge array

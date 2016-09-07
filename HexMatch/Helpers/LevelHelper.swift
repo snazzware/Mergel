@@ -275,7 +275,8 @@ class LevelHelper: NSObject {
                 
                 // Iterate over our distribution set, until our accumulated value exceeds the random value that was selected.
                 while (distributionIndex < self.distribution.count-1 && distributionAccumulatedValue < randomValue) {
-                    distributionCurrentValue = self.distribution[++distributionIndex]
+                    distributionIndex += 1
+                    distributionCurrentValue = self.distribution[distributionIndex]
                     distributionAccumulatedValue += distributionCurrentValue
                 }
                 

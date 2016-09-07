@@ -54,7 +54,7 @@ class StatsScene: SNZScene {
         for (description, keys) in statGroups {
             let label = SKLabelNode(fontNamed: "Avenir-Black")
             label.text = description
-            label.fontColor = UIColor.blackColor()
+            label.fontColor = UIColor.whiteColor()
             label.fontSize = 18
             label.horizontalAlignmentMode = .Left
             label.verticalAlignmentMode = .Center
@@ -67,7 +67,7 @@ class StatsScene: SNZScene {
             for (key, caption) in keys {
                 let label = SKLabelNode(fontNamed: "Avenir-Black")
                 label.text = caption
-                label.fontColor = UIColor.blackColor()
+                label.fontColor = UIColor.whiteColor()
                 label.fontSize = 14
                 label.horizontalAlignmentMode = .Left
                 label.verticalAlignmentMode = .Center
@@ -77,7 +77,7 @@ class StatsScene: SNZScene {
                 
                 let value = SKLabelNode(fontNamed: "Avenir-Black")
                 value.text = "\(GameStats.instance!.getIntForKey(key, 0))"
-                value.fontColor = UIColor.blackColor()
+                value.fontColor = UIColor.whiteColor()
                 value.fontSize = 14
                 value.horizontalAlignmentMode = .Right
                 value.verticalAlignmentMode = .Center

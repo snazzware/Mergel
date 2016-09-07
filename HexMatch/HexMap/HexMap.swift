@@ -217,7 +217,7 @@ class HexMap : NSObject, NSCoding {
                 randomCell = openCells[Int(arc4random_uniform(UInt32(openCells.count)))]
             }
             
-            radius++
+            radius += 1
         }
         
         return randomCell

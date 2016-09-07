@@ -29,7 +29,8 @@ class HexPiece : NSObject, NSCoding {
                     self._hexCell!.hexPiece = nil
                 }
                 
-                self.added = HexMapHelper.instance.addedCounter++
+                HexMapHelper.instance.addedCounter += 1
+                self.added = HexMapHelper.instance.addedCounter
             }
         }
     }
@@ -160,14 +161,14 @@ class HexPiece : NSObject, NSCoding {
         Increase the value of this piece as though it had been merged, for merge testing purposes
     */
     func updateValueForMergeTest() {
-        self.value++
+        self.value += 1
     }
     
     /**
         Decrement the value of this piece after merge testing has finished
     */
     func rollbackValueForMergeTest() {
-        self.value--
+        self.value -= 1
     }
     
     /**
@@ -290,7 +291,7 @@ class HexPiece : NSObject, NSCoding {
     */
     func takeTurn() -> Bool {
         if (self.skipTurnCounter > 0) {
-            self.skipTurnCounter--
+            self.skipTurnCounter -= 1
             self.didTakeTurn = false
         } else {
             self.didTakeTurn = true

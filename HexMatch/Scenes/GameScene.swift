@@ -1276,7 +1276,7 @@ class GameScene: SNZScene {
                 
                 label = self.createUILabel("")
             } else {
-                idx++
+                idx += 1
             }
             
             if (lineHeight == 0) {
