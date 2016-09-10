@@ -27,18 +27,29 @@ TODO: video clip of collectible shapes
 Wildcards will merge with two or more of any shape, even gel, as long as the shapes are not
 alive. If a wildcard is placed on the board without merging, it becomes a Black Star.
 
-Shapes, in order of merging
----------------------------
-Triangle
-Square
-Pentagon
-Hexagon
-Purple Star
-Gold Star
+Shapes, in order of merging, with base points
+---------------------------------------------
+
+| Shape | Base Point Value | Becomes |
+|-------|------------------|---------|
+|Triangle|10|Square|
+|Square|100|Pentagon|
+|Pentagon|500|Hexagon|
+|Hexagon|1,000|Purple Star|
+|Purple Star|10,000|Gold Star|
+|Gold Star|25,000|Gold star (collectible)|
+|Gold Star (collectible)|200,000|N/A|
 
 Gels
 ----
-Vanilla Gel (alive)
-Vanilla Gel (not alive)
-Vanilla Jelly Bean
-Vanilla Jelly Beans (collectible)
+1. Vanilla Gel (alive)
+2. Vanilla Gel (not alive)
+3. Vanilla Jelly Bean
+4. Vanilla Jelly Beans (collectible)
+
+Wildcard Preference
+-------------------
+
+If a wildcard is played, it will merge with the **highest value** option available. For example, if
+a wildcard gets played touching two squares, but it is also touching two hexagons, it will merge with the
+hexagons, since they have a higher value.
