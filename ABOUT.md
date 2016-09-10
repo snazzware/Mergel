@@ -28,4 +28,12 @@ Right Arrow Icon made by [Google](http://www.flaticon.com/authors/google) from [
 
 Sounds
 ------
-todo
+
+|file     |source            |
+|---------|------------------|
+|pop_9.aif|(https://www.freesound.org/people/SunnySideSound/sounds/67095/)|
+|133283 fins game-over.wav|(http://www.freesound.org/people/fins/sounds/133283/)|
+|251938 binarymonkflint frog|(http://www.freesound.org/people/BinaryMonkFlint/sounds/251938/)|
+|DM-CGS-19.wav|(http://dustyroom.com|
+|Win Cute Vocal Chime 03|(https://gamesounds.xyz/)|
+|Collect Chime 01|(https://gamesounds.xyz/)|

@@ -17,26 +17,9 @@ http://www.gameburp.com/free-game-sound-fx/
 
 SOUND EFFECTS
 -------------
-CC0     paperflip.wav       https://www.freesound.org/people/gynation/sounds/82379/
-CCA     dealcard.wav        https://www.freesound.org/people/f4ngy/sounds/240777/
-CCA     shufflecard.wav     https://www.freesound.org/people/empraetorius/sounds/201253/        (sample cropped as shuffle.aiff)
-CCA     pop_9.aif           https://www.freesound.org/people/SunnySideSound/sounds/67095/
-CC0     133283__fins__game-over.wav     http://www.freesound.org/people/fins/sounds/133283/
-CC0     251938__binarymonkflint__frog   http://www.freesound.org/people/BinaryMonkFlint/sounds/251938/
-
-
-
-SOUND EFFECTS
--------------
-SlideFlute
-»Author:	Texaveryjr | Search by Texaveryjr
-»Website:	
-»License:	Freeware | Read Guidelines
-»Description:	The title says it all.
-
-
-RewardSound
-»Author:	Mark E Buckland | Search by Mark E Buckland
-»Website:	
-»License:	Freeware | Read Guidelines
-»Description:	Created for Reward / Bonus sound.
+[pop_9.aif](https://www.freesound.org/people/SunnySideSound/sounds/67095/)
+[133283__fins__game-over.wav](http://www.freesound.org/people/fins/sounds/133283/)
+[251938__binarymonkflint__frog](http://www.freesound.org/people/BinaryMonkFlint/sounds/251938/)
+[DM-CGS-19.wav](http://dustyroom.com)
+[Win Cute Vocal Chime 03](https://gamesounds.xyz/)
+[Collect Chime 01](https://gamesounds.xyz/)
