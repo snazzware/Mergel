@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameKit
 
 class HexPiece : NSObject, NSCoding {
     
@@ -143,7 +144,7 @@ class HexPiece : NSObject, NSCoding {
     func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
         var result = false
         
-        if (self.value == hexPiece.value && self.value < HexMapHelper.instance.maxPieceValue) {
+        if (self.value == hexPiece.value && !self.isCollectible) {
             result = true
         }
         
@@ -174,12 +175,17 @@ class HexPiece : NSObject, NSCoding {
     /**
         Called after piece has been placed on a hexmap and was merged with other piece(s)
     */
-    func wasPlacedWithMerge(mergeValue: Int = -1) -> HexPiece {
+    func wasPlacedWithMerge(mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
         // Update to the next value in sequence, or cap at maxPieceValue
         self.value = mergeValue + 1
         
         if (self.value > HexMapHelper.instance.maxPieceValue) {
             self.value = HexMapHelper.instance.maxPieceValue
+        }
+        
+        if (self.value == HexMapHelper.instance.maxPieceValue) {
+            self.isCollectible = true
+            self.addAnimation(self.sprite!)
         }
     
         self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
@@ -206,6 +212,13 @@ class HexPiece : NSObject, NSCoding {
     }
     
     /**
+        - Returns: Points to be awarded when piece is collected
+    */
+    func getCollectedValue() -> Int {
+        return 200000
+    }
+    
+    /**
         - Returns: Calculated point value based on the piece's value
     */
     func getPointValue() -> Int {
@@ -214,23 +227,23 @@ class HexPiece : NSObject, NSCoding {
         switch (self.value) {
             case 0: // Triangle
             break
-            case 1: // Rhombus
+            case 1: // Square
                 points = 100
             break
-            case 2: // Square
+            case 2: // Pentagon
                 points = 500
             break
-            case 3: // Pentagon
+            case 3: // Hexagon
                 points = 1000
             break
-            case 4: // Hexagon
+            case 4: // Purple Star
                 points = 10000
             break
-            case 5: // Star
+            case 5: // Gold Star
                 points = 25000
             break
-            case 6: // Gold Star
-                points = 50000
+            case 6: // Collectible Gold Star
+                points = 25000
             break
             default:
             break
@@ -264,6 +277,9 @@ class HexPiece : NSObject, NSCoding {
             case 5: // Gold Star
                 description = "Gold Star"
             break
+            case 6: // Collectible Gold Star
+                description = "Gold Stars"
+            break
             default:
             break
         }
@@ -279,9 +295,38 @@ class HexPiece : NSObject, NSCoding {
     func createSprite() -> SKSpriteNode {
         let node = SKSpriteNode(texture: HexMapHelper.instance.hexPieceTextures[self.value])
     
-        node.name = "hexPiece"        
+        node.name = "hexPiece"
+        
+        self.addAnimation(node)
     
         return node
+    }
+    
+    func createMergedSprite() -> SKSpriteNode? {
+        var node: SKSpriteNode?
+        
+        if (self.value+1 <= HexMapHelper.instance.maxPieceValue) {
+            node = SKSpriteNode(texture: HexMapHelper.instance.hexPieceTextures[self.value+1])
+            node!.name = "hexPiece"
+        }
+        
+        return node
+    }
+    
+    func addAnimation(node: SKSpriteNode) {
+        if (self.isCollectible) {
+            let scaleUpAction = SKAction.scaleTo(1.1, duration: 0.5)
+            let scaleDownAction = SKAction.scaleTo(0.9, duration: 0.5)
+            let rotateRightAction = SKAction.rotateByAngle(0.5, duration: 0.25)
+            let rotateLeftAction = SKAction.rotateByAngle(-0.5, duration: 0.25)
+            
+            let collectibleGroup = SKAction.group([
+                SKAction.sequence([scaleUpAction,scaleDownAction]),
+                SKAction.sequence([rotateRightAction,rotateLeftAction,rotateLeftAction,rotateRightAction])
+                ])
+            
+            node.runAction(SKAction.repeatActionForever(collectibleGroup))
+        }
     }
     
     /**
@@ -306,6 +351,23 @@ class HexPiece : NSObject, NSCoding {
     func wasCollected() {
         let scaleAction = SKAction.scaleTo(0.0, duration: 0.25)
         let collectSequence = SKAction.sequence([scaleAction, SKAction.removeFromParent()])
+        
+        // Award points, if any
+        let points = self.getCollectedValue()
+        if (points > 0) {
+            SceneHelper.instance.gameScene.awardPoints(points)
+            SceneHelper.instance.gameScene.scrollPoints(points, position: self.sprite!.position)
+        }
+        
+        // Award achievement for collecting stars
+        if (self.value == 6) {
+            let achievement = GKAchievement(identifier: "com.snazzware.mergel.Star")
+            
+            achievement.percentComplete = 100
+            achievement.showsCompletionBanner = true
+            
+            GameKitHelper.sharedInstance.reportAchievements([achievement])
+        }
         
         // Animate the collection
         self.sprite!.runAction(collectSequence)

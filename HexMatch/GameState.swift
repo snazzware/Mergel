@@ -37,7 +37,8 @@ class GameState: NSObject, NSCoding {
         
         self.optionsInt = [
             "include_mobile_pieces": 1,
-            "include_enemy_pieces": 1
+            "include_enemy_pieces": 1,
+            "enable_sound_effects": 1,
         ]
         
         super.init()
@@ -120,8 +121,6 @@ class GameState: NSObject, NSCoding {
         if (!self.unlockedLevels.contains(.Hexagon)) {
              self.unlockedLevels.append(.Hexagon)
         }
-        
-        print(self.unlockedLevels);
     }
     
     func encodeWithCoder(coder: NSCoder) {

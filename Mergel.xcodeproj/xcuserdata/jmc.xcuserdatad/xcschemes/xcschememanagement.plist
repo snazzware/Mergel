@@ -9,9 +9,29 @@
 			<key>orderHint</key>
 			<integer>0</integer>
 		</dict>
+		<key>MergelMac.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>80D5230E1D81A648009315B6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>80D523201D81A648009315B6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>80D5232B1D81A648009315B6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>80E9DA9C1C4446FA0028BC6D</key>
 		<dict>
 			<key>primary</key>

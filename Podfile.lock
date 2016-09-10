@@ -10,7 +10,7 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SNZSpriteKitUI:
-    :commit: eba2d25d882059c03e4983efe4381859a2b630cd
+    :commit: a9a020329a479d859612f50a84b1135c4066cdb1
     :git: https://github.com/snazzware/SNZSpriteKitUI.git
 
 SPEC CHECKSUMS:

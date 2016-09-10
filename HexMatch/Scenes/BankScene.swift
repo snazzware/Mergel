@@ -41,12 +41,12 @@ class BankScene: SNZScene {
         
         // Create sub-header
         let pointCaption = SKLabelNode(fontNamed: "Avenir-Black")
-        pointCaption.text = "\(GameState.instance!.bankPoints) Points Available"
+        pointCaption.text = "\(HexMapHelper.instance.scoreFormatter.stringFromNumber(GameState.instance!.bankPoints)!) Points Available"
         pointCaption.fontColor = UIColor.whiteColor()
         pointCaption.fontSize = 18
         pointCaption.horizontalAlignmentMode = .Center
         pointCaption.verticalAlignmentMode = .Center
-        pointCaption.position = CGPointMake(self.size.width / 2, self.size.height - 40)
+        pointCaption.position = CGPointMake(self.size.width / 2, self.size.height - 44)
         pointCaption.ignoreTouches = true
         self.addChild(pointCaption)
         
@@ -76,7 +76,7 @@ class BankScene: SNZScene {
         
         // Position and add the buyable button widgets
         let verticalStart:CGFloat = self.frame.height - 110
-        var horizontalOffset:CGFloat = 10
+        var horizontalOffset:CGFloat = 20
         var verticalOffset = verticalStart
         
         for buyable in buyables {
@@ -92,9 +92,9 @@ class BankScene: SNZScene {
         }
         
         // Add the close button
-        let closeButton = SNZButtonWidget(parentNode: self)
+        let closeButton = MergelButtonWidget(parentNode: self)
         closeButton.anchorPoint = CGPointMake(0,0)
-        closeButton.caption = "Cancel"
+        closeButton.caption = "Back"
         closeButton.bind("tap",{
             self.close()
         });

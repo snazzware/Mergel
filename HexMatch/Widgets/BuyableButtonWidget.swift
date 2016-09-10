@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import SNZSpriteKitUI
 
-class BuyableButtonWidget : SNZButtonWidget {
+class BuyableButtonWidget : MergelButtonWidget {
 
     var points: Int = 0
     var buyableSprite: SKSpriteNode?
@@ -18,14 +18,14 @@ class BuyableButtonWidget : SNZButtonWidget {
     override init() {
         super.init()
         
-        self.size = CGSizeMake(230, 48)
+        self.size = CGSizeMake(250, 48)
     }
     
     override func render() {
         super.render()
         
         let pointsLabel = SKLabelNode(fontNamed: "Avenir-Black")
-        pointsLabel.text = "\(self.points) pts"
+        pointsLabel.text = HexMapHelper.instance.scoreFormatter.stringFromNumber(self.points)! + " pts"
         pointsLabel.fontColor = self.color
         pointsLabel.fontSize = 12
         pointsLabel.horizontalAlignmentMode = .Right

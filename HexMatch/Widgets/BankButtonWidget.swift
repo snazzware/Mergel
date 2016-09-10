@@ -10,7 +10,7 @@ import Foundation
 import SpriteKit
 import SNZSpriteKitUI
 
-class BankButtonWidget : SNZButtonWidget {
+class BankButtonWidget : MergelButtonWidget {
 
     var points: Int = 0
     var buyableSprite: SKSpriteNode?

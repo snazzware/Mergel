@@ -14,19 +14,19 @@ public class SNZSpriteKitUIMargins {
     public var right: CGFloat
     public var top: CGFloat
     public var bottom: CGFloat
-    
+
     public var horizontal: CGFloat {
         get {
             return self.left + self.right
         }
     }
-    
+
     public var vertical: CGFloat {
         get {
             return self.top + self.bottom
         }
     }
-    
+
     init (_ top: CGFloat, _ right: CGFloat, _ bottom: CGFloat, _ left: CGFloat) {
         self.top = top
         self.right = right
@@ -43,10 +43,13 @@ public class SNZSpriteKitUITheme {
     public var textures: SKTextureAtlas
     public var uiOuterMargins = SNZSpriteKitUIMargins(20,20,20,20)
     public var uiInnerMargins = SNZSpriteKitUIMargins(10,10,10,10)
-    
+
     public var labelColor = UIColor.whiteColor()
     public var labelBackground = UIColor.clearColor()
-    
+
+    public var frameBackgroundColor = UIColor.whiteColor()
+    public var frameStrokeColor = UIColor.blackColor()
+
     init() {
         //print(self.frameworkBundle.bundlePath)
         //let atlasPath = self.frameworkBundle.pathForResource("SNZSpriteKitUIGraphics", ofType: "atlasc")!
@@ -54,6 +57,6 @@ public class SNZSpriteKitUITheme {
         self.textures = SKTextureAtlas(named: "SNZSpriteKitUIGraphics")
         //self.textures = SKTextureAtlas(coder: coder)
     }
-    
+
 
 }

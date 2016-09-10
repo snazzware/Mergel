@@ -7,6 +7,7 @@
 //
 
 import SpriteKit
+import GameKit
 
 class WildcardHexPiece : HexPiece {
 
@@ -35,29 +36,17 @@ class WildcardHexPiece : HexPiece {
         return node
     }
     
-    func addAnimation(node: SKSpriteNode) {
-        if (self.isCollectible) {
-            let scaleUpAction = SKAction.scaleTo(1.1, duration: 0.5)
-            let scaleDownAction = SKAction.scaleTo(0.9, duration: 0.5)
-            let rotateRightAction = SKAction.rotateByAngle(0.5, duration: 0.25)
-            let rotateLeftAction = SKAction.rotateByAngle(-0.5, duration: 0.25)
-            
-            let collectibleGroup = SKAction.group([
-                SKAction.sequence([scaleUpAction,scaleDownAction]),
-                SKAction.sequence([rotateRightAction,rotateLeftAction,rotateLeftAction,rotateRightAction])
-            ])
-            
-            node.runAction(SKAction.repeatActionForever(collectibleGroup))
-        }
+    override func createMergedSprite() -> SKSpriteNode? {
+        return nil
     }
     
     override func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
         var result = false
         
-        if (self.isWild) {
+        if (self.isWild && !(hexPiece is WildcardHexPiece)) {
             result = super.canMergeWithPiece(hexPiece)
         } else
-        if (!self.isCollectible && hexPiece is WildcardHexPiece && !(hexPiece as! WildcardHexPiece).isWild) {
+        if (!self.isCollectible && hexPiece.value == self.value) {
             result = true
         }
         
@@ -65,15 +54,11 @@ class WildcardHexPiece : HexPiece {
     }
     
     override func getMaxMergeValue() -> Int {
-        if (self.isWild) {
-            return HexMapHelper.instance.maxPieceValue
-        } else {
-            return 0
-        }
+        return self.isWild ? 9999 : 999
     }
     
     override func getMinMergeValue() -> Int {
-        return 0
+        return self.isWild ? 0 : 999
     }
     
     override func wasPlacedWithoutMerge() {
@@ -86,10 +71,22 @@ class WildcardHexPiece : HexPiece {
         self.sprite!.texture = HexMapHelper.instance.wildcardPlacedTexture
     }
     
-    override func wasPlacedWithMerge(mergeValue: Int = -1) -> HexPiece {
-        super.wasPlacedWithMerge(mergeValue)
+    override func wasPlacedWithMerge(mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
+        super.wasPlacedWithMerge(mergeValue, mergingPieces: mergingPieces)
 
-        if (!self.isWild) {
+        var mergingWild = false
+        var mergingEnemy = false
+        
+        for piece in mergingPieces {
+            if (piece is EnemyHexPiece) {
+                mergingEnemy = true
+            } else
+            if (piece is WildcardHexPiece) {
+                mergingWild = true
+            }
+        }
+        
+        if (mergingWild) {
             self.isCollectible = true
             
             self.sprite!.texture = SKTexture(imageNamed: "BowieBolt")
@@ -100,10 +97,31 @@ class WildcardHexPiece : HexPiece {
         } else {
             self.isWild = false
             
-            let mergedPiece = HexPiece()
-            mergedPiece.value = self.value
-            mergedPiece.hexCell = self.hexCell
-            mergedPiece.sprite = self.sprite
+            var mergedPiece:HexPiece
+            
+            if (mergingEnemy) {
+                // Create a non-alive enemy hex piece
+                mergedPiece = EnemyHexPiece()
+                (mergedPiece as! EnemyHexPiece).isAlive = false
+                mergedPiece.value = mergeValue + 1
+                mergedPiece.sprite = mergedPiece.createSprite()
+                
+                // Swap around sprites
+                let currentParent = self.sprite!.parent
+                currentParent!.addChild(mergedPiece.sprite!)
+                mergedPiece.sprite!.zPosition = 10
+                self.sprite!.removeFromParent()
+                
+                // Notify piece that it was placed w/ merge
+                mergedPiece.wasPlacedWithMerge(mergeValue, mergingPieces: mergingPieces)
+            } else {
+                mergedPiece = HexPiece()
+                
+                mergedPiece.value = self.value
+                mergedPiece.hexCell = self.hexCell
+                mergedPiece.sprite = self.sprite
+                mergedPiece.isCollectible = self.isCollectible
+            }
             
             return mergedPiece
         }
@@ -145,13 +163,22 @@ class WildcardHexPiece : HexPiece {
         return "piece_wildcard_0"
     }
     
+    /**
+     - Returns: Points to be awarded when piece is collected
+     */
+    override func getCollectedValue() -> Int {
+        return 80313
+    }
+    
     override func wasCollected() {
-        let collectedPoints = 80313
-        
-        SceneHelper.instance.gameScene.awardPoints(collectedPoints)
-        SceneHelper.instance.gameScene.scrollPoints(collectedPoints, position: self.sprite!.position)
-        
         super.wasCollected()
+        
+        let achievement = GKAchievement(identifier: "com.snazzware.mergel.BowieBolt")
+        
+        achievement.percentComplete = 100
+        achievement.showsCompletionBanner = true
+        
+        GameKitHelper.sharedInstance.reportAchievements([achievement])
     }
 
 }

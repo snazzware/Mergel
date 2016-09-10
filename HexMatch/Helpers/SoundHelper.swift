@@ -39,14 +39,18 @@ class SoundHelper: NSObject {
     func disableSoundEffects() {
         self.placePiece = SKAction.runBlock({})
         self.mergePieces = SKAction.runBlock({})
+        self.placeEnemy = SKAction.runBlock({})
+        self.unlock = SKAction.runBlock({})
+        self.collect = SKAction.runBlock({})
+        self.gameover = SKAction.runBlock({})
     }
     
     func enableSoundEffects() {
-        self.placePiece = SKAction.playSoundFileNamed("DM-CGS-44", waitForCompletion: false)
+        self.placePiece = SKAction.playSoundFileNamed("pop_9", waitForCompletion: false)
         self.mergePieces = SKAction.playSoundFileNamed("DM-CGS-19", waitForCompletion: false)
-        self.placeEnemy = SKAction.playSoundFileNamed("DM-CGS-48", waitForCompletion: false)
+        self.placeEnemy = SKAction.playSoundFileNamed("251938__binarymonkflint__frog", waitForCompletion: false)
         self.unlock = SKAction.playSoundFileNamed("SUCCESS CHEERS Win Cute Vocal Chime 03", waitForCompletion: false)
         self.collect = SKAction.playSoundFileNamed("SUCCESS PICKUP Collect Chime 01", waitForCompletion: false)
-        self.gameover = SKAction.playSoundFileNamed("NEGATIVE Failure Descending Chime 05", waitForCompletion: false)
+        self.gameover = SKAction.playSoundFileNamed("133283__fins__game-over", waitForCompletion: false)
     }
 }

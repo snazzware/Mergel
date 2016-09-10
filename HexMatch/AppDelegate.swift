@@ -14,15 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     var gameStatePath : String {
-        let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-        return url!.URLByAppendingPathComponent("objectsArray").path!
+        let url = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        return url.URLByAppendingPathComponent("gameState").path!
     }
     
     var gameStatsPath : String {
-        let manager = NSFileManager.defaultManager()
-        let url = manager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first
-        return url!.URLByAppendingPathComponent("statistics").path!
+        let url = NSFileManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first!
+        return url.URLByAppendingPathComponent("gameStats").path!
     }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
@@ -39,10 +37,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    func save() {
+        NSKeyedArchiver.archiveRootObject(GameState.instance!, toFile: self.gameStatePath)
+        NSKeyedArchiver.archiveRootObject(GameStats.instance!, toFile: self.gameStatsPath)
+    }
 
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+        self.save()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
@@ -60,8 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        NSKeyedArchiver.archiveRootObject(GameState.instance!, toFile: self.gameStatePath)
-        NSKeyedArchiver.archiveRootObject(GameStats.instance!, toFile: self.gameStatsPath)
+        self.save()
     }
 
 

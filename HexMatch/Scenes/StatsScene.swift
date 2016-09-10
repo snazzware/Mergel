@@ -91,9 +91,9 @@ class StatsScene: SNZScene {
         }
         
         // Add the close button
-        let closeButton = SNZButtonWidget(parentNode: self)
+        let closeButton = MergelButtonWidget(parentNode: self)
         closeButton.anchorPoint = CGPointMake(0,0)
-        closeButton.caption = "Close"
+        closeButton.caption = "Back"
         closeButton.bind("tap",{
             self.close()
         });

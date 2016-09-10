@@ -9,6 +9,8 @@ Undo Icon
 Bank Icon
 <div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
+Right Arrow Icon
+<div>Icons made by <a href="http://www.flaticon.com/authors/google" title="Google">Google</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
 http://www.gameburp.com/free-game-sound-fx/
 
@@ -19,14 +21,9 @@ CC0     paperflip.wav       https://www.freesound.org/people/gynation/sounds/823
 CCA     dealcard.wav        https://www.freesound.org/people/f4ngy/sounds/240777/
 CCA     shufflecard.wav     https://www.freesound.org/people/empraetorius/sounds/201253/        (sample cropped as shuffle.aiff)
 CCA     pop_9.aif           https://www.freesound.org/people/SunnySideSound/sounds/67095/
+CC0     133283__fins__game-over.wav     http://www.freesound.org/people/fins/sounds/133283/
+CC0     251938__binarymonkflint__frog   http://www.freesound.org/people/BinaryMonkFlint/sounds/251938/
 
-
-
-
-
-Broom Icon (used in RemovePiece@2x.png)
-
-<div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 
 
 SOUND EFFECTS

@@ -17,6 +17,10 @@ class HexMapHelper: NSObject {
     // Hex Map
     var hexMap: HexMap?
     
+    // Formatter
+    let scoreFormatter = NSNumberFormatter()
+    
+    //
     var addedCounter = 0
     
     // Collection of the sprites which were created to represent the hexmap
@@ -39,7 +43,7 @@ class HexMapHelper: NSObject {
     var renderedBounds = CGRectMake(0,0,0,0)
     
     // Hex piece textures
-    let hexPieceTextureNames = ["Triangle","Square","Pentagon","Hexagon","Star","GoldStar"]
+    let hexPieceTextureNames = ["Triangle","Square","Pentagon","Hexagon","Star","GoldStar","CollectibleGoldStar"]
     var maxPieceValue = 0
     var hexPieceTextures: [SKTexture] = Array()
     
@@ -53,6 +57,9 @@ class HexMapHelper: NSObject {
     
     override init() {
         super.init()
+        
+        // set up score formatter
+        self.scoreFormatter.numberStyle = .DecimalStyle
         
         // Load each texture and store them for later use
         for textureName in hexPieceTextureNames {
@@ -128,9 +135,6 @@ class HexMapHelper: NSObject {
     
     func getRenderedWidth() -> CGFloat {
         let bounds = self.getBounds()
-        
-        print(bounds.width)
-        print(bounds.height)
         
         return CGFloat(CGFloat(self.cellNodeHorizontalAdvance)*(bounds.size.width)) + CGFloat(self.cellActualWidth - self.cellNodeHorizontalAdvance)
     }

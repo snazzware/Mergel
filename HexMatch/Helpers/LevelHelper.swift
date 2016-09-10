@@ -13,6 +13,7 @@ enum LevelHelperMode : Int {
     case Hexagon = 2
     case Pit = 3
     case Moat = 4
+    case Debug = 99
 }
 
 class LevelHelper: NSObject {
@@ -52,6 +53,9 @@ class LevelHelper: NSObject {
             case .Moat:
                 caption = "The Moat"
             break
+            case .Debug:
+                caption = "Debug"
+            break
         }
         
         return caption
@@ -78,6 +82,47 @@ class LevelHelper: NSObject {
         hexMap.clear()
         
         switch mode {
+            case .Debug:
+                // Create radius 2 hexagon
+                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
+                
+                for voidCell in voidCells {
+                    voidCell.isVoid = true
+                }
+                
+                // Disable random starting pieces
+                randomStartingCount = 0
+                
+                var piece: HexPiece = HexPiece()
+                
+                piece = HexPiece()
+                piece.value = 5
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 5
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 5
+                self.pushPiece(piece)
+                
+                piece = WildcardHexPiece()
+                piece.value = 0
+                self.pushPiece(piece)
+                
+                piece = WildcardHexPiece()
+                piece.value = 0
+                self.pushPiece(piece)
+                
+                piece = WildcardHexPiece()
+                piece.value = 0
+                self.pushPiece(piece)
+
+                
+                // Flip order so that newest pieces come off last
+                self.pieceStack.reverseInPlace()
+            break
             case .Welcome:
                 // Create radius 2 hexagon
                 let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
@@ -117,13 +162,13 @@ class LevelHelper: NSObject {
                 self.pushPiece(piece)
                 
                 piece = EnemyHexPiece()
-                piece.value = 0
-                piece.caption = "Gel! The natural enemy of geometric shapes. Three gels become a bean, and three beans become collectible."
+                piece.value = 1000
+                piece.caption = "Gel, enemy of geometric shapes. Three gels become a bean, and three beans become collectible."
                 self.pushPiece(piece)
                 
                 piece = WildcardHexPiece()
                 piece.value = 0
-                piece.caption = "Wildcard shapes will merge with any other shape, but not gel!"
+                piece.caption = "Wildcard shapes will merge with any other shape."
                 self.pushPiece(piece)
                 
                 piece = WildcardHexPiece()
@@ -260,6 +305,7 @@ class LevelHelper: NSObject {
                 hexPiece = MobileHexPiece()
             } else if (specialRoll<self.enemyPercentage) { // Generate enemy
                 hexPiece = EnemyHexPiece()
+                hexPiece!.value = 1000
             } else {
                 hexPiece = HexPiece()
             }

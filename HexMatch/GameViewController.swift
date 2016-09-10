@@ -17,14 +17,16 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
 
         // Init sound helper
-        SoundHelper.instance.enableSoundEffects()
+        if (GameState.instance!.getIntForKey("enable_sound_effects", 1) == 1) {
+            SoundHelper.instance.enableSoundEffects()
+        }
 
         self.scene = SceneHelper.instance.gameScene
         
         // Configure the view.
         let skView = self.view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
         
         /* Sprite Kit applies additional optimizations to improve rendering performance */
         skView.ignoresSiblingOrder = true
@@ -38,6 +40,23 @@ class GameViewController: UIViewController {
         GameStateMachine.instance = GameStateMachine(scene: self.scene!)
         GameStateMachine.instance!.enterState(GameSceneInitialState.self)
         
+        // GameKit
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.showAuthenticationViewController), name: PresentAuthenticationViewController, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.showGKGameCenterViewController), name: ShowGKGameCenterViewController, object: nil)
+        GameKitHelper.sharedInstance.authenticateLocalPlayer()
+    }
+    
+    func showAuthenticationViewController() {
+        
+        let gameKitHelper = GameKitHelper.sharedInstance
+        
+        if let authenticationViewController = gameKitHelper.authenticationViewController {
+            self.presentViewController(authenticationViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func showGKGameCenterViewController() {
+        GameKitHelper.sharedInstance.showGKGameCenterViewController(self)
     }
 
     override func shouldAutorotate() -> Bool {

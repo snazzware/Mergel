@@ -8,6 +8,7 @@
 
 import Foundation
 import SpriteKit
+import GameKit
 
 class EnemyHexPiece : MobileHexPiece {
 
@@ -22,10 +23,10 @@ class EnemyHexPiece : MobileHexPiece {
         node.name = "hexPiece"
         
         switch (self.value) {
-            case 1:
+            case 1001:
                 node.texture = SKTexture(imageNamed: "EnemyVanillaBeanSuper")
             break;
-            case 2:
+            case 1002:
                 node.texture = SKTexture(imageNamed: "CollectibleVanillaBean")
             break;
             default:
@@ -35,6 +36,14 @@ class EnemyHexPiece : MobileHexPiece {
         self.addAnimation(node)
         
         return node
+    }
+    
+    override func getPieceDescription() -> String {
+        return "Vanilla Gel"
+    }
+    
+    override func createMergedSprite() -> SKSpriteNode? {
+        return nil
     }
     
     override var description: String {
@@ -126,23 +135,26 @@ class EnemyHexPiece : MobileHexPiece {
         if (hexPiece is EnemyHexPiece) {
             result = (!self.isCollectible && !self.isAlive && !(hexPiece as! EnemyHexPiece).isAlive && (self.value == hexPiece.value))
         }
-        
+        if (hexPiece is WildcardHexPiece) {
+            result = (!self.isCollectible && !self.isAlive)
+        }
+
         return result
     }
     
-    override func wasPlacedWithMerge(mergeValue: Int = -1) -> HexPiece {
+    override func wasPlacedWithMerge(mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
         self.originalValue = self.value
         self.value = mergeValue+1
         
-        if (self.value == 2) {
+        if (self.value == 1002) {
             self.isCollectible = true
         }
         
         switch (self.value) {
-            case 1:
+            case 1001:
                 self.sprite!.texture = SKTexture(imageNamed: "EnemyVanillaBeanSuper")
             break;
-            case 2:
+            case 1002:
                 self.sprite!.texture = SKTexture(imageNamed: "CollectibleVanillaBean")
             break;
             default:
@@ -206,13 +218,22 @@ class EnemyHexPiece : MobileHexPiece {
         self.sprite!.runAction(SoundHelper.instance.mergePieces)
     }
     
-    override func wasCollected() {
-        let collectedPoints = 50000
-        
-        SceneHelper.instance.gameScene.awardPoints(collectedPoints)
-        SceneHelper.instance.gameScene.scrollPoints(collectedPoints, position: self.sprite!.position)
-        
-        super.wasCollected()
+    /**
+     - Returns: Points to be awarded when piece is collected
+     */
+    override func getCollectedValue() -> Int {
+        return 50000
     }
 
+    override func wasCollected() {
+        super.wasCollected()
+        
+        let achievement = GKAchievement(identifier: "com.snazzware.mergel.Gel")
+        
+        achievement.percentComplete = 100
+        achievement.showsCompletionBanner = true
+        
+        GameKitHelper.sharedInstance.reportAchievements([achievement])
+    }
+    
 }

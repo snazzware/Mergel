@@ -74,7 +74,7 @@ class GameStats: NSObject, NSCoding {
             } else {
                 self.statsInt[key]? += amount
             }
-        }        
+        }
     }
 
     required convenience init?(coder decoder: NSCoder) {
@@ -88,6 +88,17 @@ class GameStats: NSObject, NSCoding {
     
     func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(self.statsInt, forKey: "statsInt")
+    }
+    
+    func updateGameCenter() {
+        // Overall high score
+        GameKitHelper.sharedInstance.reportScore(Int64(GameState.instance!.highScore), forLeaderBoardId: "com.snazzware.mergel.HighScore")
+        
+        // Map-specific high scores
+        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.Hexagon.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Beginner")
+        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.Pit.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Pit")
+        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.Moat.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Moat")
+        
     }
     
 }

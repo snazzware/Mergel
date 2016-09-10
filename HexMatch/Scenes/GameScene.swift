@@ -9,6 +9,7 @@
 import SpriteKit
 import CoreData
 import SNZSpriteKitUI
+import GameKit
 
 class GameScene: SNZScene {
     var gameboardLayer = SKNode()
@@ -17,6 +18,9 @@ class GameScene: SNZScene {
     var currentPieceLabel: SKLabelNode?
     var currentPieceHome = CGPointMake(0,0)
     var currentPieceSprite: SKSpriteNode?
+    var currentPieceSpriteProgressionLeft: SKSpriteNode?
+    var currentPieceSpriteProgressionRight: SKSpriteNode?
+    var currentPieceSpriteProgressionArrow: SKSpriteNode?
     var currentPieceCaption: SKShapeNode?
     var currentPieceCaptionText: String = ""
     
@@ -55,8 +59,6 @@ class GameScene: SNZScene {
     var undoState: NSData?
     
     var debugShape: SKShapeNode?
-    
-    let scoreFormatter = NSNumberFormatter()
     
     var _score = 0
     var score: Int {
@@ -134,6 +136,9 @@ class GameScene: SNZScene {
         if (HexMapHelper.instance.hexMap!.getOpenCells().count==0) {
             GameStateMachine.instance!.enterState(GameSceneGameOverState.self)
         }
+        
+        // Update game center, just in case we missed anything (crash, kill, etc)
+        GameStats.instance!.updateGameCenter()
     }
     
     func renderFromState() {
@@ -195,6 +200,9 @@ class GameScene: SNZScene {
         // Clear undo
         self.undoButton!.hidden = true
         self.undoState = nil
+        
+        // Update game center
+        GameStats.instance!.updateGameCenter()
     }
     
     /**
@@ -258,6 +266,10 @@ class GameScene: SNZScene {
                     break;
                 }
             }
+        }
+        
+        if (GameStateMachine.instance!.currentState is GameSceneGameOverState && self.gameOverLabel?.parent != nil) {
+            self.scene!.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
         }
     }
     
@@ -336,7 +348,7 @@ class GameScene: SNZScene {
             }
             
             // Let piece know it was placed w/ merge
-            GameState.instance!.currentPiece = GameState.instance!.currentPiece!.wasPlacedWithMerge(maxValue)
+            GameState.instance!.currentPiece = GameState.instance!.currentPiece!.wasPlacedWithMerge(maxValue, mergingPieces: self.mergingPieces)
             
             // Store merged pieces, if any
             self.mergedPieces = self.mergingPieces
@@ -504,7 +516,7 @@ class GameScene: SNZScene {
             self.mergedPieces += actualMerged
             
             // let merge focus know it was merged
-            mergeFocus = mergeFocus!.wasPlacedWithMerge(maxValue)
+            mergeFocus = mergeFocus!.wasPlacedWithMerge(maxValue, mergingPieces: merges)
             
             // Award points
             self.awardPointsForPiece(mergeFocus!)
@@ -567,17 +579,12 @@ class GameScene: SNZScene {
         } else {
             self.uiTextScale = width / 375
         }
-        
-        print("uiTextScale = \(self.uiTextScale)")
     }
     
     /**
         Initializes GUI layer components, sets up labels, buttons, etc.
     */
     func initGuiLayer() {
-        // set up score formatter
-        self.scoreFormatter.numberStyle = .DecimalStyle
-    
         // Calculate size of upper UI
         let upperUsableArea = (self.frame.height < self.frame.width ? self.frame.height : self.frame.width) - SNZSpriteKitUITheme.instance.uiOuterMargins.horizontal
         
@@ -606,7 +613,9 @@ class GameScene: SNZScene {
         self.currentButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.currentButton!.caption = ""
         self.currentButton!.bind("tap",{
-            self.swapStash()
+            if (GameStateMachine.instance!.currentState is GameScenePlayingState) {
+                self.swapStash()
+            }
         })
         self.addWidget(self.currentButton!)
         
@@ -621,7 +630,9 @@ class GameScene: SNZScene {
         self.stashButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.stashButton!.caption = ""
         self.stashButton!.bind("tap",{
-            self.swapStash()
+            if (GameStateMachine.instance!.currentState is GameScenePlayingState) {
+                self.swapStash()
+            }
         })
         self.addWidget(self.stashButton!)
         
@@ -641,7 +652,7 @@ class GameScene: SNZScene {
         self.guiLayer.addChild(self.bankPointsLabel!)
         
         // Add bank display
-        self.bankPointsDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.bankPoints)!)
+        self.bankPointsDisplay = self.createUILabel(HexMapHelper.instance.scoreFormatter.stringFromNumber(self.bankPoints)!)
         self.bankPointsDisplay!.position = CGPoint(x: self.frame.width - 100, y: self.frame.height - 144)
         self.bankPointsDisplay!.fontSize = 18 * self.uiTextScale
         self.guiLayer.addChild(self.bankPointsDisplay!)
@@ -654,12 +665,14 @@ class GameScene: SNZScene {
         self.bankButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.bankButton!.caption = ""
         self.bankButton!.bind("tap",{
-            self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+            if (GameStateMachine.instance!.currentState is GameScenePlayingState) {
+                self.scene!.view?.presentScene(SceneHelper.instance.bankScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+            }
         })
         self.addWidget(self.bankButton!)
         
         // Add menu button
-        self.menuButton = SNZTextureButtonWidget(parentNode: guiLayer)
+        self.menuButton = MergelTextureButtonWidget(parentNode: guiLayer)
         self.menuButton!.texture = SKTexture(imageNamed: "menu51")
         self.menuButton!.anchorPoint = CGPointMake(0,0)
         self.menuButton!.textureScale = 0.8
@@ -669,7 +682,7 @@ class GameScene: SNZScene {
         self.addWidget(self.menuButton!)
         
         // Add undo button
-        self.undoButton = SNZTextureButtonWidget(parentNode: guiLayer)
+        self.undoButton = MergelTextureButtonWidget(parentNode: guiLayer)
         self.undoButton!.texture = SKTexture(imageNamed: "curve4")
         self.undoButton!.anchorPoint = CGPointMake(1,0)
         self.undoButton!.bind("tap",{
@@ -683,7 +696,7 @@ class GameScene: SNZScene {
         self.guiLayer.addChild(self.scoreLabel!)
         
         // Add score display
-        self.scoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(self.score)!)
+        self.scoreDisplay = self.createUILabel(HexMapHelper.instance.scoreFormatter.stringFromNumber(self.score)!)
         self.scoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 144)
         self.scoreDisplay!.fontSize = 24 * self.uiTextScale
         self.guiLayer.addChild(self.scoreDisplay!)
@@ -707,7 +720,8 @@ class GameScene: SNZScene {
         self.highScoreButton!.focusBackgroundColor = UIColor(red: 1, green: 1, blue: 1, alpha: 0.15)
         self.highScoreButton!.caption = ""
         self.highScoreButton!.bind("tap",{
-            self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
+            NSNotificationCenter.defaultCenter().postNotificationName(ShowGKGameCenterViewController, object: nil)
+            //self.scene!.view?.presentScene(SceneHelper.instance.statsScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Right, duration: 0.4))
         })
         self.addWidget(self.highScoreButton!)
         
@@ -718,18 +732,30 @@ class GameScene: SNZScene {
         self.guiLayer.addChild(self.highScoreLabel!)
         
         // Add high score display
-        self.highScoreDisplay = self.createUILabel(self.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))!)
+        self.highScoreDisplay = self.createUILabel(HexMapHelper.instance.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))!)
         self.highScoreDisplay!.position = CGPoint(x: 20, y: self.frame.height - 194)
         self.highScoreDisplay!.fontSize = 24 * self.uiTextScale
         self.highScoreDisplay!.horizontalAlignmentMode = .Right
         self.guiLayer.addChild(self.highScoreDisplay!)
     
+        // Progression
+        self.currentPieceSpriteProgressionLeft = SKSpriteNode(texture: SKTexture(imageNamed: "HexCellVoid"))
+        self.currentPieceSpriteProgressionLeft!.setScale(0.5)
+        self.guiLayer.addChild(self.currentPieceSpriteProgressionLeft!)
+        
+        self.currentPieceSpriteProgressionArrow = SKSpriteNode(texture: SKTexture(imageNamed: "play-arrow"))
+        self.currentPieceSpriteProgressionArrow!.setScale(0.15)
+        self.guiLayer.addChild(self.currentPieceSpriteProgressionArrow!)
+        
+        self.currentPieceSpriteProgressionRight = SKSpriteNode(texture: SKTexture(imageNamed: "HexCellVoid"))
+        self.currentPieceSpriteProgressionRight!.setScale(0.5)
+        self.guiLayer.addChild(self.currentPieceSpriteProgressionRight!)
+        
+        self.updateProgression()
+        
         // Current piece caption
         self.buildCurrentPieceCaption()
     
-        // Init the Game Over overlay
-        self.initGameOver()
-        
         // Set initial positions
         self.updateGuiPositions()
         
@@ -751,7 +777,7 @@ class GameScene: SNZScene {
         if (self.frame.width > self.frame.height) {
             self.currentPieceCaption = SKShapeNode(rect: CGRectMake(0, 0, self.statsButton!.size.width, self.statsButton!.size.width), cornerRadius: 4)
         } else {
-            self.currentPieceCaption = SKShapeNode(rect: CGRectMake(0, 0, self.size.width - 40, 100), cornerRadius: 4)
+            self.currentPieceCaption = SKShapeNode(rect: CGRectMake(0, 0, self.size.width - 40, self.statsButton!.size.height), cornerRadius: 4)
         }
         self.currentPieceCaption!.fillColor = UIColor(red: 54/255, green: 93/255, blue: 126/255, alpha: 1.0)
         self.currentPieceCaption!.lineWidth = 0
@@ -796,9 +822,9 @@ class GameScene: SNZScene {
             // Current Piece Caption
             self.buildCurrentPieceCaption()
             if (self.frame.width > self.frame.height) {
-                self.currentPieceCaption!.position = CGPoint(x: 20, y: (self.frame.height - 145) - (self.currentPieceCaption!.frame.height / 2))
+                self.currentPieceCaption!.position = CGPoint(x: 20, y: (self.frame.height - 165) - (self.currentPieceCaption!.frame.height / 2))
             } else {
-                self.currentPieceCaption!.position = CGPoint(x: 20, y: (self.frame.height - 145) - (self.currentPieceCaption!.frame.height / 2))
+                self.currentPieceCaption!.position = CGPoint(x: 20, y: (self.frame.height - 130) - (self.currentPieceCaption!.frame.height / 2))
             }
             
             // Stash Piece
@@ -841,6 +867,11 @@ class GameScene: SNZScene {
             
             // Widgets
             self.updateWidgets()
+            
+            // Progression
+            self.currentPieceSpriteProgressionLeft!.position = CGPoint(x: 38, y: self.frame.height - 180)
+            self.currentPieceSpriteProgressionArrow!.position = CGPoint(x: 58, y: self.frame.height - 177)
+            self.currentPieceSpriteProgressionRight!.position = CGPoint(x: 78, y: self.frame.height - 180)
         }
     }
     
@@ -852,7 +883,7 @@ class GameScene: SNZScene {
             var scale: CGFloat = 1.0
             var shiftY: CGFloat = 0
             
-            let marginPortrait: CGFloat = 90
+            let marginPortrait: CGFloat = 30
             let marginLandscape: CGFloat = 60
             
             let gameboardWidth = HexMapHelper.instance.getRenderedWidth()
@@ -864,7 +895,7 @@ class GameScene: SNZScene {
             } else { // portrait
                 scale = self.frame.width / (gameboardWidth + marginPortrait)
                 
-                shiftY = 30 // shift down a little bit if we are in portrait, so that we don't overlap UI elements.
+                shiftY = 50 // shift down a little bit if we are in portrait, so that we don't overlap UI elements.
             }
             
             // Scale gameboard layer
@@ -883,16 +914,14 @@ class GameScene: SNZScene {
             
         - Returns: An instance of SKLabelNode, initialized with caption and gui defaults.
     */
-    func createUILabel(caption: String) -> SKLabelNode {
+    func createUILabel(caption: String, baseFontSize: CGFloat = 18) -> SKLabelNode {
         let label = SKLabelNode(text: caption)
         label.fontColor = UIColor(red: 0xf7/255, green: 0xef/255, blue: 0xed/255, alpha: 1.0)
-        label.fontSize = 18 * self.uiTextScale
+        label.fontSize = baseFontSize * self.uiTextScale
         label.zPosition = 20
         label.fontName = "Avenir-Black"
         label.ignoreTouches = true
         label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-
-        print(self.frame.width)
 
         return label
     }
@@ -949,7 +978,7 @@ class GameScene: SNZScene {
     */
     func updateScore() {
         if (self.scoreDisplay != nil) {
-            self.scoreDisplay!.text = self.scoreFormatter.stringFromNumber(self.score)
+            self.scoreDisplay!.text = HexMapHelper.instance.scoreFormatter.stringFromNumber(self.score)
         }
     }
     
@@ -958,7 +987,7 @@ class GameScene: SNZScene {
     */
     func updateBankPoints() {
         if (self.bankPointsDisplay != nil) {
-            self.bankPointsDisplay!.text = self.scoreFormatter.stringFromNumber(self.bankPoints)
+            self.bankPointsDisplay!.text = HexMapHelper.instance.scoreFormatter.stringFromNumber(self.bankPoints)
         }
     }
     
@@ -967,7 +996,7 @@ class GameScene: SNZScene {
     */
     func updateHighScore() {
         if (self.highScoreDisplay != nil) {
-            self.highScoreDisplay!.text = self.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))
+            self.highScoreDisplay!.text = HexMapHelper.instance.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey("highscore_"+String(LevelHelper.instance.mode.rawValue)))
         }
     }
     
@@ -982,7 +1011,7 @@ class GameScene: SNZScene {
             
             let scrollFade = SKAction.sequence([SKAction.group([scrollUp, fadeOut]),remove])
             
-            let pointString:String = self.scoreFormatter.stringFromNumber(points)!
+            let pointString:String = HexMapHelper.instance.scoreFormatter.stringFromNumber(points)!
             
             let label = SKLabelNode(text: pointString)
             label.fontColor = UIColor.whiteColor()
@@ -1019,9 +1048,9 @@ class GameScene: SNZScene {
         var labels: [SKLabelNode] = Array()
         
         for token in tokens {
-            let label = SKLabelNode(text: token)
+            let label = ShadowLabelNode(text: token)
             label.fontColor = UIColor.whiteColor()
-            label.zPosition = 500
+            label.zPosition = 1000
             label.fontName = "Avenir-Black"
             label.fontSize = 20
             
@@ -1030,6 +1059,8 @@ class GameScene: SNZScene {
             totalHeight += label.frame.height + padding
             
             label.position = CGPointMake(self.frame.width / 2, (self.frame.height / 2))
+            
+            label.updateShadow()
             
             labels.append(label)
         }
@@ -1053,8 +1084,6 @@ class GameScene: SNZScene {
         
         let burstAnimation = SKAction.sequence(burstSequence)
         
-        burstAnimation
-        
         var verticalOffset:CGFloat = 0
         
         for label in labels {
@@ -1069,14 +1098,17 @@ class GameScene: SNZScene {
     }
 
     func initGameOver() {
-        let label = SKLabelNode(text: "GAME OVER")
+        let label = ShadowLabelNode(text: "GAME OVER")
         label.fontColor = UIColor.whiteColor()
         label.fontSize = 64 * self.uiTextScale
-        label.zPosition = 20
+        label.zPosition = 1000
         label.fontName = "Avenir-Black"
-        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Center
         
-        label.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        self.scaleToFitRect(label, rect: CGRectInset(self.frame, 30, 30))
+        
+        label.position = CGPointMake(self.frame.width / 2, self.frame.height / 2)
+        
+        label.updateShadow()
         
         self.gameOverLabel = label;
     }
@@ -1088,14 +1120,18 @@ class GameScene: SNZScene {
         // Disable Undo
         self.undoButton!.hidden = true
         self.undoState = nil
+        
+        // Create game over label
+        self.initGameOver()
     
         // Show game over message and display Game Over label afterward
         self.burstMessage("NO MOVES REMAINING", action: SKAction.runBlock({
-            self.guiLayer.addChild(self.gameOverLabel!)
+            SceneHelper.instance.gameScene.addChild(self.gameOverLabel!)
         }))
         
+        // Send score to game center
+        GameStats.instance!.updateGameCenter()
     }
-    
     
     func hideGameOver() {
         self.gameOverLabel!.removeFromParent()
@@ -1128,6 +1164,11 @@ class GameScene: SNZScene {
     }
     
     func checkForUnlocks() {
+        // Debug Level
+        /*if (!GameState.instance!.unlockedLevels.contains(.Debug)) {
+            GameState.instance!.unlockedLevels.append(.Debug)
+        }*/
+        
         if ((LevelHelper.instance.mode == .Hexagon || LevelHelper.instance.mode == .Welcome) && !GameState.instance!.unlockedLevels.contains(.Pit) && self.score >= 500000) {
             GameState.instance!.unlockedLevels.append(.Pit)
             
@@ -1217,7 +1258,7 @@ class GameScene: SNZScene {
                 
                 // Get a random open cell near the target position
                 let boardCell = HexMapHelper.instance.hexMap!.getRandomCellNear(targetCell!)
-            
+                
                 // Get cell position
                 if (boardCell != nil) {
                     position = HexMapHelper.instance.hexMapToScreen(boardCell!.position)
@@ -1240,6 +1281,31 @@ class GameScene: SNZScene {
                     self.currentPieceCaptionText = ""
                 }
             }
+            
+            self.updateProgression()
+        }
+    }
+    
+    func updateProgression() {
+        // Update progression sprites
+        if (self.currentPieceSpriteProgressionLeft != nil && GameState.instance!.currentPiece != nil) {
+            let progressionRight = GameState.instance!.currentPiece!.createMergedSprite()
+            
+            if (progressionRight == nil) {
+                self.currentPieceSpriteProgressionLeft!.hidden = true
+                self.currentPieceSpriteProgressionArrow!.hidden = true
+                self.currentPieceSpriteProgressionRight!.hidden = true
+            } else {
+                if (GameState.instance!.currentPiece!.sprite != nil) {
+                    self.currentPieceSpriteProgressionLeft!.texture = GameState.instance!.currentPiece!.sprite!.texture
+                    self.currentPieceSpriteProgressionLeft!.hidden = false
+                    
+                    self.currentPieceSpriteProgressionArrow!.hidden = false
+                    
+                    self.currentPieceSpriteProgressionRight!.texture = progressionRight!.texture
+                    self.currentPieceSpriteProgressionRight!.hidden = false
+                }
+            }
         }
     }
     
@@ -1251,7 +1317,7 @@ class GameScene: SNZScene {
         let tokens = caption.componentsSeparatedByString(" ")
         var idx = 0
         var token = ""
-        var label = self.createUILabel("")
+        var label = self.createUILabel("", baseFontSize: 14)
         var priorText = ""
         var verticalOffset:CGFloat = self.currentPieceCaption!.frame.height / 2
         let horizontalOffset:CGFloat = self.currentPieceCaption!.frame.width / 2
@@ -1274,7 +1340,7 @@ class GameScene: SNZScene {
                 
                 totalHeight += label.frame.height
                 
-                label = self.createUILabel("")
+                label = self.createUILabel("", baseFontSize: 14)
             } else {
                 idx += 1
             }
@@ -1326,4 +1392,5 @@ class GameScene: SNZScene {
             self.generateCurrentPiece()
         }
     }
+    
 }

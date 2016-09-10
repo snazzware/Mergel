@@ -171,16 +171,29 @@ class HexCell : NSObject, NSCoding {
         
         let firstValue = hexPiece.getMinMergeValue()
         let lastValue = hexPiece.getMaxMergeValue()
+        var neighborValues: [Int] = Array()
         
-        var value = lastValue
+        // Get values of all of our neighbors, for iteration, where value is between our piece's firstValue and lastValue
+        for direction in HexCellDirection.allDirections {
+            let targetCell = self.getCellByDirection(direction)
+            if (targetCell != nil && targetCell!.hexPiece != nil && !neighborValues.contains(targetCell!.hexPiece!.value) && (firstValue <= targetCell!.hexPiece!.value && lastValue >= targetCell!.hexPiece!.value)) {
+                neighborValues.append(targetCell!.hexPiece!.value)
+            }
+        }
+        
+        // Sort ascending
+        neighborValues = neighborValues.sort { $0 < $1 }
+        
+        // Get last (largest) value
+        var value = neighborValues.popLast()
         
         // Loop over possible values for the piece being placed, starting with highest, until we find a merge
-        while (samePieceCount<2 && value >= firstValue) {
+        while (samePieceCount<2 && value != nil) {
             merges.removeAll()
             
             samePieceCount = 0
             
-            hexPiece.value = value
+            hexPiece.value = value!
             
             switch (self.mergeStyle) {
                 case .Liner:
@@ -207,7 +220,7 @@ class HexCell : NSObject, NSCoding {
                 break
             }
             
-            value -= 1;
+            value = neighborValues.popLast()
         }
         
         // If we didn't get at least two of the same piece, clear our merge array

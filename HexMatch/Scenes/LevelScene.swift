@@ -13,6 +13,7 @@ class LevelScene: SNZScene {
     
     var checkboxMobilePieces: SNZCheckButtonWidget?
     var checkboxEnemyPieces: SNZCheckButtonWidget?
+    var checkboxSoundEffects: SNZCheckButtonWidget?
     
     override func didMoveToView(view: SKView) {
         super.didMoveToView(view)
@@ -29,54 +30,95 @@ class LevelScene: SNZScene {
     
         // Create primary header
         let header = SNZSceneHeaderWidget()
-        header.caption = "Select Map and Options"
+        header.caption = "Menu"
         self.addWidget(header)
         
+        // Add copyright
+        let copyrightLabel = SKLabelNode(fontNamed: "Avenir-Black")
+        copyrightLabel.text = "Mergel ©2016 Josh M. McKee"
+        copyrightLabel.fontColor = UIColor.whiteColor()
+        copyrightLabel.fontSize = 12
+        copyrightLabel.horizontalAlignmentMode = .Center
+        copyrightLabel.verticalAlignmentMode = .Center
+        copyrightLabel.position = CGPointMake(self.size.width / 2, 8)
+        copyrightLabel.ignoreTouches = true
+        self.addChild(copyrightLabel)
         
-        var verticalOffset:CGFloat = self.frame.height - 120
-        
-        // Create and position level buttons
-        for unlockedLevel in (GameState.instance!.unlockedLevels) {
-            let levelButton = SNZButtonWidget()
-            levelButton.position = CGPointMake(20,verticalOffset)
-            levelButton.caption = LevelHelper.instance.getLevelHelperModeCaption(unlockedLevel)
-            levelButton.bind("tap",{
-                self.captureSettings()
-                
-                LevelHelper.instance.mode = unlockedLevel
-                GameStateMachine.instance!.enterState(GameSceneRestartState.self)
-                
-                self.close()
-            });
-            self.addWidget(levelButton)
-            
-            verticalOffset -= 60
-        }
+        var verticalOffset:CGFloat = self.frame.height - 60
         
         // Create and position option buttons
         
         let horizontalOffset:CGFloat = self.frame.width < 500 ? 20 : 300
         verticalOffset = self.frame.width < 500 ? verticalOffset - 60 : self.frame.height - 120
         
-        self.checkboxMobilePieces = SNZCheckButtonWidget(parentNode: self)
+        self.checkboxSoundEffects = MergelCheckButtonWidget(parentNode: self)
+        self.checkboxSoundEffects!.isChecked = GameState.instance!.getIntForKey("enable_sound_effects", 1) == 1
+        self.checkboxSoundEffects!.caption = "Sound Effects"
+        self.checkboxSoundEffects!.position = CGPointMake(horizontalOffset,verticalOffset)
+        self.addWidget(self.checkboxSoundEffects!)
+        
+        /*self.checkboxMobilePieces = MergelCheckButtonWidget(parentNode: self)
         self.checkboxMobilePieces!.isChecked = GameState.instance!.getIntForKey("include_mobile_pieces", 1) == 1
         self.checkboxMobilePieces!.caption = "Moving Shapes"
         self.checkboxMobilePieces!.position = CGPointMake(horizontalOffset,verticalOffset)
-        self.addWidget(self.checkboxMobilePieces!)
+        self.addWidget(self.checkboxMobilePieces!)*/
         
-        verticalOffset -= 60
+        verticalOffset -= 120
         
-        self.checkboxEnemyPieces = SNZCheckButtonWidget(parentNode: self)
+        /*self.checkboxEnemyPieces = MergelCheckButtonWidget(parentNode: self)
         self.checkboxEnemyPieces!.isChecked = GameState.instance!.getIntForKey("include_enemy_pieces", 1) == 1
         self.checkboxEnemyPieces!.caption = "Vanilla Gel"
         self.checkboxEnemyPieces!.position = CGPointMake(horizontalOffset,verticalOffset)
-        self.addWidget(self.checkboxEnemyPieces!)
+        self.addWidget(self.checkboxEnemyPieces!)*/
+        
+        // Add the New Game button
+        let newGameButton = MergelButtonWidget(parentNode: self)
+        newGameButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        newGameButton.caption = "New Game"
+        newGameButton.bind("tap",{
+            self.view?.presentScene(SceneHelper.instance.newGameScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+        });
+        self.addWidget(newGameButton)
+        
+        verticalOffset -= 60
+        
+        // Add the Help button
+        let helpButton = MergelButtonWidget(parentNode: self)
+        helpButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        helpButton.caption = "How to Play"
+        helpButton.bind("tap",{
+            UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/snazzware/Mergel/blob/master/HELP.md")!)
+        });
+        self.addWidget(helpButton)
+        
+        verticalOffset -= 60
+        
+        // Add the About button
+        let aboutButton = MergelButtonWidget(parentNode: self)
+        aboutButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        aboutButton.caption = "About Mergel"
+        aboutButton.bind("tap",{
+            UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/snazzware/Mergel/blob/master/ABOUT.md")!)
+        });
+        self.addWidget(aboutButton)
+        
+        verticalOffset -= 60
+        
+        // Add the Issues button
+        let issuesButton = MergelButtonWidget(parentNode: self)
+        issuesButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        issuesButton.caption = "Bugs & Requests"
+        issuesButton.bind("tap",{
+            UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/snazzware/Mergel/issues")!)
+        });
+        self.addWidget(issuesButton)
         
         // Add the close button
-        let closeButton = SNZButtonWidget(parentNode: self)
+        let closeButton = MergelButtonWidget(parentNode: self)
         closeButton.anchorPoint = CGPointMake(0,0)
-        closeButton.caption = "Cancel"
+        closeButton.caption = "Back"
         closeButton.bind("tap",{
+            self.captureSettings()
             self.close()
         });
         self.addWidget(closeButton)
@@ -86,8 +128,15 @@ class LevelScene: SNZScene {
     }
     
     func captureSettings() {
-        GameState.instance!.setIntForKey("include_mobile_pieces", self.checkboxMobilePieces!.isChecked ? 1 : 0 )
-        GameState.instance!.setIntForKey("include_enemy_pieces", self.checkboxEnemyPieces!.isChecked ? 1 : 0 )
+        //GameState.instance!.setIntForKey("include_mobile_pieces", self.checkboxMobilePieces!.isChecked ? 1 : 0 )
+        //GameState.instance!.setIntForKey("include_enemy_pieces", self.checkboxEnemyPieces!.isChecked ? 1 : 0 )
+        GameState.instance!.setIntForKey("enable_sound_effects", self.checkboxSoundEffects!.isChecked ? 1 : 0 )
+        
+        if (GameState.instance!.getIntForKey("enable_sound_effects", 1) == 1) {
+            SoundHelper.instance.enableSoundEffects()
+        } else {
+            SoundHelper.instance.disableSoundEffects()
+        }
     }
     
     func close() {

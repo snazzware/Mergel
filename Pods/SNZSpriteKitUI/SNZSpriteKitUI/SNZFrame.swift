@@ -10,6 +10,7 @@ import Foundation
 
 public class SNZFrame: SNZWidget {
 
-    
+    public var backgroundColor: UIColor = SNZSpriteKitUITheme.instance.frameBackgroundColor
+    public var strokeColor: UIColor = SNZSpriteKitUITheme.instance.frameStrokeColor
 
 }

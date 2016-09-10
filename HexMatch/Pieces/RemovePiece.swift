@@ -21,6 +21,10 @@ class RemovePiece: HexPiece {
     
         return node
     }
+    
+    override func createMergedSprite() -> SKSpriteNode? {
+        return nil
+    }
 
     override func getPieceDescription() -> String {
         return "Eraser"

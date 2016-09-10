@@ -220,6 +220,24 @@ class HexMap : NSObject, NSCoding {
             radius += 1
         }
         
+        if (randomCell == nil) {
+            randomCell = self.getRandomCell()
+        }
+        
+        return randomCell
+    }
+    
+    /**
+        - Returns: An open HexCell, or nil if no open cells exist
+     */
+    func getRandomCell() -> HexCell? {
+        var randomCell: HexCell?
+        let openCells = self.getOpenCells()
+        
+        if (openCells.count > 0) {
+            randomCell = openCells[Int(arc4random_uniform(UInt32(openCells.count)))]
+        }
+        
         return randomCell
     }
 

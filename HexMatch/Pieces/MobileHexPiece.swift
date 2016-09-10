@@ -35,7 +35,7 @@ class MobileHexPiece : HexPiece {
     /**
         Adds decorations and sets up general animations for sprite
     */
-    func addAnimation(node: SKSpriteNode) {
+    override func addAnimation(node: SKSpriteNode) {
         if (self.isAlive) {
             let eyeTexture = SKTexture(imageNamed: "Eyes")
             let eyeclosedTexture = SKTexture(imageNamed: "EyeClosed")
