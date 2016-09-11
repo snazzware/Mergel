@@ -41,22 +41,17 @@
 		806CDB921C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */; };
 		806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */; };
 		806CDB961C5B14FA00C10664 /* SceneHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806CDB951C5B14F900C10664 /* SceneHelper.swift */; };
-		806CDB991C5BCA7D00C10664 /* paperflip.wav in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB981C5BCA7D00C10664 /* paperflip.wav */; };
 		806CDB9B1C5BCA9800C10664 /* cc attribution.txt in Resources */ = {isa = PBXBuildFile; fileRef = 806CDB9A1C5BCA9800C10664 /* cc attribution.txt */; };
 		806CDBA01C5BCD7200C10664 /* SoundHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806CDB9F1C5BCD7200C10664 /* SoundHelper.swift */; };
-		806CDBA31C5BD26A00C10664 /* shuffle.wav in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA11C5BD26A00C10664 /* shuffle.wav */; };
 		806CDBA41C5BD26A00C10664 /* pop_9.wav in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA21C5BD26A00C10664 /* pop_9.wav */; };
 		806CDBA61C5BD6F000C10664 /* BowieBolt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */; };
 		806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */; };
 		806CDC731C5D391000C10664 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 806CDC721C5D391000C10664 /* LICENSE */; };
 		8075D1201C68FFAD003DC454 /* HexCell@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D11E1C68FFAD003DC454 /* HexCell@2x.png */; };
 		8075D1211C68FFAD003DC454 /* HexCellShadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */; };
-		8075D1251C696045003DC454 /* SWIPE Whoosh Double 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1241C696045003DC454 /* SWIPE Whoosh Double 01.wav */; };
 		8075D1271C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1261C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav */; };
 		8075D1291C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1281C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav */; };
 		8075D12D1C6963A6003DC454 /* DM-CGS-19.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D12C1C6963A6003DC454 /* DM-CGS-19.wav */; };
-		8075D12F1C6963E6003DC454 /* DM-CGS-44.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D12E1C6963E6003DC454 /* DM-CGS-44.wav */; };
-		8075D1311C6A5038003DC454 /* DM-CGS-48.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1301C6A5038003DC454 /* DM-CGS-48.wav */; };
 		8075D1361C6A598C003DC454 /* menu51@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1331C6A598C003DC454 /* menu51@2x.png */; };
 		8075D1371C6A598C003DC454 /* savings1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1341C6A598C003DC454 /* savings1@2x.png */; };
 		8075D1381C6A598C003DC454 /* curve4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8075D1351C6A598C003DC454 /* curve4@2x.png */; };
@@ -146,22 +141,17 @@
 		806CDB911C5AC6A200C10664 /* EnemyVanillaBeanSuper@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "EnemyVanillaBeanSuper@2x.png"; sourceTree = "<group>"; };
 		806CDB931C5ACAB100C10664 /* CollectibleVanillaBean@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CollectibleVanillaBean@2x.png"; sourceTree = "<group>"; };
 		806CDB951C5B14F900C10664 /* SceneHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneHelper.swift; sourceTree = "<group>"; };
-		806CDB981C5BCA7D00C10664 /* paperflip.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = paperflip.wav; sourceTree = "<group>"; };
 		806CDB9A1C5BCA9800C10664 /* cc attribution.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "cc attribution.txt"; sourceTree = "<group>"; };
 		806CDB9F1C5BCD7200C10664 /* SoundHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundHelper.swift; sourceTree = "<group>"; };
-		806CDBA11C5BD26A00C10664 /* shuffle.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = shuffle.wav; sourceTree = "<group>"; };
 		806CDBA21C5BD26A00C10664 /* pop_9.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = pop_9.wav; sourceTree = "<group>"; };
 		806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "BowieBolt@2x.png"; sourceTree = "<group>"; };
 		806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GoldStar@2x.png"; sourceTree = "<group>"; };
 		806CDC721C5D391000C10664 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		8075D11E1C68FFAD003DC454 /* HexCell@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCell@2x.png"; sourceTree = "<group>"; };
 		8075D11F1C68FFAD003DC454 /* HexCellShadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HexCellShadow@2x.png"; sourceTree = "<group>"; };
-		8075D1241C696045003DC454 /* SWIPE Whoosh Double 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "SWIPE Whoosh Double 01.wav"; sourceTree = "<group>"; };
 		8075D1261C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "SUCCESS CHEERS Win Cute Vocal Chime 03.wav"; sourceTree = "<group>"; };
 		8075D1281C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "SUCCESS PICKUP Collect Chime 01.wav"; sourceTree = "<group>"; };
 		8075D12C1C6963A6003DC454 /* DM-CGS-19.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "DM-CGS-19.wav"; sourceTree = "<group>"; };
-		8075D12E1C6963E6003DC454 /* DM-CGS-44.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "DM-CGS-44.wav"; sourceTree = "<group>"; };
-		8075D1301C6A5038003DC454 /* DM-CGS-48.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "DM-CGS-48.wav"; sourceTree = "<group>"; };
 		8075D1331C6A598C003DC454 /* menu51@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu51@2x.png"; sourceTree = "<group>"; };
 		8075D1341C6A598C003DC454 /* savings1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "savings1@2x.png"; sourceTree = "<group>"; };
 		8075D1351C6A598C003DC454 /* curve4@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "curve4@2x.png"; sourceTree = "<group>"; };
@@ -315,15 +305,10 @@
 			children = (
 				8021C2C01D81ECD000E91D40 /* 133283__fins__game-over.wav */,
 				8075D12C1C6963A6003DC454 /* DM-CGS-19.wav */,
-				8075D12E1C6963E6003DC454 /* DM-CGS-44.wav */,
-				8075D1301C6A5038003DC454 /* DM-CGS-48.wav */,
-				806CDB981C5BCA7D00C10664 /* paperflip.wav */,
 				806CDBA21C5BD26A00C10664 /* pop_9.wav */,
 				802912851D8205E000E79FDF /* 251938__binarymonkflint__frog.mp3 */,
 				8075D1261C69607A003DC454 /* SUCCESS CHEERS Win Cute Vocal Chime 03.wav */,
-				8075D1241C696045003DC454 /* SWIPE Whoosh Double 01.wav */,
 				8075D1281C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav */,
-				806CDBA11C5BD26A00C10664 /* shuffle.wav */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -639,22 +624,18 @@
 				8075D1371C6A598C003DC454 /* savings1@2x.png in Resources */,
 				8075D12D1C6963A6003DC454 /* DM-CGS-19.wav in Resources */,
 				804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */,
-				806CDBA31C5BD26A00C10664 /* shuffle.wav in Resources */,
 				806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */,
 				80DCAF301C595A4D00391276 /* EnemyMouthFrown@2x.png in Resources */,
 				80E9DAAF1C4446FA0028BC6D /* LaunchScreen.storyboard in Resources */,
 				8076BA681C47379300BA62A4 /* README.md in Resources */,
 				8021C2BF1D81B79E00E91D40 /* CollectibleGoldStar@2x.png in Resources */,
-				8075D1311C6A5038003DC454 /* DM-CGS-48.wav in Resources */,
 				8075D1381C6A598C003DC454 /* curve4@2x.png in Resources */,
 				80DCAF2E1C595A4D00391276 /* EnemyEyeLeft@2x.png in Resources */,
 				8075D1291C6960B1003DC454 /* SUCCESS PICKUP Collect Chime 01.wav in Resources */,
 				8075D13C1C6A5CD3003DC454 /* SNZSpriteKitUIGraphics.atlas in Resources */,
 				8042BDD41C51A6110029922B /* Hexagon@2x.png in Resources */,
-				8075D1251C696045003DC454 /* SWIPE Whoosh Double 01.wav in Resources */,
 				804759A31CA07C100026F25E /* .travis.yml in Resources */,
 				806B001D1C62DCA500CF4652 /* EnemyVanillaBean_WalkA@2x.png in Resources */,
-				806CDB991C5BCA7D00C10664 /* paperflip.wav in Resources */,
 				806CDBAA1C5BDD9F00C10664 /* GoldStar@2x.png in Resources */,
 				804BA2351C55ACF600951162 /* Star@2x.png in Resources */,
 				8075D1201C68FFAD003DC454 /* HexCell@2x.png in Resources */,
@@ -662,7 +643,6 @@
 				8021C2C11D81ECD000E91D40 /* 133283__fins__game-over.wav in Resources */,
 				8075D1361C6A598C003DC454 /* menu51@2x.png in Resources */,
 				806CDBA61C5BD6F000C10664 /* BowieBolt@2x.png in Resources */,
-				8075D12F1C6963E6003DC454 /* DM-CGS-44.wav in Resources */,
 				80E9DAAC1C4446FA0028BC6D /* Assets.xcassets in Resources */,
 				8025F97D1C58075000A64494 /* Eyes@2x.png in Resources */,
 				8025F9841C580E3F00A64494 /* EyeLookRight@2x.png in Resources */,
