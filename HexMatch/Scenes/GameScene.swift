@@ -119,6 +119,9 @@ class GameScene: SNZScene {
         // Get the hex map and render it
         self.renderFromState()
         
+        // Build progression sprites
+        self.buildProgression()
+        
         // Generate proxy sprite for current piece
         self.updateCurrentPieceSprite()
         
@@ -737,21 +740,6 @@ class GameScene: SNZScene {
         self.highScoreDisplay!.fontSize = 24 * self.uiTextScale
         self.highScoreDisplay!.horizontalAlignmentMode = .Right
         self.guiLayer.addChild(self.highScoreDisplay!)
-    
-        // Progression
-        self.currentPieceSpriteProgressionLeft = SKSpriteNode(texture: SKTexture(imageNamed: "HexCellVoid"))
-        self.currentPieceSpriteProgressionLeft!.setScale(0.5)
-        self.guiLayer.addChild(self.currentPieceSpriteProgressionLeft!)
-        
-        self.currentPieceSpriteProgressionArrow = SKSpriteNode(texture: SKTexture(imageNamed: "play-arrow"))
-        self.currentPieceSpriteProgressionArrow!.setScale(0.15)
-        self.guiLayer.addChild(self.currentPieceSpriteProgressionArrow!)
-        
-        self.currentPieceSpriteProgressionRight = SKSpriteNode(texture: SKTexture(imageNamed: "HexCellVoid"))
-        self.currentPieceSpriteProgressionRight!.setScale(0.5)
-        self.guiLayer.addChild(self.currentPieceSpriteProgressionRight!)
-        
-        self.updateProgression()
         
         // Current piece caption
         self.buildCurrentPieceCaption()
@@ -764,6 +752,21 @@ class GameScene: SNZScene {
         
         // Render the widgets
         self.renderWidgets()
+    }
+    
+    func buildProgression() {
+        // Progression
+        self.currentPieceSpriteProgressionLeft = SKSpriteNode(texture: SKTexture(imageNamed: "HexCellVoid"))
+        self.currentPieceSpriteProgressionLeft!.setScale(0.5)
+        self.guiLayer.addChild(self.currentPieceSpriteProgressionLeft!)
+        
+        self.currentPieceSpriteProgressionArrow = SKSpriteNode(texture: SKTexture(imageNamed: "play-arrow"))
+        self.currentPieceSpriteProgressionArrow!.setScale(0.15)
+        self.guiLayer.addChild(self.currentPieceSpriteProgressionArrow!)
+        
+        self.currentPieceSpriteProgressionRight = SKSpriteNode(texture: SKTexture(imageNamed: "HexCellVoid"))
+        self.currentPieceSpriteProgressionRight!.setScale(0.5)
+        self.guiLayer.addChild(self.currentPieceSpriteProgressionRight!)
     }
     
     func buildCurrentPieceCaption() {
@@ -1288,7 +1291,7 @@ class GameScene: SNZScene {
     
     func updateProgression() {
         // Update progression sprites
-        if (self.currentPieceSpriteProgressionLeft != nil && GameState.instance!.currentPiece != nil) {
+        if (self.currentPieceSpriteProgressionLeft != nil) {
             let progressionRight = GameState.instance!.currentPiece!.createMergedSprite()
             
             if (progressionRight == nil) {
