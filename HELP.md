@@ -1,5 +1,9 @@
 # How to Play Mergel
 
+>In the year 2317, Gold Stars are the most precious resource in the galaxy. They can only be created in specialized hex forges, by combining geometric shapes. You are a Merger, a skilled artisan tasked with the creation and harvesting of Gold Stars. Using the hex forge, you producing shapes with increasing number of sides, until finally the precious Gold Stars are ready to be harvested.
+
+>Unfortunately for you, the Gel, a race of semi-intelligent jelly beans, have infested the shape silos, and have begun to infect shapes with their gelatinous anti-geometry...
+
 Mergel is a puzzle game in which you place shapes to score points. Matching together
 three or more of the same shape causes the shapes to "merge" together, forming
 the next shape in the series. Triangles become squares, squares become pentagons, etc. The more

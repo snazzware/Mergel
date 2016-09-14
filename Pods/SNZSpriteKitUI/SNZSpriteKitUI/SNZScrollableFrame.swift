@@ -104,17 +104,22 @@ public class SNZScrollableFrame: SNZFrame {
         self.content.ignoreTouches = true
 
         let mask = SKShapeNode(rect: frameRect)
-        mask.fillColor = self.backgroundColor
-        mask.strokeColor = self.strokeColor
+        mask.fillColor = UIColor.greenColor()
+        mask.strokeColor = UIColor.clearColor()
         mask.name = "mask"
 
         cropNode.name = "cropNode"
         frameSprite.name = "frameSprite"
         self.content.name = "content"
 
+        let touchNode = SKShapeNode(rect: frameRect)
+        touchNode.fillColor = UIColor.clearColor()
+        touchNode.strokeColor = UIColor.clearColor()
+        touchNode.name = "touchable"
+        
         cropNode.maskNode = mask
         cropNode.addChild(frameSprite)
-        cropNode.addChild(mask)
+        cropNode.addChild(touchNode)
         cropNode.position = self.position
 
         self.sprite = cropNode
@@ -124,7 +129,7 @@ public class SNZScrollableFrame: SNZFrame {
         self.sprite = frameSprite
 
         // Set touchableSprite so that touches outside mask don't register
-        self.touchableSprite = mask
+        self.touchableSprite = touchNode
     }
 
 }

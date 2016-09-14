@@ -21,6 +21,10 @@ struct Stack<Element> {
         self.items.append(item)
     }
     
+    mutating func insert(item: Element, index: Int = 0) {
+        self.items.insert(item, atIndex: index)
+    }
+    
     mutating func pop() -> Element {
         return self.items.removeLast()
     }

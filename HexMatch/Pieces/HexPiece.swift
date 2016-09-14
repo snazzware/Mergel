@@ -188,7 +188,11 @@ class HexPiece : NSObject, NSCoding {
             self.addAnimation(self.sprite!)
         }
     
-        self.sprite!.texture = HexMapHelper.instance.hexPieceTextures[self.value]
+        self.sprite!.runAction(SKAction.sequence([
+            SKAction.scaleTo(0.01, duration: 0.1),
+            SKAction.setTexture(HexMapHelper.instance.hexPieceTextures[self.value]),
+            SKAction.scaleTo(1.0, duration: 0.15)
+        ]))
         self.skipTurnCounter = self.skipTurnsOnPlace
         
         self.playMergeSound()
@@ -197,6 +201,13 @@ class HexPiece : NSObject, NSCoding {
         self.caption = ""
         
         return self
+    }
+    
+    /**
+        Called before a turn will be taken, and before merges occur for the current round post-player move
+     */
+    func preTakeTurn() {
+        // placeholder
     }
     
     /**

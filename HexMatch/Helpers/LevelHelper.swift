@@ -34,8 +34,8 @@ class LevelHelper: NSObject {
     // Chance to generate an enemy piece (moves around board until trapped)
     var enemyPercentage = 20
     
-    // stack of pieces
-    var pieceStack = Stack<HexPiece>()
+    // Minimum number of pre-generated pieces to keep in stack
+    var minimumPieceCount = 5
     
     func getLevelHelperModeCaption(mode: LevelHelperMode) -> String {
         var caption = "Error"
@@ -72,7 +72,7 @@ class LevelHelper: NSObject {
         var randomStartingCount: Int = 10
         
         // Clear piece stack
-        self.pieceStack.clear()
+        GameState.instance!.pieceStack.clear()
         
         // Process options
         self.mobilePercentage = GameState.instance!.getIntForKey("include_mobile_pieces", 1) == 1 ? 10 : 0
@@ -96,18 +96,26 @@ class LevelHelper: NSObject {
                 var piece: HexPiece = HexPiece()
                 
                 piece = HexPiece()
-                piece.value = 5
+                piece.value = 1
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 2
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 3
+                self.pushPiece(piece)
+                
+                piece = HexPiece()
+                piece.value = 4
                 self.pushPiece(piece)
                 
                 piece = HexPiece()
                 piece.value = 5
                 self.pushPiece(piece)
                 
-                piece = HexPiece()
-                piece.value = 5
-                self.pushPiece(piece)
-                
-                piece = WildcardHexPiece()
+                /*piece = WildcardHexPiece()
                 piece.value = 0
                 self.pushPiece(piece)
                 
@@ -117,11 +125,11 @@ class LevelHelper: NSObject {
                 
                 piece = WildcardHexPiece()
                 piece.value = 0
-                self.pushPiece(piece)
+                self.pushPiece(piece)*/
 
                 
                 // Flip order so that newest pieces come off last
-                self.pieceStack.reverseInPlace()
+                GameState.instance!.pieceStack.reverseInPlace()
             break
             case .Welcome:
                 // Create radius 2 hexagon
@@ -202,7 +210,7 @@ class LevelHelper: NSObject {
                 self.pushPiece(piece)
                 
                 // Flip order so that newest pieces come off last
-                self.pieceStack.reverseInPlace()
+                GameState.instance!.pieceStack.reverseInPlace()
                 
             break
             case .Hexagon:
@@ -273,18 +281,22 @@ class LevelHelper: NSObject {
         Pops a piece off the stack, or generates a new random one if the stack is empty
     */
     func popPiece() -> HexPiece {
-        if (self.pieceStack.count > 0) {
-            return self.pieceStack.pop()
-        } else {
-            return self.getRandomPiece()
+        if (GameState.instance!.pieceStack.count < self.minimumPieceCount) {
+            for _ in GameState.instance!.pieceStack.count...self.minimumPieceCount {
+                GameState.instance!.pieceStack.insert(self.getRandomPiece());
+            }
         }
+        
+        let piece = GameState.instance!.pieceStack.pop()
+        
+        return piece
     }
     
     /**
         Pushes a given HexPiece on to the stack
     */
     func pushPiece(piece: HexPiece) {
-        self.pieceStack.push(piece)
+        GameState.instance!.pieceStack.push(piece)
     }
     
     /**

@@ -28,6 +28,8 @@
 		804BA2351C55ACF600951162 /* Star@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2331C55ACF600951162 /* Star@2x.png */; };
 		804BA2361C55ACF600951162 /* Wildcard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2341C55ACF600951162 /* Wildcard@2x.png */; };
 		804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 804BA2371C55AD2700951162 /* Blackstar@2x.png */; };
+		80574F101D8757D400649B38 /* SplashScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80574F0F1D8757D400649B38 /* SplashScene.swift */; };
+		80574F121D875A2800649B38 /* Mergel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80574F111D875A2800649B38 /* Mergel@2x.png */; };
 		80593F641D70AEC400F5A059 /* RemovePiece@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80593F631D70AEC400F5A059 /* RemovePiece@2x.png */; };
 		806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B000D1C61590500CF4652 /* RemovePiece.swift */; };
 		806B00121C615D5E00CF4652 /* RemoveBuyablePiece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */; };
@@ -128,6 +130,8 @@
 		804BA2331C55ACF600951162 /* Star@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Star@2x.png"; sourceTree = "<group>"; };
 		804BA2341C55ACF600951162 /* Wildcard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Wildcard@2x.png"; sourceTree = "<group>"; };
 		804BA2371C55AD2700951162 /* Blackstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Blackstar@2x.png"; sourceTree = "<group>"; };
+		80574F0F1D8757D400649B38 /* SplashScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashScene.swift; sourceTree = "<group>"; };
+		80574F111D875A2800649B38 /* Mergel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Mergel@2x.png"; path = "HexMatch/Assets/Graphics/Mergel@2x.png"; sourceTree = SOURCE_ROOT; };
 		80593F631D70AEC400F5A059 /* RemovePiece@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RemovePiece@2x.png"; sourceTree = "<group>"; };
 		806B000D1C61590500CF4652 /* RemovePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemovePiece.swift; sourceTree = "<group>"; };
 		806B00111C615D5E00CF4652 /* RemoveBuyablePiece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveBuyablePiece.swift; sourceTree = "<group>"; };
@@ -351,6 +355,7 @@
 				8075D1321C6A5981003DC454 /* Buttons */,
 				80DCAF291C595A4200391276 /* Enemies */,
 				8025F9801C580D8F00A64494 /* Eyes */,
+				80574F111D875A2800649B38 /* Mergel@2x.png */,
 				804BA2371C55AD2700951162 /* Blackstar@2x.png */,
 				806CDBA51C5BD6F000C10664 /* BowieBolt@2x.png */,
 				806CDBA91C5BDD9F00C10664 /* GoldStar@2x.png */,
@@ -373,11 +378,12 @@
 		80CA3AAE1C5D3BA700E814DF /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				80CA3AAF1C5D687800E814DF /* BankScene.swift */,
 				80E9DAA41C4446FA0028BC6D /* GameScene.swift */,
+				80E50F351D833DE800D92942 /* NewGameScene.swift */,
+				80CA3AAF1C5D687800E814DF /* BankScene.swift */,
 				806CDB8D1C5AB81F00C10664 /* LevelScene.swift */,
 				806B00231C63DDA400CF4652 /* StatsScene.swift */,
-				80E50F351D833DE800D92942 /* NewGameScene.swift */,
+				80574F0F1D8757D400649B38 /* SplashScene.swift */,
 			);
 			name = Scenes;
 			path = HexMatch/Scenes;
@@ -622,6 +628,7 @@
 				8042BDB41C5188FB0029922B /* tartan2014.png in Resources */,
 				80593F641D70AEC400F5A059 /* RemovePiece@2x.png in Resources */,
 				8075D1371C6A598C003DC454 /* savings1@2x.png in Resources */,
+				80574F121D875A2800649B38 /* Mergel@2x.png in Resources */,
 				8075D12D1C6963A6003DC454 /* DM-CGS-19.wav in Resources */,
 				804BA2381C55AD2700951162 /* Blackstar@2x.png in Resources */,
 				806CDB941C5ACAB100C10664 /* CollectibleVanillaBean@2x.png in Resources */,
@@ -748,6 +755,7 @@
 				80E50F321D8337AC00D92942 /* MergelButtonWidget.swift in Sources */,
 				806CDB961C5B14FA00C10664 /* SceneHelper.swift in Sources */,
 				80CA3AB81C5EBA9000E814DF /* WildcardBuyablePiece.swift in Sources */,
+				80574F101D8757D400649B38 /* SplashScene.swift in Sources */,
 				8033FE631C4ED4430035D1A7 /* GameStateMachine.swift in Sources */,
 				80CA3AB51C5EB7E600E814DF /* BuyablePiece.swift in Sources */,
 				806B000E1C61590500CF4652 /* RemovePiece.swift in Sources */,

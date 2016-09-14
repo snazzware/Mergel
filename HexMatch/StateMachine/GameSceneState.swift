@@ -25,18 +25,6 @@ class GameSceneInitialState: GameSceneState {
         return ((stateClass is GameScenePlayingState.Type) || (stateClass is GameSceneRestartState.Type))
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
-        // Set up GUI, etc.
-        SceneHelper.instance.gameScene.initGame()
-        
-        // If hexMap is blank, enter restart state to set up new game
-        if (GameState.instance!.hexMap.isBlank) {
-            GameStateMachine.instance!.enterState(GameSceneRestartState.self)
-        } else {
-            GameStateMachine.instance!.enterState(GameScenePlayingState.self)
-        }
-    }
-    
 }
 
 // Sets up a new game
@@ -58,7 +46,7 @@ class GameSceneRestartState: GameSceneState {
     
 }
 
-// Game is active
+// Player is making move
 class GameScenePlayingState: GameSceneState {
     
     override func didEnterWithPreviousState(previousState: GKState?) {
@@ -66,7 +54,37 @@ class GameScenePlayingState: GameSceneState {
     }
     
     override func isValidNextState(stateClass: AnyClass) -> Bool {
-        let result = ((stateClass is GameSceneGameOverState.Type) || (stateClass is GameSceneRestartState.Type))
+        let result = ((stateClass is GameSceneGameOverState.Type) || (stateClass is GameSceneRestartState.Type) || (stateClass is GameSceneMergingState.Type))
+        
+        return result
+    }
+    
+}
+
+// Pieces is merging
+class GameSceneMergingState: GameSceneState {
+    
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        
+    }
+    
+    override func isValidNextState(stateClass: AnyClass) -> Bool {
+        let result = (stateClass is GameSceneEnemyState.Type)
+        
+        return result
+    }
+    
+}
+
+// Enemy is making moves
+class GameSceneEnemyState: GameSceneState {
+    
+    override func didEnterWithPreviousState(previousState: GKState?) {
+        
+    }
+    
+    override func isValidNextState(stateClass: AnyClass) -> Bool {
+        let result = (stateClass is GameScenePlayingState.Type || (stateClass is GameSceneGameOverState.Type))
         
         return result
     }
@@ -83,7 +101,6 @@ class GameSceneGameOverState: GameSceneState {
     }
     
     override func didEnterWithPreviousState(previousState: GKState?) {
-        
         self.scene.showGameOver()
     }
     

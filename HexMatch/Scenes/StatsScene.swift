@@ -30,6 +30,7 @@ class StatsScene: SNZScene {
         statsFrame.size = CGSizeMake(self.frame.width - 40, self.frame.height - 200)
         statsFrame.position = CGPointMake(20, 100)
         statsFrame.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25)
+        statsFrame.strokeColor = UIColor.clearColor()
         self.addWidget(statsFrame)
         
         // Create primary header
@@ -40,6 +41,7 @@ class StatsScene: SNZScene {
         var verticalOffset:CGFloat = -20
         
         var statGroups = [String: [String: String]]()
+        var statIcons = [String: String]()
         
         for (key, description) in GameStats.instance!.statNames {
             let toks = description.componentsSeparatedByString("/")
@@ -49,23 +51,48 @@ class StatsScene: SNZScene {
                 }
                 
                 statGroups[toks[0]]![key] = toks[1]
+                
+                if (toks.count >= 3) {
+                    statIcons[key] = toks[2]
+                }
             }
         }
         
+        // Iterate over stat groups and render
         for (description, keys) in statGroups {
+            
+            // render header for stat group
             let label = SKLabelNode(fontNamed: "Avenir-Black")
             label.text = description
             label.fontColor = UIColor.whiteColor()
             label.fontSize = 18
-            label.horizontalAlignmentMode = .Left
+            label.horizontalAlignmentMode = .Center
             label.verticalAlignmentMode = .Center
-            label.position = CGPointMake(10, verticalOffset)
+            label.position = CGPointMake(statsFrame.size.width / 2, verticalOffset)
             label.ignoreTouches = true
             statsFrame.content.addChild(label)
             
-            verticalOffset -= 30
+            // Advance to next row
+            verticalOffset -= 24
             
-            for (key, caption) in keys {
+            // Sort descending values
+            let sortedKeys = keys.sort({ (a: (String, String), b: (String, String)) -> Bool in
+                return GameStats.instance!.getIntForKey(a.0, 0) > GameStats.instance!.getIntForKey(b.0, 0)
+            })
+            
+            var rowNumber = 0
+            
+            // Render label and value for each
+            for (key, caption) in sortedKeys {
+                // Shade even-numbered rows
+                if (rowNumber % 2 == 0) {
+                    let backgroundRect = SKShapeNode(rect: CGRectMake(4,verticalOffset-12,statsFrame.size.width-8,24))
+                    backgroundRect.fillColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.1)
+                    backgroundRect.strokeColor = UIColor.clearColor()
+                    statsFrame.content.addChild(backgroundRect)
+                }
+                
+                // Render label
                 let label = SKLabelNode(fontNamed: "Avenir-Black")
                 label.text = caption
                 label.fontColor = UIColor.whiteColor()
@@ -76,8 +103,9 @@ class StatsScene: SNZScene {
                 label.ignoreTouches = true
                 statsFrame.content.addChild(label)
                 
+                // Render value
                 let value = SKLabelNode(fontNamed: "Avenir-Black")
-                value.text = "\(GameStats.instance!.getIntForKey(key, 0))"
+                value.text = "\(HexMapHelper.instance.scoreFormatter.stringFromNumber(GameStats.instance!.getIntForKey(key, 0))!)"
                 value.fontColor = UIColor.whiteColor()
                 value.fontSize = 14
                 value.horizontalAlignmentMode = .Right
@@ -86,8 +114,14 @@ class StatsScene: SNZScene {
                 value.ignoreTouches = true
                 statsFrame.content.addChild(value)
             
-                verticalOffset -= 30
+                // Advance to next row
+                verticalOffset -= 24
+                
+                rowNumber += 1
             }
+            
+            // pad bottom of group
+            verticalOffset -= 24
         }
         
         // Add the close button

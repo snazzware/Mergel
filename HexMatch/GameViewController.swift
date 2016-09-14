@@ -23,6 +23,10 @@ class GameViewController: UIViewController {
 
         self.scene = SceneHelper.instance.gameScene
         
+        // Init state machine
+        GameStateMachine.instance = GameStateMachine(scene: SceneHelper.instance.gameScene)
+        GameStateMachine.instance!.enterState(GameSceneInitialState.self)
+        
         // Configure the view.
         let skView = self.view as! SKView
         skView.showsFPS = false
@@ -34,11 +38,7 @@ class GameViewController: UIViewController {
         /* Set the scale mode to scale to fit the window */
         self.scene!.scaleMode = .ResizeFill
         
-        skView.presentScene(self.scene!)
-        
-        // Init state machine
-        GameStateMachine.instance = GameStateMachine(scene: self.scene!)
-        GameStateMachine.instance!.enterState(GameSceneInitialState.self)
+        skView.presentScene(SceneHelper.instance.splashScene)
         
         // GameKit
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.showAuthenticationViewController), name: PresentAuthenticationViewController, object: nil)

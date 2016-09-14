@@ -112,6 +112,17 @@ class MobileHexPiece : HexPiece {
     }
     
     /**
+        Before merges occur, see if we have any free spots to move in to. If not, die now, so we can be merged.
+     */
+    override func preTakeTurn() {
+        let openCells = HexMapHelper.instance.hexMap!.openCellsForRadius(self.hexCell!, radius: 1)
+        
+        if (self.isAlive && openCells.count == 0) {
+            self.stopLiving()
+        }
+    }
+    
+    /**
         Try to move to another cell, and "die" if unable.
     
         - Returns: True if we did take a turn

@@ -10,7 +10,7 @@
 import SpriteKit
 
 class ShadowLabelNode : SKLabelNode {
-    var offset : CGPoint = CGPointMake(0,0)
+    var offset : CGPoint = CGPointMake(-1,1)
     var shadowColor : UIColor = UIColor.blackColor()
     var blurRadius : CGFloat = 3.0
     
@@ -37,23 +37,28 @@ class ShadowLabelNode : SKLabelNode {
             effectNode!.zPosition = -1
         }
         
-        let filter : CIFilter? = CIFilter (name: "CIGaussianBlur")
+        // Super slow!
+        /*let filter : CIFilter? = CIFilter (name: "CIGaussianBlur")
         filter?.setDefaults();
         filter?.setValue(blurRadius, forKey: "inputRadius")
         effectNode?.filter = filter
-        effectNode?.removeAllChildren()
+        effectNode?.removeAllChildren()*/
         
         // Duplicate and offset the label
-        let labelNode : SKLabelNode? = SKLabelNode (fontNamed: self.fontName)
-        labelNode?.text = self.text
-        labelNode?.fontSize = self.fontSize
-        labelNode?.verticalAlignmentMode = self.verticalAlignmentMode
-        labelNode?.horizontalAlignmentMode = self.horizontalAlignmentMode
-        labelNode?.fontColor = shadowColor     // Shadow not parent color
-        labelNode?.position = offset            // Offset from parent
+        let labelNode = SKLabelNode (fontNamed: self.fontName)
+        labelNode.text = self.text
+        labelNode.fontSize = self.fontSize
+        labelNode.verticalAlignmentMode = self.verticalAlignmentMode
+        labelNode.horizontalAlignmentMode = self.horizontalAlignmentMode
+        labelNode.fontColor = self.fontColor
+        labelNode.position = offset            // Offset from parent
+        labelNode.zPosition = self.zPosition+1
         
-        effectNode!.addChild(labelNode!)
-        self.insertChild(effectNode!, atIndex: 0)
+        // Become the shadow
+        self.fontColor = shadowColor
+        
+        // Add the new foreground label
+        self.addChild(labelNode)
     }
     
     func nodeTexture () -> SKTexture {

@@ -14,6 +14,7 @@ class GameState: NSObject, NSCoding {
     
     var highScore: Int
     var score: Int
+    var goalScore: Int
     var bankPoints: Int
     var hexMap: HexMap
     var currentPiece: HexPiece?
@@ -23,10 +24,12 @@ class GameState: NSObject, NSCoding {
     var levelHelperMode: LevelHelperMode
     var buyablePieces: [BuyablePiece] = Array()
     var optionsInt: [String:Int]
+    var pieceStack = Stack<HexPiece>()
     
     override init() {
         self.highScore = 0
         self.score = 0
+        self.goalScore = 250000
         self.bankPoints = 25000
         self.hexMap = HexMap(7,7)
         
@@ -59,6 +62,13 @@ class GameState: NSObject, NSCoding {
         
         self.highScore = (decoder.decodeObjectForKey("highScore") as? Int)!
         self.score = (decoder.decodeObjectForKey("score") as? Int)!
+        
+        let goalScore = decoder.decodeObjectForKey("goalScore")
+        if (goalScore != nil) {
+            self.goalScore = (goalScore as? Int)!
+        } else {
+            self.goalScore = 250000
+        }
         
         let bankPoints = decoder.decodeObjectForKey("bankPoints")
         if (bankPoints != nil) {
@@ -121,11 +131,17 @@ class GameState: NSObject, NSCoding {
         if (!self.unlockedLevels.contains(.Hexagon)) {
              self.unlockedLevels.append(.Hexagon)
         }
+        
+        let pieceStack = decoder.decodeObjectForKey("pieceStack")
+        if (pieceStack != nil) {
+            self.pieceStack.items = pieceStack as! [HexPiece]
+        }
     }
     
     func encodeWithCoder(coder: NSCoder) {
         coder.encodeObject(self.highScore, forKey: "highScore")
         coder.encodeObject(self.score, forKey: "score")
+        coder.encodeObject(self.goalScore, forKey: "goalScore")
         coder.encodeObject(self.bankPoints, forKey: "bankPoints")
         coder.encodeObject(self.hexMap, forKey: "hexMap")
         coder.encodeObject(self.currentPiece, forKey: "currentPiece")
@@ -144,6 +160,8 @@ class GameState: NSObject, NSCoding {
         coder.encodeObject(LevelHelper.instance.mode.rawValue, forKey: "levelHelperMode")
         
         coder.encodeObject(self.buyablePieces, forKey: "buyablePieces")
+        
+        coder.encodeObject(self.pieceStack.items, forKey: "pieceStack")
     }
     
     func resetBuyablePieces() {

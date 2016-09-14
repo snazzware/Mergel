@@ -1,5 +1,7 @@
 # Mergel
 
+"In the year 2317, Gold Stars are the most precious resource in the galaxy. They can only be created in specialized hex forges, by combining geometric shapes. You are a Merger, one of the skilled few who creates and harvests Gold Stars. Using the hex forge, you producing shapes with increasing number of sides, until finally the precious Gold Stars are ready to be harvested. Unfortunately for you, the Gel, a race of semi-intelligent jelly beans, have infested the shape silos, and have begun to infect shapes with their gelatinous anti-geometry..."
+
 Copyright (C)2016 Josh M. McKee
 
 Source code available on [GitHub](https://github.com/snazzware/mergel) under [MIT License](https://github.com/snazzware/Mergel/blob/master/LICENSE).
@@ -15,6 +17,10 @@ SpinLock.swift, based on code posted by Wade Tregaskis in a comment on (https://
 
 GameKitHelper.swift Copyright (c) 2015-2016 [Razeware LLC](https://www.razeware.com) via (https://www.raywenderlich.com)
 
+Music
+-----
+"Before Man" by [Roald Strauss](http://www.dewfall.dk)
+
 Art
 ---
 
@@ -25,6 +31,8 @@ Undo Icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http
 Bank Icon made by [Freepik](http://www.freepik.com) from [www.flaticon.com](http://www.flaticon.com) is licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
 
 Right Arrow Icon made by [Google](http://www.flaticon.com/authors/google) from [www.flaticon.com](http://www.flaticon.com) is licensed under [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+
+Good Dog font by [Fonthead Design](https://www.fontsquirrel.com/fonts/gooddog)
 
 Sounds
 ------

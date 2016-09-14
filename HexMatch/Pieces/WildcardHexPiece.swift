@@ -156,7 +156,7 @@ class WildcardHexPiece : HexPiece {
     }
     
     override func getStatsKey() -> String {
-        if (self.value == 999) {
+        if (self.isCollectible) {
             return "piece_wildcard_999"
         }
         

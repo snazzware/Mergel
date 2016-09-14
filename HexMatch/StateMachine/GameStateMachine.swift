@@ -13,11 +13,15 @@ public class GameStateMachine: GKStateMachine {
     
     static var instance: GameStateMachine?
     
+    var blocked: Bool = false
+    
     init(scene:GameScene) {
         super.init(states: [
             GameSceneInitialState(scene: scene),
             GameSceneRestartState(scene: scene),
             GameScenePlayingState(scene: scene),
+            GameSceneMergingState(scene: scene),
+            GameSceneEnemyState(scene: scene),
             GameSceneGameOverState(scene: scene)
         ]);
     }

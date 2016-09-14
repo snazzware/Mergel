@@ -19,6 +19,7 @@ class SceneHelper: NSObject {
     var bankScene: BankScene
     var statsScene: StatsScene
     var newGameScene: NewGameScene
+    var splashScene: SplashScene
     
     override init() {
         self.gameScene = GameScene()
@@ -26,6 +27,7 @@ class SceneHelper: NSObject {
         self.bankScene = BankScene()
         self.statsScene = StatsScene()
         self.newGameScene = NewGameScene()
+        self.splashScene = SplashScene()
         
         // Resize modes
         self.gameScene.scaleMode = .ResizeFill
@@ -33,10 +35,10 @@ class SceneHelper: NSObject {
         self.bankScene.scaleMode = .ResizeFill
         self.statsScene.scaleMode = .ResizeFill
         self.newGameScene.scaleMode = .ResizeFill
+        self.splashScene.scaleMode = .ResizeFill
         
         // Set initial gui positions
-        self.levelScene.updateGui()
-        self.bankScene.updateGui()
+        self.levelScene.updateGui()        
         self.statsScene.updateGui()
         
         super.init()

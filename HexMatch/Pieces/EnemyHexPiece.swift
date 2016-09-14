@@ -38,6 +38,11 @@ class EnemyHexPiece : MobileHexPiece {
         return node
     }
     
+    override func getStatsKey() -> String {
+        print("piece_vanillabean_\(self.value)")
+        return "piece_vanillabean_\(self.value)"
+    }
+    
     override func getPieceDescription() -> String {
         return "Vanilla Gel"
     }
@@ -150,16 +155,24 @@ class EnemyHexPiece : MobileHexPiece {
             self.isCollectible = true
         }
         
+        var newTexture = self.sprite!.texture
+        
         switch (self.value) {
             case 1001:
-                self.sprite!.texture = SKTexture(imageNamed: "EnemyVanillaBeanSuper")
+                newTexture = SKTexture(imageNamed: "EnemyVanillaBeanSuper")
             break;
             case 1002:
-                self.sprite!.texture = SKTexture(imageNamed: "CollectibleVanillaBean")
+                newTexture = SKTexture(imageNamed: "CollectibleVanillaBean")
             break;
             default:
             break;
         }
+        
+        self.sprite!.runAction(SKAction.sequence([
+            SKAction.scaleTo(0.01, duration: 0.1),
+            SKAction.setTexture(newTexture!),
+            SKAction.scaleTo(1.0, duration: 0.15)
+        ]))
         
         self.addAnimation(self.sprite!)
         
@@ -168,10 +181,6 @@ class EnemyHexPiece : MobileHexPiece {
         self.playMergeSound()
         
         return self
-    }
-    
-    override func getStatsKey() -> String {
-        return "piece_vanillabean_\(self.value)"
     }
     
     override func animateMoveTo(position: CGPoint) {
