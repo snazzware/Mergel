@@ -9,18 +9,18 @@
 import Foundation
 
 enum LevelHelperMode : Int {
-    case Welcome = 1
-    case Hexagon = 2
-    case Pit = 3
-    case Moat = 4
-    case Debug = 99
+    case welcome = 1
+    case hexagon = 2
+    case pit = 3
+    case moat = 4
+    case debug = 99
 }
 
 class LevelHelper: NSObject {
     // singleton
     static let instance = LevelHelper()
     
-    var mode: LevelHelperMode = .Welcome    
+    var mode: LevelHelperMode = .welcome    
     
     // Distribution of random piece values. Piece value is index in array, array member value is the pct chance the index will be selected.
     let distribution = [50, 30, 18, 2]
@@ -37,23 +37,23 @@ class LevelHelper: NSObject {
     // Minimum number of pre-generated pieces to keep in stack
     var minimumPieceCount = 5
     
-    func getLevelHelperModeCaption(mode: LevelHelperMode) -> String {
+    func getLevelHelperModeCaption(_ mode: LevelHelperMode) -> String {
         var caption = "Error"
         
         switch mode {
-            case .Welcome:
+            case .welcome:
                 caption = "Tutorial"
             break
-            case .Hexagon:
+            case .hexagon:
                 caption = "Beginner"
             break
-            case .Pit:
+            case .pit:
                 caption = "The Pit"
             break
-            case .Moat:
+            case .moat:
                 caption = "The Moat"
             break
-            case .Debug:
+            case .debug:
                 caption = "Debug"
             break
         }
@@ -67,7 +67,7 @@ class LevelHelper: NSObject {
         - Parameters:
             - hexMap: Instance of HexMap to initialize
     */
-    func initLevel(hexMap: HexMap) {
+    func initLevel(_ hexMap: HexMap) {
         var targetCell: HexCell? = nil
         var randomStartingCount: Int = 10
         
@@ -82,9 +82,9 @@ class LevelHelper: NSObject {
         hexMap.clear()
         
         switch mode {
-            case .Debug:
+            case .debug:
                 // Create radius 2 hexagon
-                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
+                let voidCells = Set(hexMap.getAllCells()).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
@@ -131,9 +131,9 @@ class LevelHelper: NSObject {
                 // Flip order so that newest pieces come off last
                 GameState.instance!.pieceStack.reverseInPlace()
             break
-            case .Welcome:
+            case .welcome:
                 // Create radius 2 hexagon
-                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
+                let voidCells = Set(hexMap.getAllCells()).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
@@ -213,17 +213,17 @@ class LevelHelper: NSObject {
                 GameState.instance!.pieceStack.reverseInPlace()
                 
             break
-            case .Hexagon:
+            case .hexagon:
                 // Create radius 2 hexagon
-                let voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
+                let voidCells = Set(hexMap.getAllCells()).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2)+1)!, radius: 2)))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
                 }
             break
-            case .Pit:
+            case .pit:
                 // Start with a radius 3 hexagon
-                var voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                var voidCells = Set(hexMap.getAllCells()).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
                 
                 // Void out radius 1 hexagon in middle
                 voidCells = voidCells.union(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1))
@@ -232,12 +232,12 @@ class LevelHelper: NSObject {
                     voidCell.isVoid = true
                 }
             break
-            case .Moat:
+            case .moat:
                 // Start with a radius 3 hexagon
-                var voidCells = Set(hexMap.getAllCells()).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                var voidCells = Set(hexMap.getAllCells()).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
                 
                 // Void out moat in center of hex map
-                voidCells = voidCells.union(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)).subtract(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1))))
+                voidCells = voidCells.union(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 2)).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 1))))
                 
                 for voidCell in voidCells {
                     voidCell.isVoid = true
@@ -295,7 +295,7 @@ class LevelHelper: NSObject {
     /**
         Pushes a given HexPiece on to the stack
     */
-    func pushPiece(piece: HexPiece) {
+    func pushPiece(_ piece: HexPiece) {
         GameState.instance!.pieceStack.push(piece)
     }
     

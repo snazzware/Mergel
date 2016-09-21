@@ -40,7 +40,7 @@ class WildcardHexPiece : HexPiece {
         return nil
     }
     
-    override func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
+    override func canMergeWithPiece(_ hexPiece: HexPiece) -> Bool {
         var result = false
         
         if (self.isWild && !(hexPiece is WildcardHexPiece)) {
@@ -71,7 +71,7 @@ class WildcardHexPiece : HexPiece {
         self.sprite!.texture = HexMapHelper.instance.wildcardPlacedTexture
     }
     
-    override func wasPlacedWithMerge(mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
+    override func wasPlacedWithMerge(_ mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
         super.wasPlacedWithMerge(mergeValue, mergingPieces: mergingPieces)
 
         var mergingWild = false
@@ -134,7 +134,7 @@ class WildcardHexPiece : HexPiece {
     required init(coder decoder: NSCoder) {
         super.init(coder: decoder)
     
-        let isWild = decoder.decodeObjectForKey("isWild")
+        let isWild = decoder.decodeObject(forKey: "isWild")
         if (isWild != nil) {
             self.isWild = (isWild as? Bool)!
         }
@@ -145,10 +145,10 @@ class WildcardHexPiece : HexPiece {
         }
     }
     
-    override func encodeWithCoder(coder: NSCoder) {
-        super.encodeWithCoder(coder)
+    override func encode(with coder: NSCoder) {
+        super.encode(with: coder)
         
-        coder.encodeObject(self.isWild, forKey: "isWild")
+        coder.encode(self.isWild, forKey: "isWild")
     }
     
     override func getPieceDescription() -> String {

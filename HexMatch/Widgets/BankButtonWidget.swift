@@ -18,7 +18,7 @@ class BankButtonWidget : MergelButtonWidget {
     override init() {
         super.init()
         
-        self.size = CGSizeMake(230, 48)
+        self.size = CGSize(width: 230, height: 48)
     }
     
     override func render() {
@@ -27,7 +27,7 @@ class BankButtonWidget : MergelButtonWidget {
         // position & add icon
         let bankIcon = SKSpriteNode(texture: SKTexture(imageNamed: "savings1"))
         bankIcon.setScale(0.5)
-        bankIcon.position = CGPointMake(self.size.width - 24,self.size.height - 40)
+        bankIcon.position = CGPoint(x: self.size.width - 24,y: self.size.height - 40)
         bankIcon.ignoreTouches = true
         self.sprite!.addChild(bankIcon)
         
@@ -37,7 +37,7 @@ class BankButtonWidget : MergelButtonWidget {
         bankSpendCaption.fontSize = 12
         bankSpendCaption.zPosition = 20
         bankSpendCaption.fontName = "Avenir-Black"
-        bankSpendCaption.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        bankSpendCaption.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         bankSpendCaption.position = CGPoint(x: SNZSpriteKitUITheme.instance.uiInnerMargins.left, y: SNZSpriteKitUITheme.instance.uiInnerMargins.bottom)
         bankSpendCaption.ignoreTouches = true
         self.sprite!.addChild(bankSpendCaption)

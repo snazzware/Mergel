@@ -25,7 +25,7 @@ class GameViewController: UIViewController {
         
         // Init state machine
         GameStateMachine.instance = GameStateMachine(scene: SceneHelper.instance.gameScene)
-        GameStateMachine.instance!.enterState(GameSceneInitialState.self)
+        GameStateMachine.instance!.enter(GameSceneInitialState.self)
         
         // Configure the view.
         let skView = self.view as! SKView
@@ -36,13 +36,13 @@ class GameViewController: UIViewController {
         skView.ignoresSiblingOrder = true
         
         /* Set the scale mode to scale to fit the window */
-        self.scene!.scaleMode = .ResizeFill
+        self.scene!.scaleMode = .resizeFill
         
         skView.presentScene(SceneHelper.instance.splashScene)
         
         // GameKit
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.showAuthenticationViewController), name: PresentAuthenticationViewController, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GameViewController.showGKGameCenterViewController), name: ShowGKGameCenterViewController, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.showAuthenticationViewController), name: NSNotification.Name(rawValue: PresentAuthenticationViewController), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(GameViewController.showGKGameCenterViewController), name: NSNotification.Name(rawValue: ShowGKGameCenterViewController), object: nil)
         GameKitHelper.sharedInstance.authenticateLocalPlayer()
     }
     
@@ -51,7 +51,7 @@ class GameViewController: UIViewController {
         let gameKitHelper = GameKitHelper.sharedInstance
         
         if let authenticationViewController = gameKitHelper.authenticationViewController {
-            self.presentViewController(authenticationViewController, animated: true, completion: nil)
+            self.present(authenticationViewController, animated: true, completion: nil)
         }
     }
     
@@ -59,15 +59,15 @@ class GameViewController: UIViewController {
         GameKitHelper.sharedInstance.showGKGameCenterViewController(self)
     }
 
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
 
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return .AllButUpsideDown
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .allButUpsideDown
         } else {
-            return .All
+            return .all
         }
     }
 
@@ -76,11 +76,11 @@ class GameViewController: UIViewController {
         // Release any cached data, images, etc that aren't in use.
     }
 
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true
     }
     
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         SceneHelper.instance.didRotateFromInterfaceOrientation(fromInterfaceOrientation)
     }
 }

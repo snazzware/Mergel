@@ -17,7 +17,7 @@ class SNZDialog : SNZWidget {
     var widgets = [SNZWidget]()
     var focusedWidget: SNZWidget?
     
-    func addWidget(widget: SNZWidget) {
+    func addWidget(_ widget: SNZWidget) {
         self.widgets.append(widget)
     }
     
@@ -31,13 +31,13 @@ class SNZDialog : SNZWidget {
             print("context is \(context)")
             context.close()
         });
-        closeButton.size = CGSizeMake(64,64)
-        closeButton.position = CGPointMake(self.size.width-32, self.size.height-32)
+        closeButton.size = CGSize(width: 64,height: 64)
+        closeButton.position = CGPoint(x: self.size.width-32, y: self.size.height-32)
         self.addWidget(closeButton)
     }
     
     override func render() {
-        self.sprite = SKSpriteNode(color: UIColor.darkGrayColor(), size:self.size)
+        self.sprite = SKSpriteNode(color: UIColor.darkGray, size:self.size)
         
         self.sprite?.position = self.position
         self.sprite?.zPosition = 9999
@@ -67,12 +67,12 @@ class SNZDialog : SNZWidget {
         self.trigger("close")
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         var handled = false
         
         for touch in touches {
-            let location = touch.locationInNode(self.sprite!)
-            var touchedNode = self.sprite!.nodeAtPoint(location)
+            let location = touch.location(in: self.sprite!)
+            var touchedNode = self.sprite!.atPoint(location)
             
             // determine actual sprite we should consider touched
             while (touchedNode.ignoreTouches && touchedNode.parent != nil) {
@@ -108,17 +108,17 @@ class SNZDialog : SNZWidget {
         }
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        self.touchesBegan(touches, withEvent: event)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.touchesBegan(touches, with: event)
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {        
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {        
         if (self.focusedWidget != nil) {
             self.focusedWidget!.trigger("blur")
         
             for touch in touches {
-                let location = touch.locationInNode(self.sprite!)
-                var touchedNode = self.sprite!.nodeAtPoint(location)
+                let location = touch.location(in: self.sprite!)
+                var touchedNode = self.sprite!.atPoint(location)
                 
                 // determine actual sprite we should consider touched
                 while (touchedNode.ignoreTouches && touchedNode.parent != nil) {

@@ -78,43 +78,43 @@ class HexPiece : NSObject, NSCoding {
     required init(coder decoder: NSCoder) {
         super.init()
     
-        self.originalValue = (decoder.decodeObjectForKey("originalValue") as? Int)!
-        self.value = (decoder.decodeObjectForKey("value") as? Int)!
+        self.originalValue = (decoder.decodeObject(forKey: "originalValue") as? Int)!
+        self.value = (decoder.decodeObject(forKey: "value") as? Int)!
         
-        let hexCell = decoder.decodeObjectForKey("hexCell")
+        let hexCell = decoder.decodeObject(forKey: "hexCell")
         if (hexCell != nil) {
             self._hexCell = (hexCell as? HexCell)!
         }
         
-        let isCollectible = decoder.decodeObjectForKey("isCollectible")
+        let isCollectible = decoder.decodeObject(forKey: "isCollectible")
         if (isCollectible != nil) {
             self.isCollectible = (isCollectible as? Bool)!
         }
         
-        let caption = decoder.decodeObjectForKey("caption")
+        let caption = decoder.decodeObject(forKey: "caption")
         if (caption != nil) {
             self.caption = (caption as? String)!
         }
         
-        self.skipTurnCounter = (decoder.decodeObjectForKey("skipTurnCounter") as? Int)!
-        self.skipTurnsOnPlace = (decoder.decodeObjectForKey("skipTurnsOnPlace") as? Int)!
+        self.skipTurnCounter = (decoder.decodeObject(forKey: "skipTurnCounter") as? Int)!
+        self.skipTurnsOnPlace = (decoder.decodeObject(forKey: "skipTurnsOnPlace") as? Int)!
     }
     
     /**
         Encode for NSCoder
     */
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.originalValue, forKey: "originalValue")
-        coder.encodeObject(self.value, forKey: "value")
+    func encode(with coder: NSCoder) {
+        coder.encode(self.originalValue, forKey: "originalValue")
+        coder.encode(self.value, forKey: "value")
         
-        coder.encodeObject(self._hexCell, forKey: "hexCell")
+        coder.encode(self._hexCell, forKey: "hexCell")
         
-        coder.encodeObject(self.caption, forKey: "caption")
+        coder.encode(self.caption, forKey: "caption")
         
-        coder.encodeObject(self.isCollectible, forKey: "isCollectible")
+        coder.encode(self.isCollectible, forKey: "isCollectible")
         
-        coder.encodeObject(self.skipTurnCounter, forKey: "skipTurnCounter")
-        coder.encodeObject(self.skipTurnsOnPlace, forKey: "skipTurnsOnPlace")
+        coder.encode(self.skipTurnCounter, forKey: "skipTurnCounter")
+        coder.encode(self.skipTurnsOnPlace, forKey: "skipTurnsOnPlace")
     }
     
     /**
@@ -141,7 +141,7 @@ class HexPiece : NSObject, NSCoding {
     /**
         Returns true if this piece can merge with hexPiece
     */
-    func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
+    func canMergeWithPiece(_ hexPiece: HexPiece) -> Bool {
         var result = false
         
         if (self.value == hexPiece.value && !self.isCollectible) {
@@ -175,7 +175,7 @@ class HexPiece : NSObject, NSCoding {
     /**
         Called after piece has been placed on a hexmap and was merged with other piece(s)
     */
-    func wasPlacedWithMerge(mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
+    func wasPlacedWithMerge(_ mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
         // Update to the next value in sequence, or cap at maxPieceValue
         self.value = mergeValue + 1
         
@@ -188,10 +188,10 @@ class HexPiece : NSObject, NSCoding {
             self.addAnimation(self.sprite!)
         }
     
-        self.sprite!.runAction(SKAction.sequence([
-            SKAction.scaleTo(0.01, duration: 0.1),
+        self.sprite!.run(SKAction.sequence([
+            SKAction.scale(to: 0.01, duration: 0.1),
             SKAction.setTexture(HexMapHelper.instance.hexPieceTextures[self.value]),
-            SKAction.scaleTo(1.0, duration: 0.15)
+            SKAction.scale(to: 1.0, duration: 0.15)
         ]))
         self.skipTurnCounter = self.skipTurnsOnPlace
         
@@ -324,19 +324,19 @@ class HexPiece : NSObject, NSCoding {
         return node
     }
     
-    func addAnimation(node: SKSpriteNode) {
+    func addAnimation(_ node: SKSpriteNode) {
         if (self.isCollectible) {
-            let scaleUpAction = SKAction.scaleTo(1.1, duration: 0.5)
-            let scaleDownAction = SKAction.scaleTo(0.9, duration: 0.5)
-            let rotateRightAction = SKAction.rotateByAngle(0.5, duration: 0.25)
-            let rotateLeftAction = SKAction.rotateByAngle(-0.5, duration: 0.25)
+            let scaleUpAction = SKAction.scale(to: 1.1, duration: 0.5)
+            let scaleDownAction = SKAction.scale(to: 0.9, duration: 0.5)
+            let rotateRightAction = SKAction.rotate(byAngle: 0.5, duration: 0.25)
+            let rotateLeftAction = SKAction.rotate(byAngle: -0.5, duration: 0.25)
             
             let collectibleGroup = SKAction.group([
                 SKAction.sequence([scaleUpAction,scaleDownAction]),
                 SKAction.sequence([rotateRightAction,rotateLeftAction,rotateLeftAction,rotateRightAction])
                 ])
             
-            node.runAction(SKAction.repeatActionForever(collectibleGroup))
+            node.run(SKAction.repeatForever(collectibleGroup))
         }
     }
     
@@ -360,7 +360,7 @@ class HexPiece : NSObject, NSCoding {
         Called when piece is collected by player
     */
     func wasCollected() {
-        let scaleAction = SKAction.scaleTo(0.0, duration: 0.25)
+        let scaleAction = SKAction.scale(to: 0.0, duration: 0.25)
         let collectSequence = SKAction.sequence([scaleAction, SKAction.removeFromParent()])
         
         // Award points, if any
@@ -381,22 +381,22 @@ class HexPiece : NSObject, NSCoding {
         }
         
         // Animate the collection
-        self.sprite!.runAction(collectSequence)
+        self.sprite!.run(collectSequence)
         
         // Play collect sound
         self.playCollectionSound()
     }
     
     func playCollectionSound() {
-        self.sprite!.runAction(SoundHelper.instance.collect)
+        self.sprite!.run(SoundHelper.instance.collect)
     }
     
     func playPlacementSound() {
-        self.sprite!.runAction(SoundHelper.instance.placePiece)
+        self.sprite!.run(SoundHelper.instance.placePiece)
     }
     
     func playMergeSound() {
-        self.sprite!.runAction(SoundHelper.instance.mergePieces)
+        self.sprite!.run(SoundHelper.instance.mergePieces)
     }
     
     /**
@@ -404,21 +404,21 @@ class HexPiece : NSObject, NSCoding {
     */
     func wasRemoved() {
         let collectSequence = SKAction.sequence([
-            SKAction.scaleTo(1.2, duration: 0.08),
-            SKAction.scaleTo(0.8, duration: 0.08),
-            SKAction.scaleTo(1.0, duration: 0.08),
-            SKAction.scaleTo(0.8, duration: 0.08),
-            SKAction.scaleTo(0.9, duration: 0.08),
-            SKAction.scaleTo(0.7, duration: 0.08),
-            SKAction.scaleTo(0.8, duration: 0.08),
-            SKAction.scaleTo(0.5, duration: 0.08),
-            SKAction.scaleTo(0.2, duration: 0.08),
-            SKAction.scaleTo(0.0, duration: 0.08),
+            SKAction.scale(to: 1.2, duration: 0.08),
+            SKAction.scale(to: 0.8, duration: 0.08),
+            SKAction.scale(to: 1.0, duration: 0.08),
+            SKAction.scale(to: 0.8, duration: 0.08),
+            SKAction.scale(to: 0.9, duration: 0.08),
+            SKAction.scale(to: 0.7, duration: 0.08),
+            SKAction.scale(to: 0.8, duration: 0.08),
+            SKAction.scale(to: 0.5, duration: 0.08),
+            SKAction.scale(to: 0.2, duration: 0.08),
+            SKAction.scale(to: 0.0, duration: 0.08),
             SKAction.removeFromParent()
         ])
         
         // Animate the collection
-        self.sprite!.runAction(collectSequence)
+        self.sprite!.run(collectSequence)
     }
 
     

@@ -11,14 +11,14 @@ import SNZSpriteKitUI
 
 class BankScene: SNZScene {
     
-    override func didMoveToView(view: SKView) {    
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {    
+        super.didMove(to: view)
         
         self.updateGui()
     }
     
     func close() {
-        self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+        self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.push(with: SKTransitionDirection.up, duration: 0.4))
     }
     
     func updateGui() {
@@ -31,22 +31,22 @@ class BankScene: SNZScene {
         // Create primary header
         let caption = SKLabelNode(fontNamed: "Avenir-Black")
         caption.text = "Tap to Spend Points"
-        caption.fontColor = UIColor.whiteColor()
+        caption.fontColor = UIColor.white
         caption.fontSize = 24
-        caption.horizontalAlignmentMode = .Center
-        caption.verticalAlignmentMode = .Center
-        caption.position = CGPointMake(self.size.width / 2, self.size.height - 20)
+        caption.horizontalAlignmentMode = .center
+        caption.verticalAlignmentMode = .center
+        caption.position = CGPoint(x: self.size.width / 2, y: self.size.height - 20)
         caption.ignoreTouches = true
         self.addChild(caption)
         
         // Create sub-header
         let pointCaption = SKLabelNode(fontNamed: "Avenir-Black")
-        pointCaption.text = "\(HexMapHelper.instance.scoreFormatter.stringFromNumber(GameState.instance!.bankPoints)!) Points Available"
-        pointCaption.fontColor = UIColor.whiteColor()
+        pointCaption.text = "\(HexMapHelper.instance.scoreFormatter.string(from: NSNumber(integerLiteral: GameState.instance!.bankPoints))!) Points Available"
+        pointCaption.fontColor = UIColor.white
         pointCaption.fontSize = 18
-        pointCaption.horizontalAlignmentMode = .Center
-        pointCaption.verticalAlignmentMode = .Center
-        pointCaption.position = CGPointMake(self.size.width / 2, self.size.height - 44)
+        pointCaption.horizontalAlignmentMode = .center
+        pointCaption.verticalAlignmentMode = .center
+        pointCaption.position = CGPoint(x: self.size.width / 2, y: self.size.height - 44)
         pointCaption.ignoreTouches = true
         self.addChild(pointCaption)
         
@@ -80,7 +80,7 @@ class BankScene: SNZScene {
         var verticalOffset = verticalStart
         
         for buyable in buyables {
-            buyable.position = CGPointMake(horizontalOffset,verticalOffset)
+            buyable.position = CGPoint(x: horizontalOffset,y: verticalOffset)
             self.addWidget(buyable)
             
             verticalOffset -= 60
@@ -93,7 +93,7 @@ class BankScene: SNZScene {
         
         // Add the close button
         let closeButton = MergelButtonWidget(parentNode: self)
-        closeButton.anchorPoint = CGPointMake(0,0)
+        closeButton.anchorPoint = CGPoint(x: 0,y: 0)
         closeButton.caption = "Back"
         closeButton.bind("tap",{
             self.close()

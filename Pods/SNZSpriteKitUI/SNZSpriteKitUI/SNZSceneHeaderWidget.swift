@@ -8,15 +8,15 @@
 
 import Foundation
 
-public class SNZSceneHeaderWidget: SNZLabelWidget {
+open class SNZSceneHeaderWidget: SNZLabelWidget {
 
     override public init() {
         super.init()
         
-        self.anchorPoint = CGPointMake(0.5,1.0)
+        self.anchorPoint = CGPoint(x: 0.5,y: 1.0)
     }
 
-    override public func render() {
+    override open func render() {
         super.render()
     }
 

@@ -35,7 +35,7 @@ class MobileHexPiece : HexPiece {
     /**
         Adds decorations and sets up general animations for sprite
     */
-    override func addAnimation(node: SKSpriteNode) {
+    override func addAnimation(_ node: SKSpriteNode) {
         if (self.isAlive) {
             let eyeTexture = SKTexture(imageNamed: "Eyes")
             let eyeclosedTexture = SKTexture(imageNamed: "EyeClosed")
@@ -46,11 +46,11 @@ class MobileHexPiece : HexPiece {
             let rightEye = SKSpriteNode(texture: eyeTexture)
             
             // Position eyes
-            leftEye.position = CGPointMake(-4,16)
+            leftEye.position = CGPoint(x: -4,y: 16)
             leftEye.zPosition = 10
             leftEye.name = "leftEye"
             
-            rightEye.position = CGPointMake(10,12)
+            rightEye.position = CGPoint(x: 10,y: 12)
             rightEye.zPosition = 10
             rightEye.name = "rightEye"
             
@@ -59,7 +59,7 @@ class MobileHexPiece : HexPiece {
             node.addChild(rightEye)
             
             // Define eye animation
-            let blinkAction = SKAction.runBlock({
+            let blinkAction = SKAction.run({
                 var altTexture: SKTexture?
                 
                 switch (Int(arc4random_uniform(3))) {
@@ -74,25 +74,25 @@ class MobileHexPiece : HexPiece {
                     break;
                 }
                 
-                leftEye.runAction(SKAction.sequence([
+                leftEye.run(SKAction.sequence([
                     SKAction.setTexture(altTexture!),
-                    SKAction.waitForDuration(0.25),
+                    SKAction.wait(forDuration: 0.25),
                     SKAction.setTexture(eyeTexture),
                 ]))
                 
-                rightEye.runAction(SKAction.sequence([
+                rightEye.run(SKAction.sequence([
                     SKAction.setTexture(altTexture!),
-                    SKAction.waitForDuration(0.25),
+                    SKAction.wait(forDuration: 0.25),
                     SKAction.setTexture(eyeTexture),
                 ]))
                 
             })
             
             // Repeat blink action forever with a random delay of 3 to 6 seconds between blinks
-            let blinkSequence = SKAction.sequence([blinkAction,SKAction.waitForDuration(Double(arc4random_uniform(3)+3))])
-            let blinkLoop = SKAction.repeatActionForever(blinkSequence)
+            let blinkSequence = SKAction.sequence([blinkAction,SKAction.wait(forDuration: Double(arc4random_uniform(3)+3))])
+            let blinkLoop = SKAction.repeatForever(blinkSequence)
             
-            node.runAction(blinkLoop)
+            node.run(blinkLoop)
         }
     }
     
@@ -101,7 +101,7 @@ class MobileHexPiece : HexPiece {
     
         - Returns: True if this piece can merge with hexPiece
     */
-    override func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
+    override func canMergeWithPiece(_ hexPiece: HexPiece) -> Bool {
         var result = false
         
         if (!isAlive) {
@@ -159,22 +159,22 @@ class MobileHexPiece : HexPiece {
     /**
         Move this piece's sprite to the specified position, with animation
     */
-    func animateMoveTo(position: CGPoint) {
-        self.sprite!.runAction(SKAction.repeatActionForever(SKAction.sequence([
-            SKAction.rotateByAngle(0.1, duration: 0),
-            SKAction.waitForDuration(0.05),
-            SKAction.rotateByAngle(-0.1, duration: 0),
-            SKAction.waitForDuration(0.05),
-            SKAction.rotateByAngle(-0.1, duration: 0),
-            SKAction.waitForDuration(0.05),
-            SKAction.rotateByAngle(0.1, duration: 0),
+    func animateMoveTo(_ position: CGPoint) {
+        self.sprite!.run(SKAction.repeatForever(SKAction.sequence([
+            SKAction.rotate(byAngle: 0.1, duration: 0),
+            SKAction.wait(forDuration: 0.05),
+            SKAction.rotate(byAngle: -0.1, duration: 0),
+            SKAction.wait(forDuration: 0.05),
+            SKAction.rotate(byAngle: -0.1, duration: 0),
+            SKAction.wait(forDuration: 0.05),
+            SKAction.rotate(byAngle: 0.1, duration: 0),
         ])), withKey: "walking")
         
-        self.sprite!.runAction(
+        self.sprite!.run(
             SKAction.sequence([
-                SKAction.moveTo(position, duration: 0.5),
-                SKAction.runBlock({
-                    self.sprite!.removeActionForKey("walking")
+                SKAction.move(to: position, duration: 0.5),
+                SKAction.run({
+                    self.sprite!.removeAction(forKey: "walking")
                     self.sprite!.zRotation = 0
                 })
             ])
@@ -199,17 +199,17 @@ class MobileHexPiece : HexPiece {
     required init(coder decoder: NSCoder) {
         super.init(coder: decoder)
     
-        self.isAlive = (decoder.decodeObjectForKey("isAlive") as? Bool)!
-        self.wasAlive = (decoder.decodeObjectForKey("wasAlive") as? Bool)!
-        self.wasInCell = (decoder.decodeObjectForKey("wasInCell") as? HexCell)
+        self.isAlive = (decoder.decodeObject(forKey: "isAlive") as? Bool)!
+        self.wasAlive = (decoder.decodeObject(forKey: "wasAlive") as? Bool)!
+        self.wasInCell = (decoder.decodeObject(forKey: "wasInCell") as? HexCell)
     }
     
-    override func encodeWithCoder(coder: NSCoder) {
-        super.encodeWithCoder(coder)
+    override func encode(with coder: NSCoder) {
+        super.encode(with: coder)
         
-        coder.encodeObject(self.isAlive, forKey: "isAlive")
-        coder.encodeObject(self.wasAlive, forKey: "wasAlive")
-        coder.encodeObject(self.wasInCell, forKey: "wasInCell")
+        coder.encode(self.isAlive, forKey: "isAlive")
+        coder.encode(self.wasAlive, forKey: "wasAlive")
+        coder.encode(self.wasInCell, forKey: "wasInCell")
     }
     
 }

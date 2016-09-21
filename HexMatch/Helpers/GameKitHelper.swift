@@ -44,7 +44,7 @@ class GameKitHelper: NSObject {
         //2
         self.authenticationViewController = viewController
         
-        NSNotificationCenter.defaultCenter().postNotificationName(PresentAuthenticationViewController, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: PresentAuthenticationViewController), object: self)
       } else if error == nil {
         //3
         self.gameCenterEnabled = true
@@ -53,15 +53,15 @@ class GameKitHelper: NSObject {
 
   }
   
-  func reportAchievements(achievements: [GKAchievement], errorHandler: ((NSError?)->Void)? = nil) {
+  func reportAchievements(_ achievements: [GKAchievement], errorHandler: ((NSError?)->Void)? = nil) {
     guard gameCenterEnabled else {
       return
     }
     
-    GKAchievement.reportAchievements(achievements, withCompletionHandler: errorHandler)
+    GKAchievement.report(achievements, withCompletionHandler: errorHandler as! ((Error?) -> Void)?)
   }
   
-  func showGKGameCenterViewController(viewController: UIViewController) {
+  func showGKGameCenterViewController(_ viewController: UIViewController) {
     guard gameCenterEnabled else {
       return
     }
@@ -73,10 +73,10 @@ class GameKitHelper: NSObject {
     gameCenterViewController.gameCenterDelegate = self
     
     //3
-    viewController.presentViewController(gameCenterViewController, animated: true, completion: nil)
+    viewController.present(gameCenterViewController, animated: true, completion: nil)
   }
   
-  func reportScore(score: Int64, forLeaderBoardId leaderBoardId: String, errorHandler: ((NSError?)->Void)? = nil) {
+  func reportScore(_ score: Int64, forLeaderBoardId leaderBoardId: String, errorHandler: ((NSError?)->Void)? = nil) {
     guard gameCenterEnabled else {
       return
     }
@@ -86,12 +86,12 @@ class GameKitHelper: NSObject {
     gkScore.value = score
     
     //2
-    GKScore.reportScores([gkScore], withCompletionHandler: errorHandler)
+    GKScore.report([gkScore], withCompletionHandler: errorHandler as! ((Error?) -> Void)?)
   }
 }
 
 extension GameKitHelper: GKGameCenterControllerDelegate {
-  func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
-    gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+  func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+    gameCenterViewController.dismiss(animated: true, completion: nil)
   }
 }

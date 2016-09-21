@@ -9,19 +9,19 @@
 import Foundation
 import SpriteKit
 
-public class SNZSpriteKitUIMargins {
-    public var left: CGFloat
-    public var right: CGFloat
-    public var top: CGFloat
-    public var bottom: CGFloat
+open class SNZSpriteKitUIMargins {
+    open var left: CGFloat
+    open var right: CGFloat
+    open var top: CGFloat
+    open var bottom: CGFloat
 
-    public var horizontal: CGFloat {
+    open var horizontal: CGFloat {
         get {
             return self.left + self.right
         }
     }
 
-    public var vertical: CGFloat {
+    open var vertical: CGFloat {
         get {
             return self.top + self.bottom
         }
@@ -35,20 +35,20 @@ public class SNZSpriteKitUIMargins {
     }
 }
 
-public class SNZSpriteKitUITheme {
+open class SNZSpriteKitUITheme {
 
-    public static var instance = SNZSpriteKitUITheme()
+    open static var instance = SNZSpriteKitUITheme()
 
-    public var frameworkBundle: NSBundle = NSBundle(forClass: SNZSpriteKitUITheme.self)
-    public var textures: SKTextureAtlas
-    public var uiOuterMargins = SNZSpriteKitUIMargins(20,20,20,20)
-    public var uiInnerMargins = SNZSpriteKitUIMargins(10,10,10,10)
+    open var frameworkBundle: Bundle = Bundle(for: SNZSpriteKitUITheme.self)
+    open var textures: SKTextureAtlas
+    open var uiOuterMargins = SNZSpriteKitUIMargins(20,20,20,20)
+    open var uiInnerMargins = SNZSpriteKitUIMargins(10,10,10,10)
 
-    public var labelColor = UIColor.whiteColor()
-    public var labelBackground = UIColor.clearColor()
+    open var labelColor = UIColor.white
+    open var labelBackground = UIColor.clear
 
-    public var frameBackgroundColor = UIColor.whiteColor()
-    public var frameStrokeColor = UIColor.blackColor()
+    open var frameBackgroundColor = UIColor.white
+    open var frameStrokeColor = UIColor.black
 
     init() {
         //print(self.frameworkBundle.bundlePath)

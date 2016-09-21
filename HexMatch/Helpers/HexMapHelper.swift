@@ -18,7 +18,7 @@ class HexMapHelper: NSObject {
     var hexMap: HexMap?
     
     // Formatter
-    let scoreFormatter = NSNumberFormatter()
+    let scoreFormatter = NumberFormatter()
     
     //
     var addedCounter = 0
@@ -40,7 +40,7 @@ class HexMapHelper: NSObject {
     let offsetBottom = 60
     
     // Bounds
-    var renderedBounds = CGRectMake(0,0,0,0)
+    var renderedBounds = CGRect(x: 0,y: 0,width: 0,height: 0)
     
     // Hex piece textures
     let hexPieceTextureNames = ["Triangle","Square","Pentagon","Hexagon","Star","GoldStar","CollectibleGoldStar"]
@@ -59,7 +59,7 @@ class HexMapHelper: NSObject {
         super.init()
         
         // set up score formatter
-        self.scoreFormatter.numberStyle = .DecimalStyle
+        self.scoreFormatter.numberStyle = .decimal
         
         // Load each texture and store them for later use
         for textureName in hexPieceTextureNames {
@@ -87,7 +87,7 @@ class HexMapHelper: NSObject {
 
         - Returns: A CGPoint of the on-screen location of the hex cell
     */
-    func hexMapToScreen(x: Int, _ y: Int) -> CGPoint {
+    func hexMapToScreen(_ x: Int, _ y: Int) -> CGPoint {
         let offsetX = x - Int(self.renderedBounds.origin.x)
         let offsetY = y - Int(self.renderedBounds.origin.y)
     
@@ -98,15 +98,15 @@ class HexMapHelper: NSObject {
             y2 -= self.cellNodeVerticalStagger
         }
         
-        return CGPointMake(CGFloat(x2+self.offsetLeft),CGFloat(y2+self.offsetBottom))
+        return CGPoint(x: CGFloat(x2+self.offsetLeft),y: CGFloat(y2+self.offsetBottom))
     }
     
-    func hexMapToScreen(position: HCPosition) -> CGPoint {
+    func hexMapToScreen(_ position: HCPosition) -> CGPoint {
         return self.hexMapToScreen(position.x, position.y)
     }
     
     func getBounds() -> CGRect {
-        var bounds = CGRectMake(-1,-1,-1,-1)
+        var bounds = CGRect(x: -1,y: -1,width: -1,height: -1)
         
         for x in 0...self.hexMap!.width-1 {
             for y in 0...self.hexMap!.height-1 {
@@ -153,7 +153,7 @@ class HexMapHelper: NSObject {
 
         - Returns: None
     */
-    func renderHexMap(parent: SKNode) {
+    func renderHexMap(_ parent: SKNode) {
         let emptyCellTexture = SKTexture(imageNamed: "HexCell")
         let voidCellTexture = SKTexture(imageNamed: "HexCellVoid")
         
@@ -222,7 +222,7 @@ class HexMapHelper: NSObject {
     }
     
     
-    func renderHexMapShadow(parent: SKNode) {
+    func renderHexMapShadow(_ parent: SKNode) {
         let emptyCellTexture = SKTexture(imageNamed: "HexCellShadow")
         let voidCellTexture = SKTexture(imageNamed: "HexCellVoid")
         
@@ -250,7 +250,7 @@ class HexMapHelper: NSObject {
         }
     }
     
-    func clearHexMap(parent: SKNode) {
+    func clearHexMap(_ parent: SKNode) {
         for childNode in parent.children {
             if (childNode.name == "hexPiece" || childNode.name == "hexMapCell" || childNode.name == "hexMapCellShadow") {
                 childNode.removeFromParent()
@@ -268,14 +268,14 @@ class HexMapHelper: NSObject {
             
         - Returns: Instance of SKSpriteNode
     */
-    func createWildCardSprite(hexPiece: HexPiece) -> SKSpriteNode {
+    func createWildCardSprite(_ hexPiece: HexPiece) -> SKSpriteNode {
         let node = SKSpriteNode(texture: self.hexPieceTextures.first)
         node.name = "hexPiece"
         
-        node.runAction(
-            SKAction.repeatActionForever(
-                SKAction.animateWithTextures(
-                    self.wildcardPieceTextures,
+        node.run(
+            SKAction.repeatForever(
+                SKAction.animate(
+                    with: self.wildcardPieceTextures,
                     timePerFrame: 0.2,
                     resize: false,
                     restore: true

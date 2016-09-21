@@ -105,7 +105,7 @@ class HexMap : NSObject, NSCoding {
 
         - Returns: An instance of HexCell, or nil if x,y were out-of-bounds
     */
-    func cell(x: Int, _ y: Int) -> HexCell? {
+    func cell(_ x: Int, _ y: Int) -> HexCell? {
         if ((x >= 0 && x < width) && (y >= 0 && y < height)) {
             return self.cells[x][y];
         } else {
@@ -113,7 +113,7 @@ class HexMap : NSObject, NSCoding {
         }
     }
     
-    func cell(position: HCPosition) -> HexCell? {
+    func cell(_ position: HCPosition) -> HexCell? {
         return self.cell(position.x, position.y)
     }
     
@@ -139,7 +139,7 @@ class HexMap : NSObject, NSCoding {
         
         - Returns: Array of HexCells
     */
-    func cellsForRadius(center: HexCell, radius: Int) -> [HexCell] {
+    func cellsForRadius(_ center: HexCell, radius: Int) -> [HexCell] {
         if (radius == 0) {
             return [center]
         }
@@ -189,7 +189,7 @@ class HexMap : NSObject, NSCoding {
         
         - Returns: Array of HexCells
     */
-    func openCellsForRadius(center: HexCell, radius: Int) -> [HexCell] {
+    func openCellsForRadius(_ center: HexCell, radius: Int) -> [HexCell] {
         return self.cellsForRadius(center, radius: radius).filter{
             ($0 != nil) && ($0 as HexCell).isOpen()
         }
@@ -201,7 +201,7 @@ class HexMap : NSObject, NSCoding {
         
         - Returns: HexCell, or nil if none was found
     */
-    func getRandomCellNear(center: HexCell) -> HexCell? {
+    func getRandomCellNear(_ center: HexCell) -> HexCell? {
         var radius = 1;
         var randomCell: HexCell?
         
@@ -243,23 +243,23 @@ class HexMap : NSObject, NSCoding {
 
     required convenience init?(coder decoder: NSCoder) {
     
-        let width = (decoder.decodeObjectForKey("width") as? Int)!
-        let height = (decoder.decodeObjectForKey("height") as? Int)!
+        let width = (decoder.decodeObject(forKey: "width") as? Int)!
+        let height = (decoder.decodeObject(forKey: "height") as? Int)!
     
         self.init(width,height)
         
-        self.cells = (decoder.decodeObjectForKey("cells") as? [[HexCell]])!
+        self.cells = (decoder.decodeObject(forKey: "cells") as? [[HexCell]])!
         
-        self.isBlank = (decoder.decodeObjectForKey("isBlank") as? Bool)!
+        self.isBlank = (decoder.decodeObject(forKey: "isBlank") as? Bool)!
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.width, forKey: "width")
-        coder.encodeObject(self.height, forKey: "height")
+    func encode(with coder: NSCoder) {
+        coder.encode(self.width, forKey: "width")
+        coder.encode(self.height, forKey: "height")
         
-        coder.encodeObject(self.cells, forKey: "cells")
+        coder.encode(self.cells, forKey: "cells")
         
-        coder.encodeObject(self.isBlank, forKey: "isBlank")
+        coder.encode(self.isBlank, forKey: "isBlank")
     }
     
 }

@@ -15,8 +15,8 @@ class SplashScene: SNZScene {
     var checkboxEnemyPieces: SNZCheckButtonWidget?
     var checkboxSoundEffects: SNZCheckButtonWidget?
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         
         self.updateGui()
     }
@@ -39,22 +39,22 @@ class SplashScene: SNZScene {
         
         // Mergel node
         let mergelNode = SKSpriteNode(texture: SKTexture(imageNamed: "Mergel"))
-        mergelNode.position = CGPointMake(self.frame.width / 2, self.frame.height / 2)
+        mergelNode.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
         mergelNode.setScale(0)
         mergelNode.addChild(enemySprite)
         self.addChild(mergelNode)
         
         // Scale/bounce and transition to game scene
-        mergelNode.runAction(SKAction.sequence([
-            SKAction.scaleTo(1.2, duration: 0.5),
-            SKAction.scaleTo(0.8, duration: 0.2),
-            SKAction.scaleTo(1.1, duration: 0.2),
-            SKAction.scaleTo(0.9, duration: 0.2),
-            SKAction.scaleTo(1.0, duration: 0.2),
-            SKAction.waitForDuration(1.0),
-            SKAction.runBlock({
+        mergelNode.run(SKAction.sequence([
+            SKAction.scale(to: 1.2, duration: 0.5),
+            SKAction.scale(to: 0.8, duration: 0.2),
+            SKAction.scale(to: 1.1, duration: 0.2),
+            SKAction.scale(to: 0.9, duration: 0.2),
+            SKAction.scale(to: 1.0, duration: 0.2),
+            SKAction.wait(forDuration: 1.0),
+            SKAction.run({
                 // Switch to game scene
-                self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.moveInWithDirection(SKTransitionDirection.Down, duration: 0.4))
+                self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.moveIn(with: SKTransitionDirection.down, duration: 0.4))
             })
             
         ]))

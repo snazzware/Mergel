@@ -12,15 +12,15 @@ import GameplayKit
 
 public typealias SNZEventHandler = () -> ()
 
-public class SNZWidget : UIResponder {
+open class SNZWidget : UIResponder {
     // Dictionary of events
-    public var events = [String: [String: SNZEventHandler]]()
+    open var events = [String: [String: SNZEventHandler]]()
     
-    public var parentNode: SKNode?
-    public var sprite: SKNode?
+    open var parentNode: SKNode?
+    open var sprite: SKNode?
     
-    private var _touchableSprite: SKNode?
-    public var touchableSprite: SKNode? {
+    fileprivate var _touchableSprite: SKNode?
+    open var touchableSprite: SKNode? {
         get {
             return self._touchableSprite == nil ? self.sprite : self._touchableSprite
         }
@@ -29,12 +29,12 @@ public class SNZWidget : UIResponder {
         }
     }
     
-    public var name: String = "Untitled"
+    open var name: String = "Untitled"
     
-    public var wantsPanGestures = false
+    open var wantsPanGestures = false
     
-    private var _size: CGSize = CGSizeMake(500,200)
-    public var size: CGSize {
+    fileprivate var _size: CGSize = CGSize(width: 500,height: 200)
+    open var size: CGSize {
         get {
             return self._size
         }
@@ -44,8 +44,8 @@ public class SNZWidget : UIResponder {
         }
     }
     
-    private var _position: CGPoint = CGPointMake(100,100)
-    public var position: CGPoint {
+    fileprivate var _position: CGPoint = CGPoint(x: 100,y: 100)
+    open var position: CGPoint {
         get {
             return self._position
         }
@@ -55,8 +55,8 @@ public class SNZWidget : UIResponder {
         }
     }
     
-    private var _anchorPoint: CGPoint?
-    public var anchorPoint:CGPoint? {
+    fileprivate var _anchorPoint: CGPoint?
+    open var anchorPoint:CGPoint? {
         get {
             return self._anchorPoint
         }
@@ -80,14 +80,14 @@ public class SNZWidget : UIResponder {
     /**
         Bind a handler to a named event
     */
-    public func bind(event: String, _ handler: SNZEventHandler) {
-        self.bind(event, handler, forKey: NSUUID().UUIDString)
+    open func bind(_ event: String, _ handler: @escaping SNZEventHandler) {
+        self.bind(event, handler, forKey: UUID().uuidString)
     }
     
     /**
         Bind a handler to a named event with a given key
     */
-    public func bind(event: String, _ handler: SNZEventHandler, forKey: String) {
+    open func bind(_ event: String, _ handler: @escaping SNZEventHandler, forKey: String) {
         if (self.events[event] == nil) {
             self.events[event] = [String: SNZEventHandler]()
         }
@@ -97,18 +97,18 @@ public class SNZWidget : UIResponder {
     /**
         Unbinds a handler from a named event for a given key, or all handlers for the named event if no key is specified.
     */
-    public func unbind(event: String, _ key: String? = nil) {
+    open func unbind(_ event: String, _ key: String? = nil) {
         if (key == nil) {
             self.events[event]?.removeAll()
         } else {
-            self.events[event]?.removeValueForKey(key!)
+            self.events[event]?.removeValue(forKey: key!)
         }
     }
     
     /**
         Trigger handler(s) for a named event.
     */
-    public func trigger(event: String) {
+    open func trigger(_ event: String) {
         if (self.events[event] != nil) {
             for (_, handler) in self.events[event]! {
                 handler()
@@ -116,11 +116,11 @@ public class SNZWidget : UIResponder {
         }
     }
     
-    public func sizeDidChange() {
+    open func sizeDidChange() {
         
     }
     
-    public func render() {
+    open func render() {
         if (self.sprite != nil) {
             self.parentNode?.addChild(self.sprite!)
         }
@@ -128,7 +128,7 @@ public class SNZWidget : UIResponder {
         self.anchor()
     }
     
-    public func hide() {
+    open func hide() {
         if (self.sprite != nil) {
             self.sprite!.removeFromParent();
         }
@@ -137,7 +137,7 @@ public class SNZWidget : UIResponder {
     /**
         Calculates position for the widget's sprite, based on anchorPoint, relative to parent container and respecting current theme margins
     */
-    public func anchor() {
+    open func anchor() {
         if (self._anchorPoint == nil || self.parentNode == nil || self.sprite == nil || self.sprite!.scene == nil || self.sprite!.scene!.view == nil) {
             return
         }
@@ -173,26 +173,26 @@ public class SNZWidget : UIResponder {
             y = (height * self._anchorPoint!.y) - (self.size.height/2)
         }
         
-        self.position = CGPointMake(x,y)
+        self.position = CGPoint(x: x,y: y)
     }
     
-    public func panGesture(sender: UIPanGestureRecognizer) {
-        let translation = sender.translationInView(sender.view!)
+    open func panGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: sender.view!)
         
         print(translation)
         
         //sender.setTranslation(CGPointZero, inView: sender.view!)
     }
     
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    override public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
     
-    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
     }
 

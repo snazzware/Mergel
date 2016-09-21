@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class SNZFrame: SNZWidget {
+open class SNZFrame: SNZWidget {
 
-    public var backgroundColor: UIColor = SNZSpriteKitUITheme.instance.frameBackgroundColor
-    public var strokeColor: UIColor = SNZSpriteKitUITheme.instance.frameStrokeColor
+    open var backgroundColor: UIColor = SNZSpriteKitUITheme.instance.frameBackgroundColor
+    open var strokeColor: UIColor = SNZSpriteKitUITheme.instance.frameStrokeColor
 
 }

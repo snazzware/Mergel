@@ -9,9 +9,9 @@
 import Foundation
 
 class Spinlock { 
-    private var _lock : OSSpinLock = OS_SPINLOCK_INIT 
+    fileprivate var _lock : OSSpinLock = OS_SPINLOCK_INIT 
 
-    func around(code: Void -> Void) { 
+    func around(_ code: (Void) -> Void) { 
         OSSpinLockLock(&self._lock) 
         defer {
             OSSpinLockUnlock(&self._lock)
@@ -19,7 +19,7 @@ class Spinlock {
         code()
     } 
 
-    func around<T>(code: Void -> T) -> T { 
+    func around<T>(_ code: (Void) -> T) -> T { 
         OSSpinLockLock(&self._lock)
         defer {
             OSSpinLockUnlock(&self._lock)

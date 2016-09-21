@@ -15,34 +15,34 @@ class SoundHelper: NSObject {
     static var instance = SoundHelper()
 
     // sounds
-    var placePiece = SKAction.runBlock({})
-    var mergePieces = SKAction.runBlock({})
+    var placePiece = SKAction.run({})
+    var mergePieces = SKAction.run({})
     
-    var placeEnemy = SKAction.runBlock({})
+    var placeEnemy = SKAction.run({})
     
-    var unlock = SKAction.runBlock({})
-    var collect = SKAction.runBlock({})
+    var unlock = SKAction.run({})
+    var collect = SKAction.run({})
     
-    var gameover = SKAction.runBlock({})
+    var gameover = SKAction.run({})
     
     override init() {
         // Allow background music
         
         let sess = AVAudioSession.sharedInstance()
 
-        _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, withOptions: [])
-        _ = try? sess.setActive(true, withOptions: [])
+        _ = try? sess.setCategory(AVAudioSessionCategoryAmbient, with: [])
+        _ = try? sess.setActive(true, with: [])
         
         super.init()
     }
     
     func disableSoundEffects() {
-        self.placePiece = SKAction.runBlock({})
-        self.mergePieces = SKAction.runBlock({})
-        self.placeEnemy = SKAction.runBlock({})
-        self.unlock = SKAction.runBlock({})
-        self.collect = SKAction.runBlock({})
-        self.gameover = SKAction.runBlock({})
+        self.placePiece = SKAction.run({})
+        self.mergePieces = SKAction.run({})
+        self.placeEnemy = SKAction.run({})
+        self.unlock = SKAction.run({})
+        self.collect = SKAction.run({})
+        self.gameover = SKAction.run({})
     }
     
     func enableSoundEffects() {

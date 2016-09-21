@@ -55,7 +55,7 @@ class EnemyHexPiece : MobileHexPiece {
         return "EnemyHexPiece isAlive=\(self.isAlive) isCollectible=\(self.isCollectible) value=\(self.value)"
     }
     
-    override func addAnimation(node: SKSpriteNode) {
+    override func addAnimation(_ node: SKSpriteNode) {
         if (self.isAlive) {
             let eyeclosedTexture = SKTexture(imageNamed: "EyeClosed")
             let eyeLeftTexture = SKTexture(imageNamed: "EyeLookLeft")
@@ -66,15 +66,15 @@ class EnemyHexPiece : MobileHexPiece {
             let rightEye = SKSpriteNode(texture: eyeRightTexture)
             let mouth = SKSpriteNode(texture: mouthTexture)
             
-            leftEye.position = CGPointMake(-8,12)
+            leftEye.position = CGPoint(x: -8,y: 12)
             leftEye.zPosition = 10
             leftEye.name = "leftEye"
             
-            rightEye.position = CGPointMake(8,12)
+            rightEye.position = CGPoint(x: 8,y: 12)
             rightEye.zPosition = 10
             rightEye.name = "rightEye"
             
-            mouth.position = CGPointMake(0,0)
+            mouth.position = CGPoint(x: 0,y: 0)
             mouth.zPosition = 10
             mouth.name = "rightEye"
             
@@ -82,7 +82,7 @@ class EnemyHexPiece : MobileHexPiece {
             node.addChild(rightEye)
             node.addChild(mouth)
             
-            let blinkAction = SKAction.runBlock({
+            let blinkAction = SKAction.run({
                 var altTextureLeft: SKTexture?
                 var altTextureRight: SKTexture?
                 
@@ -101,40 +101,40 @@ class EnemyHexPiece : MobileHexPiece {
                     break;
                 }
                 
-                leftEye.runAction(SKAction.sequence([
+                leftEye.run(SKAction.sequence([
                     SKAction.setTexture(altTextureLeft!),
-                    SKAction.waitForDuration(0.25),
+                    SKAction.wait(forDuration: 0.25),
                     SKAction.setTexture(eyeLeftTexture),
                 ]))
                 
-                rightEye.runAction(SKAction.sequence([
+                rightEye.run(SKAction.sequence([
                     SKAction.setTexture(altTextureRight!),
-                    SKAction.waitForDuration(0.25),
+                    SKAction.wait(forDuration: 0.25),
                     SKAction.setTexture(eyeRightTexture),
                 ]))
                 
             })
-            let blinkSequence = SKAction.sequence([blinkAction,SKAction.waitForDuration(Double(arc4random_uniform(3)+3))])
-            let blinkLoop = SKAction.repeatActionForever(blinkSequence)
+            let blinkSequence = SKAction.sequence([blinkAction,SKAction.wait(forDuration: Double(arc4random_uniform(3)+3))])
+            let blinkLoop = SKAction.repeatForever(blinkSequence)
             
-            node.runAction(blinkLoop)
+            node.run(blinkLoop)
         }
         if (self.isCollectible) {
-            let scaleUpAction = SKAction.scaleTo(1.1, duration: 0.5)
-            let scaleDownAction = SKAction.scaleTo(0.9, duration: 0.5)
-            let rotateRightAction = SKAction.rotateByAngle(0.5, duration: 0.25)
-            let rotateLeftAction = SKAction.rotateByAngle(-0.5, duration: 0.25)
+            let scaleUpAction = SKAction.scale(to: 1.1, duration: 0.5)
+            let scaleDownAction = SKAction.scale(to: 0.9, duration: 0.5)
+            let rotateRightAction = SKAction.rotate(byAngle: 0.5, duration: 0.25)
+            let rotateLeftAction = SKAction.rotate(byAngle: -0.5, duration: 0.25)
             
             let collectibleGroup = SKAction.group([
                 SKAction.sequence([scaleUpAction,scaleDownAction]),
                 SKAction.sequence([rotateRightAction,rotateLeftAction,rotateLeftAction,rotateRightAction])
             ])
             
-            node.runAction(SKAction.repeatActionForever(collectibleGroup))
+            node.run(SKAction.repeatForever(collectibleGroup))
         }
     }
     
-    override func canMergeWithPiece(hexPiece: HexPiece) -> Bool {
+    override func canMergeWithPiece(_ hexPiece: HexPiece) -> Bool {
         var result = false
         
         if (hexPiece is EnemyHexPiece) {
@@ -147,7 +147,7 @@ class EnemyHexPiece : MobileHexPiece {
         return result
     }
     
-    override func wasPlacedWithMerge(mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
+    override func wasPlacedWithMerge(_ mergeValue: Int = -1, mergingPieces: [HexPiece]) -> HexPiece {
         self.originalValue = self.value
         self.value = mergeValue+1
         
@@ -168,10 +168,10 @@ class EnemyHexPiece : MobileHexPiece {
             break;
         }
         
-        self.sprite!.runAction(SKAction.sequence([
-            SKAction.scaleTo(0.01, duration: 0.1),
+        self.sprite!.run(SKAction.sequence([
+            SKAction.scale(to: 0.01, duration: 0.1),
             SKAction.setTexture(newTexture!),
-            SKAction.scaleTo(1.0, duration: 0.15)
+            SKAction.scale(to: 1.0, duration: 0.15)
         ]))
         
         self.addAnimation(self.sprite!)
@@ -183,32 +183,32 @@ class EnemyHexPiece : MobileHexPiece {
         return self
     }
     
-    override func animateMoveTo(position: CGPoint) {
+    override func animateMoveTo(_ position: CGPoint) {
         let walkA = SKTexture(imageNamed: "EnemyVanillaBean_WalkA")
         let walkB = SKTexture(imageNamed: "EnemyVanillaBean_WalkB")
         let originalTexture = self.sprite!.texture!
     
-        self.sprite!.runAction(SKAction.repeatActionForever(SKAction.sequence([
-            SKAction.rotateByAngle(0.1, duration: 0),
+        self.sprite!.run(SKAction.repeatForever(SKAction.sequence([
+            SKAction.rotate(byAngle: 0.1, duration: 0),
             SKAction.setTexture(walkA),
-            SKAction.waitForDuration(0.1),
-            SKAction.rotateByAngle(-0.1, duration: 0),
+            SKAction.wait(forDuration: 0.1),
+            SKAction.rotate(byAngle: -0.1, duration: 0),
             SKAction.setTexture(originalTexture),
-            SKAction.waitForDuration(0.1),
-            SKAction.rotateByAngle(-0.1, duration: 0),
+            SKAction.wait(forDuration: 0.1),
+            SKAction.rotate(byAngle: -0.1, duration: 0),
             SKAction.setTexture(walkB),
-            SKAction.waitForDuration(0.1),
-            SKAction.rotateByAngle(0.1, duration: 0),
+            SKAction.wait(forDuration: 0.1),
+            SKAction.rotate(byAngle: 0.1, duration: 0),
             SKAction.setTexture(originalTexture)
         ])), withKey: "walking")
         
     
-        self.sprite!.runAction(
+        self.sprite!.run(
             SKAction.sequence([
-                SKAction.moveTo(position, duration: 0.5),
-                SKAction.runBlock({
+                SKAction.move(to: position, duration: 0.5),
+                SKAction.run({
                     self.sprite!.texture = originalTexture
-                    self.sprite!.removeActionForKey("walking")
+                    self.sprite!.removeAction(forKey: "walking")
                     self.sprite!.zRotation = 0
                 })
             ])
@@ -216,15 +216,15 @@ class EnemyHexPiece : MobileHexPiece {
     }
     
     override func playCollectionSound() {
-        self.sprite!.runAction(SoundHelper.instance.collect)
+        self.sprite!.run(SoundHelper.instance.collect)
     }
     
     override func playPlacementSound() {
-        self.sprite!.runAction(SoundHelper.instance.placeEnemy)
+        self.sprite!.run(SoundHelper.instance.placeEnemy)
     }
     
     override func playMergeSound() {
-        self.sprite!.runAction(SoundHelper.instance.mergePieces)
+        self.sprite!.run(SoundHelper.instance.mergePieces)
     }
     
     /**

@@ -9,51 +9,51 @@
 import Foundation
 import SpriteKit
 
-public class SNZUIDelegate : UIResponder {
-    public static let instance = SNZUIDelegate()
+open class SNZUIDelegate : UIResponder {
+    open static let instance = SNZUIDelegate()
     
-    public var focusStack = [UIResponder]()
+    open var focusStack = [UIResponder]()
 
-    public func focus(target: UIResponder) {
-        if (self.focusStack.indexOf(target) != nil) {
-            self.focusStack.removeAtIndex(self.focusStack.indexOf(target)!)
+    open func focus(_ target: UIResponder) {
+        if (self.focusStack.index(of: target) != nil) {
+            self.focusStack.remove(at: self.focusStack.index(of: target)!)
             self.focusStack.append(target)
         } else {
             self.focusStack.append(target)
         }
     }
     
-    public func blur(target: UIResponder) {
-        if (self.focusStack.indexOf(target) != nil) {
-            self.focusStack.removeAtIndex(self.focusStack.indexOf(target)!)
+    open func blur(_ target: UIResponder) {
+        if (self.focusStack.index(of: target) != nil) {
+            self.focusStack.remove(at: self.focusStack.index(of: target)!)
         }
     }
 
-    public override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (self.focusStack.count>0) {
             let target = self.focusStack.last
         
-            target?.touchesBegan(touches, withEvent: event)
+            target?.touchesBegan(touches, with: event)
         }
     }
     
-    public override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (self.focusStack.count>0) {
             let target = self.focusStack.last
         
-            target?.touchesEnded(touches, withEvent: event)
+            target?.touchesEnded(touches, with: event)
         }
     }
     
-    public override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         if (self.focusStack.count>0) {
             let target = self.focusStack.last
         
-            target?.touchesMoved(touches, withEvent: event)
+            target?.touchesMoved(touches, with: event)
         }
     }
     
-    public func panGesture(sender: UIPanGestureRecognizer) {
+    open func panGesture(_ sender: UIPanGestureRecognizer) {
         
     }
 
@@ -62,7 +62,7 @@ public class SNZUIDelegate : UIResponder {
 public extension SKNode {
     var ignoreTouches: Bool {
         get {
-            let result = self.userData?.valueForKey("SNZIgnoreTouches")
+            let result = self.userData?.value(forKey: "SNZIgnoreTouches")
             if (result != nil) {
                 return result as! Bool
             } else {

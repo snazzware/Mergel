@@ -9,35 +9,35 @@
 import Foundation
 import SpriteKit
 
-public class SNZScrollableFrame: SNZFrame {
+open class SNZScrollableFrame: SNZFrame {
 
-    public var content = SKNode()
+    open var content = SKNode()
 
-    public var contentMaximumPoint: CGPoint = CGPointMake(0,0)
-    public var contentMinimumPoint: CGPoint = CGPointMake(0,0)
+    open var contentMaximumPoint: CGPoint = CGPoint(x: 0,y: 0)
+    open var contentMinimumPoint: CGPoint = CGPoint(x: 0,y: 0)
 
     override public init() {
         super.init()
 
-        self.size = CGSizeMake(200, 48)
+        self.size = CGSize(width: 200, height: 48)
 
         self.wantsPanGestures = true
 
         self.bind("blur",{
             if (abs(self.contentMinimumPoint.y) > self.size.height) {
                 if (self.content.position.y < self.size.height) {
-                    self.content.runAction(SKAction.moveTo(CGPointMake(0,self.size.height - self.contentMaximumPoint.y), duration: 0.25))
+                    self.content.run(SKAction.move(to: CGPoint(x: 0,y: self.size.height - self.contentMaximumPoint.y), duration: 0.25))
                 }
 
                 if (self.content.position.y > abs(self.contentMinimumPoint.y)) {
-                    self.content.runAction(SKAction.moveTo(CGPointMake(0,abs(self.contentMinimumPoint.y)), duration: 0.25))
+                    self.content.run(SKAction.move(to: CGPoint(x: 0,y: abs(self.contentMinimumPoint.y)), duration: 0.25))
                 }
             }
         })
     }
 
-    override public func panGesture(sender: UIPanGestureRecognizer) {
-        let translation = sender.translationInView(sender.view!)
+    override open func panGesture(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: sender.view!)
 
         if (abs(self.contentMinimumPoint.y) > self.size.height) {
 
@@ -53,7 +53,7 @@ public class SNZScrollableFrame: SNZFrame {
 
             self.content.position.y -= adjustment
 
-            sender.setTranslation(CGPointZero, inView: sender.view!)
+            sender.setTranslation(CGPoint.zero, in: sender.view!)
 
             /*
             print("-----")
@@ -66,7 +66,7 @@ public class SNZScrollableFrame: SNZFrame {
        }
     }
 
-    override public func render() {
+    override open func render() {
 
         // Find size of contents
         var minY: CGFloat = 999999
@@ -84,12 +84,12 @@ public class SNZScrollableFrame: SNZFrame {
         maxY += SNZSpriteKitUITheme.instance.uiInnerMargins.top
         minY -= SNZSpriteKitUITheme.instance.uiInnerMargins.bottom
 
-        self.contentMaximumPoint = CGPointMake(0,maxY)
-        self.contentMinimumPoint = CGPointMake(0,minY)
+        self.contentMaximumPoint = CGPoint(x: 0,y: maxY)
+        self.contentMinimumPoint = CGPoint(x: 0,y: minY)
 
         let cropNode = SKCropNode()
 
-        let frameRect = CGRectMake(0, 0, self.size.width, self.size.height)
+        let frameRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
         let frameSprite = SKShapeNode(rect: frameRect)
         frameSprite.fillColor = self.backgroundColor
         frameSprite.strokeColor = self.strokeColor
@@ -97,15 +97,15 @@ public class SNZScrollableFrame: SNZFrame {
 
         print(frameSprite.fillColor)
 
-        self.content.position = CGPointMake(0,self.size.height - self.contentMaximumPoint.y)
+        self.content.position = CGPoint(x: 0,y: self.size.height - self.contentMaximumPoint.y)
 
         frameSprite.addChild(self.content)
         frameSprite.ignoreTouches = true
         self.content.ignoreTouches = true
 
         let mask = SKShapeNode(rect: frameRect)
-        mask.fillColor = UIColor.greenColor()
-        mask.strokeColor = UIColor.clearColor()
+        mask.fillColor = UIColor.green
+        mask.strokeColor = UIColor.clear
         mask.name = "mask"
 
         cropNode.name = "cropNode"
@@ -113,8 +113,8 @@ public class SNZScrollableFrame: SNZFrame {
         self.content.name = "content"
 
         let touchNode = SKShapeNode(rect: frameRect)
-        touchNode.fillColor = UIColor.clearColor()
-        touchNode.strokeColor = UIColor.clearColor()
+        touchNode.fillColor = UIColor.clear
+        touchNode.strokeColor = UIColor.clear
         touchNode.name = "touchable"
         
         cropNode.maskNode = mask

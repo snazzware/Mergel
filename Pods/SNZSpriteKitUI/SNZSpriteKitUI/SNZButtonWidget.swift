@@ -10,44 +10,44 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-public class SNZButtonWidget : SNZWidget {
+open class SNZButtonWidget : SNZWidget {
 
-    public var caption: String = "Untitled"
-    public var color: UIColor = UIColor.blackColor()
-    public var strokeColor: UIColor = UIColor.blackColor()
-    public var backgroundColor: UIColor = UIColor.whiteColor()
-    public var focusBackgroundColor: UIColor = UIColor.grayColor()
-    public var focusColor: UIColor = UIColor.whiteColor()
-    public var cornerRadius:CGFloat = 4
-    public var labelSprite: SKLabelNode?
-    public var autoSize: Bool = false
+    open var caption: String = "Untitled"
+    open var color: UIColor = UIColor.black
+    open var strokeColor: UIColor = UIColor.black
+    open var backgroundColor: UIColor = UIColor.white
+    open var focusBackgroundColor: UIColor = UIColor.gray
+    open var focusColor: UIColor = UIColor.white
+    open var cornerRadius:CGFloat = 4
+    open var labelSprite: SKLabelNode?
+    open var autoSize: Bool = false
     
-    private var _hidden = false
-    public var hidden: Bool {
+    fileprivate var _hidden = false
+    open var hidden: Bool {
         get {
             return _hidden
         }
         set {
             self._hidden = newValue
             
-            self.sprite?.hidden = self._hidden
+            self.sprite?.isHidden = self._hidden
         }
     }
     
     public override init() {
         super.init()
         
-        self.size = CGSizeMake(200, 48)
+        self.size = CGSize(width: 200, height: 48)
     }
     
-    public override func render() {
+    open override func render() {
         
         self.labelSprite = SKLabelNode(fontNamed: "Avenir-Black")
         self.labelSprite!.text = self.caption
         self.labelSprite!.fontColor = self.color
         self.labelSprite!.fontSize = 20
-        self.labelSprite!.horizontalAlignmentMode = .Center
-        self.labelSprite!.verticalAlignmentMode = .Center
+        self.labelSprite!.horizontalAlignmentMode = .center
+        self.labelSprite!.verticalAlignmentMode = .center
 
         self.labelSprite!.ignoreTouches = true
         
@@ -56,15 +56,15 @@ public class SNZButtonWidget : SNZWidget {
         }
 
         // Center label
-        self.labelSprite!.position = CGPointMake(((self.size.width) / 2), ((self.size.height) / 2))
+        self.labelSprite!.position = CGPoint(x: ((self.size.width) / 2), y: ((self.size.height) / 2))
         
-        let buttonRect = CGRectMake(0, 0, self.size.width, self.size.height)
+        let buttonRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
         let buttonSprite = SKShapeNode(rect: buttonRect, cornerRadius: self.cornerRadius)
         buttonSprite.fillColor = self.backgroundColor
         buttonSprite.strokeColor = self.strokeColor
         buttonSprite.lineWidth = 0
         buttonSprite.position = self.position
-        buttonSprite.hidden = self.hidden
+        buttonSprite.isHidden = self.hidden
     
         buttonSprite.addChild(self.labelSprite!)
         
@@ -83,10 +83,10 @@ public class SNZButtonWidget : SNZWidget {
         super.render()
     }
     
-    public override func sizeDidChange() {
+    open override func sizeDidChange() {
         if (self.sprite != nil) {
-            (self.sprite as! SKShapeNode).path = CGPathCreateWithRoundedRect(CGRectMake(0, 0, self.size.width, self.size.height), self.cornerRadius, self.cornerRadius, nil)
-            self.labelSprite!.position = CGPointMake(((self.size.width) / 2), ((self.size.height) / 2))
+            (self.sprite as! SKShapeNode).path = CGPath(roundedRect: CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height), cornerWidth: self.cornerRadius, cornerHeight: self.cornerRadius, transform: nil)
+            self.labelSprite!.position = CGPoint(x: ((self.size.width) / 2), y: ((self.size.height) / 2))
         }
     }
 

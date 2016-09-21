@@ -15,8 +15,8 @@ class LevelScene: SNZScene {
     var checkboxEnemyPieces: SNZCheckButtonWidget?
     var checkboxSoundEffects: SNZCheckButtonWidget?
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         
         self.updateGui()
     }
@@ -36,11 +36,11 @@ class LevelScene: SNZScene {
         // Add copyright
         let copyrightLabel = SKLabelNode(fontNamed: "Avenir-Black")
         copyrightLabel.text = "Mergel ©2016 Josh M. McKee"
-        copyrightLabel.fontColor = UIColor.whiteColor()
+        copyrightLabel.fontColor = UIColor.white
         copyrightLabel.fontSize = 12
-        copyrightLabel.horizontalAlignmentMode = .Center
-        copyrightLabel.verticalAlignmentMode = .Center
-        copyrightLabel.position = CGPointMake(self.size.width / 2, 8)
+        copyrightLabel.horizontalAlignmentMode = .center
+        copyrightLabel.verticalAlignmentMode = .center
+        copyrightLabel.position = CGPoint(x: self.size.width / 2, y: 8)
         copyrightLabel.ignoreTouches = true
         self.addChild(copyrightLabel)
         
@@ -54,7 +54,7 @@ class LevelScene: SNZScene {
         self.checkboxSoundEffects = MergelCheckButtonWidget(parentNode: self)
         self.checkboxSoundEffects!.isChecked = GameState.instance!.getIntForKey("enable_sound_effects", 1) == 1
         self.checkboxSoundEffects!.caption = "Sound Effects"
-        self.checkboxSoundEffects!.position = CGPointMake(horizontalOffset,verticalOffset)
+        self.checkboxSoundEffects!.position = CGPoint(x: horizontalOffset,y: verticalOffset)
         self.addWidget(self.checkboxSoundEffects!)
         
         /*self.checkboxMobilePieces = MergelCheckButtonWidget(parentNode: self)
@@ -73,10 +73,10 @@ class LevelScene: SNZScene {
         
         // Add the New Game button
         let newGameButton = MergelButtonWidget(parentNode: self)
-        newGameButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        newGameButton.position = CGPoint(x: horizontalOffset,y: verticalOffset)
         newGameButton.caption = "New Game"
         newGameButton.bind("tap",{
-            self.view?.presentScene(SceneHelper.instance.newGameScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Up, duration: 0.4))
+            self.view?.presentScene(SceneHelper.instance.newGameScene, transition: SKTransition.push(with: SKTransitionDirection.up, duration: 0.4))
         });
         self.addWidget(newGameButton)
         
@@ -84,10 +84,10 @@ class LevelScene: SNZScene {
         
         // Add the Help button
         let helpButton = MergelButtonWidget(parentNode: self)
-        helpButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        helpButton.position = CGPoint(x: horizontalOffset,y: verticalOffset)
         helpButton.caption = "How to Play"
         helpButton.bind("tap",{
-            UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/snazzware/Mergel/blob/master/HELP.md")!)
+            UIApplication.shared.openURL(URL(string:"https://github.com/snazzware/Mergel/blob/master/HELP.md")!)
         });
         self.addWidget(helpButton)
         
@@ -95,10 +95,10 @@ class LevelScene: SNZScene {
         
         // Add the About button
         let aboutButton = MergelButtonWidget(parentNode: self)
-        aboutButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        aboutButton.position = CGPoint(x: horizontalOffset,y: verticalOffset)
         aboutButton.caption = "About Mergel"
         aboutButton.bind("tap",{
-            UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/snazzware/Mergel/blob/master/ABOUT.md")!)
+            UIApplication.shared.openURL(URL(string:"https://github.com/snazzware/Mergel/blob/master/ABOUT.md")!)
         });
         self.addWidget(aboutButton)
         
@@ -106,16 +106,16 @@ class LevelScene: SNZScene {
         
         // Add the Issues button
         let issuesButton = MergelButtonWidget(parentNode: self)
-        issuesButton.position = CGPointMake(horizontalOffset,verticalOffset)
+        issuesButton.position = CGPoint(x: horizontalOffset,y: verticalOffset)
         issuesButton.caption = "Bugs & Requests"
         issuesButton.bind("tap",{
-            UIApplication.sharedApplication().openURL(NSURL(string:"https://github.com/snazzware/Mergel/issues")!)
+            UIApplication.shared.openURL(URL(string:"https://github.com/snazzware/Mergel/issues")!)
         });
         self.addWidget(issuesButton)
         
         // Add the close button
         let closeButton = MergelButtonWidget(parentNode: self)
-        closeButton.anchorPoint = CGPointMake(0,0)
+        closeButton.anchorPoint = CGPoint(x: 0,y: 0)
         closeButton.caption = "Back"
         closeButton.bind("tap",{
             self.captureSettings()
@@ -140,7 +140,7 @@ class LevelScene: SNZScene {
     }
     
     func close() {
-        self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+        self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 0.4))
     }
     
 }

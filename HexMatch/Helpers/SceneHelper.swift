@@ -30,12 +30,12 @@ class SceneHelper: NSObject {
         self.splashScene = SplashScene()
         
         // Resize modes
-        self.gameScene.scaleMode = .ResizeFill
-        self.levelScene.scaleMode = .ResizeFill
-        self.bankScene.scaleMode = .ResizeFill
-        self.statsScene.scaleMode = .ResizeFill
-        self.newGameScene.scaleMode = .ResizeFill
-        self.splashScene.scaleMode = .ResizeFill
+        self.gameScene.scaleMode = .resizeFill
+        self.levelScene.scaleMode = .resizeFill
+        self.bankScene.scaleMode = .resizeFill
+        self.statsScene.scaleMode = .resizeFill
+        self.newGameScene.scaleMode = .resizeFill
+        self.splashScene.scaleMode = .resizeFill
         
         // Set initial gui positions
         self.levelScene.updateGui()        
@@ -44,7 +44,7 @@ class SceneHelper: NSObject {
         super.init()
     }
     
-    func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+    func didRotateFromInterfaceOrientation(_ fromInterfaceOrientation: UIInterfaceOrientation) {
         self.gameScene.updateGuiPositions()
         self.levelScene.updateGui()
         self.bankScene.updateGui()

@@ -580,12 +580,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Josh McKee";
 				TargetAttributes = {
 					80E9DA9C1C4446FA0028BC6D = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 4WAM63NPM5;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.iCloud = {
 								enabled = 1;
@@ -595,6 +596,7 @@
 					80E9DAB41C4446FA0028BC6D = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = WF7M5BSK85;
+						LastSwiftMigration = 0800;
 						TestTargetID = 80E9DA9C1C4446FA0028BC6D;
 					};
 				};
@@ -830,8 +832,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Snazzware (4WAM63NPM5)";
@@ -876,8 +880,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Snazzware (4WAM63NPM5)";
@@ -897,6 +903,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -906,6 +913,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F1DCF0F16F226A6A0C7378A8 /* Pods-Mergel.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HexMatch/HexMatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -918,6 +926,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.mergel;
 				PRODUCT_NAME = Mergel;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -925,6 +934,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D9A28F61CBE9F1CE8721AF32 /* Pods-Mergel.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = HexMatch/HexMatch.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -937,6 +947,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.mergel;
 				PRODUCT_NAME = Mergel;
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -949,7 +960,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.HexMatchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HexMatch.app/HexMatch";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mergel.app/Mergel";
 			};
 			name = Debug;
 		};
@@ -961,7 +973,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.snazzware.HexMatchTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HexMatch.app/HexMatch";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Mergel.app/Mergel";
 			};
 			name = Release;
 		};

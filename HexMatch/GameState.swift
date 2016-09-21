@@ -33,10 +33,10 @@ class GameState: NSObject, NSCoding {
         self.bankPoints = 25000
         self.hexMap = HexMap(7,7)
         
-        self.unlockedLevels.append(.Welcome)
-        self.unlockedLevels.append(.Hexagon)
+        self.unlockedLevels.append(.welcome)
+        self.unlockedLevels.append(.hexagon)
         
-        self.levelHelperMode = .Welcome
+        self.levelHelperMode = .welcome
         
         self.optionsInt = [
             "include_mobile_pieces": 1,
@@ -49,53 +49,53 @@ class GameState: NSObject, NSCoding {
         self.resetBuyablePieces()
     }
 
-    func getIntForKey(key: String, _ defaultValue: Int) -> Int {
+    func getIntForKey(_ key: String, _ defaultValue: Int) -> Int {
         return self.optionsInt[key] != nil ? self.optionsInt[key]! : defaultValue
     }
     
-    func setIntForKey(key: String, _ value: Int) {
+    func setIntForKey(_ key: String, _ value: Int) {
         self.optionsInt[key] = value
     }
 
     required convenience init?(coder decoder: NSCoder) {
         self.init()
         
-        self.highScore = (decoder.decodeObjectForKey("highScore") as? Int)!
-        self.score = (decoder.decodeObjectForKey("score") as? Int)!
+        self.highScore = (decoder.decodeObject(forKey: "highScore") as? Int)!
+        self.score = (decoder.decodeObject(forKey: "score") as? Int)!
         
-        let goalScore = decoder.decodeObjectForKey("goalScore")
+        let goalScore = decoder.decodeObject(forKey: "goalScore")
         if (goalScore != nil) {
             self.goalScore = (goalScore as? Int)!
         } else {
             self.goalScore = 250000
         }
         
-        let bankPoints = decoder.decodeObjectForKey("bankPoints")
+        let bankPoints = decoder.decodeObject(forKey: "bankPoints")
         if (bankPoints != nil) {
             self.bankPoints = (bankPoints as? Int)!
         }
         
-        let hexMap = decoder.decodeObjectForKey("hexMap")
+        let hexMap = decoder.decodeObject(forKey: "hexMap")
         if (hexMap != nil) {
             self.hexMap = (hexMap as? HexMap)!
         }
         
-        let currentPiece = decoder.decodeObjectForKey("currentPiece")
+        let currentPiece = decoder.decodeObject(forKey: "currentPiece")
         if (currentPiece != nil) {
             self.currentPiece = (currentPiece as? HexPiece)!
         }
         
-        let lastPlacedPiece = decoder.decodeObjectForKey("lastPlacedPiece")
+        let lastPlacedPiece = decoder.decodeObject(forKey: "lastPlacedPiece")
         if (lastPlacedPiece != nil) {
             self.lastPlacedPiece = (lastPlacedPiece as? HexPiece)!
         }
         
-        let stashPiece = decoder.decodeObjectForKey("stashPiece")
+        let stashPiece = decoder.decodeObject(forKey: "stashPiece")
         if (stashPiece != nil) {
             self.stashPiece = (stashPiece as? HexPiece)!
         }
         
-        let levels = decoder.decodeObjectForKey("unlockedLevels")
+        let levels = decoder.decodeObject(forKey: "unlockedLevels")
         if (levels != nil) {
             for levelRaw in (levels as! [Int]) {
                 let unlockedLevel = LevelHelperMode(rawValue: (levelRaw))!
@@ -106,62 +106,62 @@ class GameState: NSObject, NSCoding {
             }
         }
         
-        let levelHelperMode = decoder.decodeObjectForKey("levelHelperMode")
+        let levelHelperMode = decoder.decodeObject(forKey: "levelHelperMode")
         if (levelHelperMode != nil) {
             LevelHelper.instance.mode = LevelHelperMode(rawValue: levelHelperMode as! Int)!
         }
         
-        let buyablePieces = decoder.decodeObjectForKey("buyablePieces")
+        let buyablePieces = decoder.decodeObject(forKey: "buyablePieces")
         if (buyablePieces != nil) {
             self.buyablePieces = buyablePieces as! [BuyablePiece]
         } else {
             self.resetBuyablePieces()
         }
         
-        let optionsInt = decoder.decodeObjectForKey("optionsInt")
+        let optionsInt = decoder.decodeObject(forKey: "optionsInt")
         if (optionsInt != nil) {
             self.optionsInt = optionsInt as! [String:Int]
         }
         
         // Ensure that we always have Welcome and Hexagon levels available
-        if (!self.unlockedLevels.contains(.Welcome)) {
-             self.unlockedLevels.append(.Welcome)
+        if (!self.unlockedLevels.contains(.welcome)) {
+             self.unlockedLevels.append(.welcome)
         }
         
-        if (!self.unlockedLevels.contains(.Hexagon)) {
-             self.unlockedLevels.append(.Hexagon)
+        if (!self.unlockedLevels.contains(.hexagon)) {
+             self.unlockedLevels.append(.hexagon)
         }
         
-        let pieceStack = decoder.decodeObjectForKey("pieceStack")
+        let pieceStack = decoder.decodeObject(forKey: "pieceStack")
         if (pieceStack != nil) {
             self.pieceStack.items = pieceStack as! [HexPiece]
         }
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.highScore, forKey: "highScore")
-        coder.encodeObject(self.score, forKey: "score")
-        coder.encodeObject(self.goalScore, forKey: "goalScore")
-        coder.encodeObject(self.bankPoints, forKey: "bankPoints")
-        coder.encodeObject(self.hexMap, forKey: "hexMap")
-        coder.encodeObject(self.currentPiece, forKey: "currentPiece")
-        coder.encodeObject(self.lastPlacedPiece, forKey: "lastPlacedPiece")
-        coder.encodeObject(self.stashPiece, forKey: "stashPiece")
+    func encode(with coder: NSCoder) {
+        coder.encode(self.highScore, forKey: "highScore")
+        coder.encode(self.score, forKey: "score")
+        coder.encode(self.goalScore, forKey: "goalScore")
+        coder.encode(self.bankPoints, forKey: "bankPoints")
+        coder.encode(self.hexMap, forKey: "hexMap")
+        coder.encode(self.currentPiece, forKey: "currentPiece")
+        coder.encode(self.lastPlacedPiece, forKey: "lastPlacedPiece")
+        coder.encode(self.stashPiece, forKey: "stashPiece")
         
-        coder.encodeObject(self.optionsInt, forKey: "optionsInt")
+        coder.encode(self.optionsInt, forKey: "optionsInt")
         
         var levels:[Int] = Array()
         
         for unlockedLevel in self.unlockedLevels {
             levels.append(unlockedLevel.rawValue)
         }
-        coder.encodeObject(levels, forKey: "unlockedLevels")
+        coder.encode(levels, forKey: "unlockedLevels")
         
-        coder.encodeObject(LevelHelper.instance.mode.rawValue, forKey: "levelHelperMode")
+        coder.encode(LevelHelper.instance.mode.rawValue, forKey: "levelHelperMode")
         
-        coder.encodeObject(self.buyablePieces, forKey: "buyablePieces")
+        coder.encode(self.buyablePieces, forKey: "buyablePieces")
         
-        coder.encodeObject(self.pieceStack.items, forKey: "pieceStack")
+        coder.encode(self.pieceStack.items, forKey: "pieceStack")
     }
     
     func resetBuyablePieces() {

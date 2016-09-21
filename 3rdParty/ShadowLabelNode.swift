@@ -10,8 +10,8 @@
 import SpriteKit
 
 class ShadowLabelNode : SKLabelNode {
-    var offset : CGPoint = CGPointMake(-1,1)
-    var shadowColor : UIColor = UIColor.blackColor()
+    var offset : CGPoint = CGPoint(x: -1,y: 1)
+    var shadowColor : UIColor = UIColor.black
     var blurRadius : CGFloat = 3.0
     
     required init?(coder aDecoder: NSCoder) {
@@ -28,7 +28,7 @@ class ShadowLabelNode : SKLabelNode {
     }
     
     func updateShadow () {
-        var effectNode : SKEffectNode? = self.childNodeWithName("ShadowEffectNodeKey") as? SKEffectNode
+        var effectNode : SKEffectNode? = self.childNode(withName: "ShadowEffectNodeKey") as? SKEffectNode
         
         if (effectNode == nil) {
             effectNode = SKEffectNode();
@@ -62,7 +62,7 @@ class ShadowLabelNode : SKLabelNode {
     }
     
     func nodeTexture () -> SKTexture {
-        return self.scene!.view!.textureFromNode(self)!
+        return self.scene!.view!.texture(from: self)!
     }
     
 }

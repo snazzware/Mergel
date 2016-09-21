@@ -21,7 +21,7 @@ class GameSceneState: GKState {
 // Occurs once when app starts
 class GameSceneInitialState: GameSceneState {
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         return ((stateClass is GameScenePlayingState.Type) || (stateClass is GameSceneRestartState.Type))
     }
     
@@ -30,18 +30,18 @@ class GameSceneInitialState: GameSceneState {
 // Sets up a new game
 class GameSceneRestartState: GameSceneState {
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         let result = (stateClass is GameScenePlayingState.Type)
         
         return result
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         // Start fresh copy of level
         self.scene.resetLevel()
         
         // Enter playing state
-        GameStateMachine.instance!.enterState(GameScenePlayingState.self)
+        GameStateMachine.instance!.enter(GameScenePlayingState.self)
     }
     
 }
@@ -49,11 +49,11 @@ class GameSceneRestartState: GameSceneState {
 // Player is making move
 class GameScenePlayingState: GameSceneState {
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         
     }
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         let result = ((stateClass is GameSceneGameOverState.Type) || (stateClass is GameSceneRestartState.Type) || (stateClass is GameSceneMergingState.Type))
         
         return result
@@ -64,11 +64,11 @@ class GameScenePlayingState: GameSceneState {
 // Pieces is merging
 class GameSceneMergingState: GameSceneState {
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         
     }
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         let result = (stateClass is GameSceneEnemyState.Type)
         
         return result
@@ -79,11 +79,11 @@ class GameSceneMergingState: GameSceneState {
 // Enemy is making moves
 class GameSceneEnemyState: GameSceneState {
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         
     }
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         let result = (stateClass is GameScenePlayingState.Type || (stateClass is GameSceneGameOverState.Type))
         
         return result
@@ -94,17 +94,17 @@ class GameSceneEnemyState: GameSceneState {
 // Game is over
 class GameSceneGameOverState: GameSceneState {
     
-    override func isValidNextState(stateClass: AnyClass) -> Bool {
+    override func isValidNextState(_ stateClass: AnyClass) -> Bool {
         let result = ((stateClass is GameSceneRestartState.Type))
 
         return result
     }
     
-    override func didEnterWithPreviousState(previousState: GKState?) {
+    override func didEnter(from previousState: GKState?) {
         self.scene.showGameOver()
     }
     
-    override func willExitWithNextState(nextState: GKState) {
+    override func willExit(to nextState: GKState) {
         self.scene.hideGameOver()
     }
 }

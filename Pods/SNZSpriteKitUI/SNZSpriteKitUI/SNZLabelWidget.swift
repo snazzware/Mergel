@@ -10,35 +10,35 @@ import Foundation
 import SpriteKit
 import GameplayKit
 
-public class SNZLabelWidget : SNZWidget {
+open class SNZLabelWidget : SNZWidget {
 
-    public var caption: String = "Untitled"
-    public var color: UIColor = SNZSpriteKitUITheme.instance.labelColor
-    public var backgroundColor: UIColor = SNZSpriteKitUITheme.instance.labelBackground
+    open var caption: String = "Untitled"
+    open var color: UIColor = SNZSpriteKitUITheme.instance.labelColor
+    open var backgroundColor: UIColor = SNZSpriteKitUITheme.instance.labelBackground
     
-    public var labelSprite: SKLabelNode?
+    open var labelSprite: SKLabelNode?
     
     override public init() {
         super.init()
         
-        self.size = CGSizeMake(200, 48)
+        self.size = CGSize(width: 200, height: 48)
     }
     
-    override public func render() {
+    override open func render() {
         self.labelSprite = SKLabelNode(fontNamed: "Avenir-Black")
         self.labelSprite!.text = self.caption
         self.labelSprite!.fontColor = self.color
         self.labelSprite!.fontSize = 20
-        self.labelSprite!.horizontalAlignmentMode = .Left
-        self.labelSprite!.verticalAlignmentMode = .Bottom
-        self.labelSprite!.position = CGPointMake(SNZSpriteKitUITheme.instance.uiInnerMargins.left, SNZSpriteKitUITheme.instance.uiInnerMargins.bottom)
+        self.labelSprite!.horizontalAlignmentMode = .left
+        self.labelSprite!.verticalAlignmentMode = .bottom
+        self.labelSprite!.position = CGPoint(x: SNZSpriteKitUITheme.instance.uiInnerMargins.left, y: SNZSpriteKitUITheme.instance.uiInnerMargins.bottom)
         self.labelSprite!.ignoreTouches = true
         
         // Automatically resize
         self.size.width = self.labelSprite!.frame.size.width + SNZSpriteKitUITheme.instance.uiInnerMargins.horizontal
         self.size.height = self.labelSprite!.frame.size.height + SNZSpriteKitUITheme.instance.uiInnerMargins.vertical
         
-        let frameRect = CGRectMake(0, 0, self.size.width, self.size.height)
+        let frameRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
         
         let frameSprite = SKShapeNode(rect: frameRect)
         frameSprite.fillColor = self.backgroundColor

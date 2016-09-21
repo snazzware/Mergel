@@ -29,10 +29,10 @@ class GameStats: NSObject, NSCoding {
         "piece_vanillabean_1000": "Pieces Placed or Merged/Vanilla Gel",
         "piece_vanillabean_1001": "Pieces Placed or Merged/Vanilla Jelly Bean",
         "piece_vanillabean_1002": "Pieces Placed or Merged/Vanilla Jelly Beans (collectible)",
-        "highscore_"+String(LevelHelperMode.Welcome.rawValue): "High Scores/Tutorial",
-        "highscore_"+String(LevelHelperMode.Hexagon.rawValue): "High Scores/Beginner",
-        "highscore_"+String(LevelHelperMode.Moat.rawValue): "High Scores/The Moat",
-        "highscore_"+String(LevelHelperMode.Pit.rawValue): "High Scores/The Pit"
+        "highscore_"+String(LevelHelperMode.welcome.rawValue): "High Scores/Tutorial",
+        "highscore_"+String(LevelHelperMode.hexagon.rawValue): "High Scores/Beginner",
+        "highscore_"+String(LevelHelperMode.moat.rawValue): "High Scores/The Moat",
+        "highscore_"+String(LevelHelperMode.pit.rawValue): "High Scores/The Pit"
     ]
     
     override init() {
@@ -50,26 +50,26 @@ class GameStats: NSObject, NSCoding {
             "piece_vanillabean_1000": 0,
             "piece_vanillabean_1001": 0,
             "piece_vanillabean_1002": 0,
-            "highscore_"+String(LevelHelperMode.Welcome.rawValue): 0,
-            "highscore_"+String(LevelHelperMode.Hexagon.rawValue): 0,
-            "highscore_"+String(LevelHelperMode.Moat.rawValue): 0,
-            "highscore_"+String(LevelHelperMode.Pit.rawValue): 0
+            "highscore_"+String(LevelHelperMode.welcome.rawValue): 0,
+            "highscore_"+String(LevelHelperMode.hexagon.rawValue): 0,
+            "highscore_"+String(LevelHelperMode.moat.rawValue): 0,
+            "highscore_"+String(LevelHelperMode.pit.rawValue): 0
         ]
         
         super.init()
     }
 
-    func getIntForKey(key: String, _ defaultValue: Int = 0) -> Int {
+    func getIntForKey(_ key: String, _ defaultValue: Int = 0) -> Int {
         return self.statsInt[key] != nil ? self.statsInt[key]! : defaultValue
     }
     
-    func setIntForKey(key: String, _ value: Int) {
+    func setIntForKey(_ key: String, _ value: Int) {
         self.lock.around {
             self.statsInt[key] = value
         }
     }
     
-    func incIntForKey(key: String, _ amount: Int = 1) {
+    func incIntForKey(_ key: String, _ amount: Int = 1) {
         self.lock.around {
             if (self.statsInt[key] == nil) {
                 self.statsInt[key] = amount
@@ -82,14 +82,14 @@ class GameStats: NSObject, NSCoding {
     required convenience init?(coder decoder: NSCoder) {
         self.init()
         
-        let statsInt = decoder.decodeObjectForKey("statsInt")
+        let statsInt = decoder.decodeObject(forKey: "statsInt")
         if (statsInt != nil) {
             self.statsInt = statsInt as! [String:Int]
         }
     }
     
-    func encodeWithCoder(coder: NSCoder) {
-        coder.encodeObject(self.statsInt, forKey: "statsInt")
+    func encode(with coder: NSCoder) {
+        coder.encode(self.statsInt, forKey: "statsInt")
     }
     
     func updateGameCenter() {
@@ -97,9 +97,9 @@ class GameStats: NSObject, NSCoding {
         GameKitHelper.sharedInstance.reportScore(Int64(GameState.instance!.highScore), forLeaderBoardId: "com.snazzware.mergel.HighScore")
         
         // Map-specific high scores
-        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.Hexagon.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Beginner")
-        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.Pit.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Pit")
-        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.Moat.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Moat")
+        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.hexagon.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Beginner")
+        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.pit.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Pit")
+        GameKitHelper.sharedInstance.reportScore(Int64(self.statsInt["highscore_"+String(LevelHelperMode.moat.rawValue)]!), forLeaderBoardId: "com.snazzware.mergel.HighScore.Moat")
         
     }
     

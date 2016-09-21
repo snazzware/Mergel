@@ -9,7 +9,7 @@
 import Foundation
 import GameKit
 
-public class GameStateMachine: GKStateMachine {
+open class GameStateMachine: GKStateMachine {
     
     static var instance: GameStateMachine?
     

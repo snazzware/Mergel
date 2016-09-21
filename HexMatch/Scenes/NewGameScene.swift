@@ -15,8 +15,8 @@ class NewGameScene: SNZScene {
     var checkboxEnemyPieces: SNZCheckButtonWidget?
     var checkboxSoundEffects: SNZCheckButtonWidget?
     
-    override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    override func didMove(to view: SKView) {
+        super.didMove(to: view)
         
         self.updateGui()
     }
@@ -39,15 +39,15 @@ class NewGameScene: SNZScene {
         // Create and position level buttons
         for unlockedLevel in (GameState.instance!.unlockedLevels) {
             let levelButton = MergelButtonWidget()
-            levelButton.position = CGPointMake(20,verticalOffset)
+            levelButton.position = CGPoint(x: 20,y: verticalOffset)
             levelButton.caption = LevelHelper.instance.getLevelHelperModeCaption(unlockedLevel)
             levelButton.bind("tap",{
                 
                 
                 LevelHelper.instance.mode = unlockedLevel
-                GameStateMachine.instance!.enterState(GameSceneRestartState.self)
+                GameStateMachine.instance!.enter(GameSceneRestartState.self)
                 
-                self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+                self.view?.presentScene(SceneHelper.instance.gameScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 0.4))
             });
             self.addWidget(levelButton)
             
@@ -56,10 +56,10 @@ class NewGameScene: SNZScene {
         
         // Add the close button
         let closeButton = MergelButtonWidget(parentNode: self)
-        closeButton.anchorPoint = CGPointMake(0,0)
+        closeButton.anchorPoint = CGPoint(x: 0,y: 0)
         closeButton.caption = "Back"
         closeButton.bind("tap",{
-            self.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.pushWithDirection(SKTransitionDirection.Down, duration: 0.4))
+            self.view?.presentScene(SceneHelper.instance.levelScene, transition: SKTransition.push(with: SKTransitionDirection.down, duration: 0.4))
         });
         self.addWidget(closeButton)
         

@@ -9,10 +9,10 @@
 import Foundation
 import SpriteKit
 
-public class SNZCheckButtonWidget : SNZButtonWidget {
+open class SNZCheckButtonWidget : SNZButtonWidget {
 
     var _isChecked = false
-    public var isChecked:Bool {
+    open var isChecked:Bool {
         get {
             return self._isChecked
         }
@@ -22,15 +22,15 @@ public class SNZCheckButtonWidget : SNZButtonWidget {
             self.checkboxSprite?.texture = self.isChecked ? self.checkedTexture : self.uncheckedTexture
         }
     }
-    public var checkboxSprite: SKSpriteNode?
+    open var checkboxSprite: SKSpriteNode?
     
-    public var checkedTexture: SKTexture?
-    public var uncheckedTexture: SKTexture?
+    open var checkedTexture: SKTexture?
+    open var uncheckedTexture: SKTexture?
     
     public override init() {
         super.init()
         
-        self.size = CGSizeMake(248, 48)
+        self.size = CGSize(width: 248, height: 48)
         
         //self.checkedTexture = SKTextureAtlas.textureNamed(<#T##SKTextureAtlas#>)
         
@@ -38,15 +38,15 @@ public class SNZCheckButtonWidget : SNZButtonWidget {
         self.uncheckedTexture = SNZSpriteKitUITheme.instance.textures.textureNamed("checkboxUnchecked")
     }
     
-    override public func render() {
+    override open func render() {
         super.render()
         
-        self.labelSprite!.horizontalAlignmentMode = .Left
+        self.labelSprite!.horizontalAlignmentMode = .left
         self.labelSprite!.position.x = 60
         
         self.checkboxSprite = SKSpriteNode(texture: self.isChecked ? self.checkedTexture : self.uncheckedTexture)
-        self.checkboxSprite!.position = CGPointMake(26,23)
-        self.checkboxSprite!.size = CGSizeMake(32,32)
+        self.checkboxSprite!.position = CGPoint(x: 26,y: 23)
+        self.checkboxSprite!.size = CGSize(width: 32,height: 32)
         self.checkboxSprite!.ignoreTouches = true
         self.sprite!.addChild(self.checkboxSprite!)
         

@@ -17,12 +17,12 @@ struct Stack<Element> {
         }
     }
     
-    mutating func push(item: Element) {
+    mutating func push(_ item: Element) {
         self.items.append(item)
     }
     
-    mutating func insert(item: Element, index: Int = 0) {
-        self.items.insert(item, atIndex: index)
+    mutating func insert(_ item: Element, index: Int = 0) {
+        self.items.insert(item, at: index)
     }
     
     mutating func pop() -> Element {
@@ -34,6 +34,6 @@ struct Stack<Element> {
     }
     
     mutating func reverseInPlace() {
-        self.items = self.items.reverse()
+        self.items = self.items.reversed()
     }
 }

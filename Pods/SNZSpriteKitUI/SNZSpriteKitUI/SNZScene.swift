@@ -9,15 +9,15 @@
 import Foundation
 import SpriteKit
 
-public class SNZScene : SKScene {
+open class SNZScene : SKScene {
 
-    public var widgets = [SNZWidget]()
-    public var focusedWidget: SNZWidget?
+    open var widgets = [SNZWidget]()
+    open var focusedWidget: SNZWidget?
     
     var panRecognizer:UIPanGestureRecognizer?
     
-    public override func didMoveToView(view: SKView) {
-        super.didMoveToView(view)
+    open override func didMove(to view: SKView) {
+        super.didMove(to: view)
         
         // Create pan gesture recognizer
         if (self.panRecognizer == nil) {
@@ -33,8 +33,8 @@ public class SNZScene : SKScene {
         }
     }
     
-    public override func willMoveFromView(view: SKView) {
-        super.willMoveFromView(view)
+    open override func willMove(from view: SKView) {
+        super.willMove(from: view)
         
         // Remove gesture recogniers from view
         if (self.panRecognizer != nil) {
@@ -42,60 +42,60 @@ public class SNZScene : SKScene {
         }
     }
     
-    public func panGesture(sender: UIPanGestureRecognizer) {
+    open func panGesture(_ sender: UIPanGestureRecognizer) {
         if (self.focusedWidget != nil && self.focusedWidget!.wantsPanGestures) {
             self.focusedWidget!.panGesture(sender)
         }
     }
     
-    public func addWidget(widget: SNZWidget) {
+    open func addWidget(_ widget: SNZWidget) {
         self.widgets.append(widget)
         if (widget.parentNode == nil) {
             widget.parentNode = self
         }
     }
     
-    public func renderWidgets() {
+    open func renderWidgets() {
         for widget in self.widgets {
             widget.render()
         }
     }
     
-    public func getWidgets(named: String) -> [SNZWidget] {
+    open func getWidgets(_ named: String) -> [SNZWidget] {
         return self.widgets.filter({
             $0.name == named
         })
     }
     
-    public func updateWidgets() {
+    open func updateWidgets() {
         for widget in self.widgets {
             widget.anchor()
         }
     }
     
-    override public func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override open func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         
         self.widgetTouchesBegan(touches, withEvent: event)
     }
     
-    override public func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
+    override open func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
         
         self.widgetTouchesMoved(touches, withEvent: event)
     }
     
-    override public func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override open func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
     
         self.widgetTouchesEnded(touches, withEvent: event)
     }
     
-    public func widgetTouchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) -> Bool {
+    open func widgetTouchesBegan(_ touches: Set<UITouch>, withEvent event: UIEvent?) -> Bool {
         var handled = false
         
         for touch in touches {
-            for touchedNode in self.nodesAtPoint(touch.locationInNode(self)) {
+            for touchedNode in self.nodes(at: touch.location(in: self)) {
                 var deeperTouch = touchedNode
             
                 // determine actual sprite we should consider touched
@@ -134,18 +134,18 @@ public class SNZScene : SKScene {
         return handled
     }
     
-    public func widgetTouchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) -> Bool {
+    open func widgetTouchesMoved(_ touches: Set<UITouch>, withEvent event: UIEvent?) -> Bool {
         return self.widgetTouchesBegan(touches, withEvent: event)
     }
     
-    public func widgetTouchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) -> Bool {
+    open func widgetTouchesEnded(_ touches: Set<UITouch>, withEvent event: UIEvent?) -> Bool {
         var handled = false
         
         if (self.focusedWidget != nil) {
             self.focusedWidget!.trigger("blur")
         
             for touch in touches {
-                for touchedNode in self.nodesAtPoint(touch.locationInNode(self)) {
+                for touchedNode in self.nodes(at: touch.location(in: self)) {
                     var deeperTouch = touchedNode
                 
                     // determine actual sprite we should consider touched
