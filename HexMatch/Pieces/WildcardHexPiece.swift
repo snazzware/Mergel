@@ -134,10 +134,7 @@ class WildcardHexPiece : HexPiece {
     required init(coder decoder: NSCoder) {
         super.init(coder: decoder)
     
-        let isWild = decoder.decodeObject(forKey: "isWild")
-        if (isWild != nil) {
-            self.isWild = (isWild as? Bool)!
-        }
+        self.isWild = decoder.decodeBool(forKey: "isWild")
         
         // Enforce no-wildcards on board rule
         if (self.hexCell != nil) {

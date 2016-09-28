@@ -60,19 +60,13 @@ class GameState: NSObject, NSCoding {
     required convenience init?(coder decoder: NSCoder) {
         self.init()
         
-        self.highScore = (decoder.decodeObject(forKey: "highScore") as? Int)!
-        self.score = (decoder.decodeObject(forKey: "score") as? Int)!
+        self.highScore = decoder.decodeInteger(forKey: "highScore")
+        self.score = decoder.decodeInteger(forKey: "score")
+        self.goalScore = decoder.decodeInteger(forKey: "goalScore")
+        self.bankPoints = decoder.decodeInteger(forKey: "bankPoints")
         
-        let goalScore = decoder.decodeObject(forKey: "goalScore")
-        if (goalScore != nil) {
-            self.goalScore = (goalScore as? Int)!
-        } else {
+        if (self.goalScore == 0) {
             self.goalScore = 250000
-        }
-        
-        let bankPoints = decoder.decodeObject(forKey: "bankPoints")
-        if (bankPoints != nil) {
-            self.bankPoints = (bankPoints as? Int)!
         }
         
         let hexMap = decoder.decodeObject(forKey: "hexMap")
@@ -106,10 +100,8 @@ class GameState: NSObject, NSCoding {
             }
         }
         
-        let levelHelperMode = decoder.decodeObject(forKey: "levelHelperMode")
-        if (levelHelperMode != nil) {
-            LevelHelper.instance.mode = LevelHelperMode(rawValue: levelHelperMode as! Int)!
-        }
+        let levelHelperMode = decoder.decodeInteger(forKey: "levelHelperMode")
+        LevelHelper.instance.mode = LevelHelperMode(rawValue: levelHelperMode)!
         
         let buyablePieces = decoder.decodeObject(forKey: "buyablePieces")
         if (buyablePieces != nil) {

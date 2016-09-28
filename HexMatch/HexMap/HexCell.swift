@@ -247,13 +247,13 @@ class HexCell : NSObject, NSCoding {
     }
     
     required convenience init?(coder decoder: NSCoder) {
-        let x = (decoder.decodeObject(forKey: "x") as? Int)!
-        let y = (decoder.decodeObject(forKey: "y") as? Int)!
+        let x = decoder.decodeInteger(forKey: "x")
+        let y = decoder.decodeInteger(forKey: "y")
         let hexMap = (decoder.decodeObject(forKey: "hexMap") as? HexMap)!
         
         self.init(hexMap, x, y)
         
-        self.isVoid = (decoder.decodeObject(forKey: "isVoid") as? Bool)!
+        self.isVoid = decoder.decodeBool(forKey: "isVoid")
         
         self.mergeStyle = MergeStyle(rawValue: (decoder.decodeObject(forKey: "mergeStyle") as! String))!
         

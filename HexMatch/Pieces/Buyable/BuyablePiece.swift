@@ -42,9 +42,9 @@ class BuyablePiece: NSObject, NSCoding  {
     required init(coder decoder: NSCoder) {
         super.init()
     
-        self.basePrice = (decoder.decodeObject(forKey: "basePrice") as? Int)!
-        self.currentPrice = (decoder.decodeObject(forKey: "currentPrice") as? Int)!
-        self.value = (decoder.decodeObject(forKey: "value") as? Int)!
+        self.basePrice = decoder.decodeInteger(forKey: "basePrice")
+        self.currentPrice = decoder.decodeInteger(forKey: "currentPrice")
+        self.value = decoder.decodeInteger(forKey: "value")
     }
     
     func encode(with coder: NSCoder) {

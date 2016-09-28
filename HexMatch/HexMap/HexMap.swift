@@ -242,15 +242,23 @@ class HexMap : NSObject, NSCoding {
     }
 
     required convenience init?(coder decoder: NSCoder) {
-    
-        let width = (decoder.decodeObject(forKey: "width") as? Int)!
-        let height = (decoder.decodeObject(forKey: "height") as? Int)!
+        let width = decoder.decodeInteger(forKey: "width")
+        let height = decoder.decodeInteger(forKey: "height")
     
         self.init(width,height)
         
-        self.cells = (decoder.decodeObject(forKey: "cells") as? [[HexCell]])!
+        let cells = decoder.decodeObject(forKey: "cells")
+        if (cells != nil) {
+            self.cells = (cells as? [[HexCell]])!
+        } else {
+            self.cells = [[HexCell]]()
+        }
         
-        self.isBlank = (decoder.decodeObject(forKey: "isBlank") as? Bool)!
+        if (decoder.containsValue(forKey: "isBlank")) {
+            self.isBlank = decoder.decodeBool(forKey: "isBlank")
+        } else {
+            self.isBlank = true
+        }
     }
     
     func encode(with coder: NSCoder) {

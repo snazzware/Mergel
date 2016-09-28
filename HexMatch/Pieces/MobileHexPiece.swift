@@ -199,8 +199,17 @@ class MobileHexPiece : HexPiece {
     required init(coder decoder: NSCoder) {
         super.init(coder: decoder)
     
-        self.isAlive = (decoder.decodeObject(forKey: "isAlive") as? Bool)!
-        self.wasAlive = (decoder.decodeObject(forKey: "wasAlive") as? Bool)!
+        if (decoder.containsValue(forKey: "isAlive")) {
+            self.isAlive = decoder.decodeBool(forKey: "isAlive")
+        } else {
+            self.isAlive = false
+        }
+        if (decoder.containsValue(forKey: "wasAlive")) {
+            self.wasAlive = decoder.decodeBool(forKey: "wasAlive")
+        } else {
+            self.wasAlive = false
+        }
+        
         self.wasInCell = (decoder.decodeObject(forKey: "wasInCell") as? HexCell)
     }
     

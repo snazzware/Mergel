@@ -78,17 +78,18 @@ class HexPiece : NSObject, NSCoding {
     required init(coder decoder: NSCoder) {
         super.init()
     
-        self.originalValue = (decoder.decodeObject(forKey: "originalValue") as? Int)!
-        self.value = (decoder.decodeObject(forKey: "value") as? Int)!
+        self.originalValue = decoder.decodeInteger(forKey: "originalValue")
+        self.value = decoder.decodeInteger(forKey: "value")
         
         let hexCell = decoder.decodeObject(forKey: "hexCell")
         if (hexCell != nil) {
             self._hexCell = (hexCell as? HexCell)!
         }
         
-        let isCollectible = decoder.decodeObject(forKey: "isCollectible")
-        if (isCollectible != nil) {
-            self.isCollectible = (isCollectible as? Bool)!
+        if (decoder.containsValue(forKey: "isCollectible")) {
+            self.isCollectible = decoder.decodeBool(forKey: "isCollectible")
+        } else {
+            self.isCollectible = false
         }
         
         let caption = decoder.decodeObject(forKey: "caption")
@@ -96,8 +97,8 @@ class HexPiece : NSObject, NSCoding {
             self.caption = (caption as? String)!
         }
         
-        self.skipTurnCounter = (decoder.decodeObject(forKey: "skipTurnCounter") as? Int)!
-        self.skipTurnsOnPlace = (decoder.decodeObject(forKey: "skipTurnsOnPlace") as? Int)!
+        self.skipTurnCounter = decoder.decodeInteger(forKey: "skipTurnCounter")
+        self.skipTurnsOnPlace = decoder.decodeInteger(forKey: "skipTurnsOnPlace")
     }
     
     /**
