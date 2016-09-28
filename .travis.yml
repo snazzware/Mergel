@@ -4,4 +4,4 @@ before_install:
     gem install xcpretty
 script:
     set -o pipefail
-    xcodebuild -workspace Mergel.xcworkspace -scheme Mergel -sdk iphonesimulator10.0 -destination 'name=iPhone 6' test | xcpretty -c
+    xcodebuild -workspace Mergel.xcworkspace -scheme Mergel -sdk iphonesimulator10.0 -destination 'name=iPhone 6' test | xcpretty
