@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import HexMatch
+@testable import Mergel
 
 class HexMapTest: XCTestCase {
 
