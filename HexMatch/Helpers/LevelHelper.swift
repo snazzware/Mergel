@@ -13,6 +13,7 @@ enum LevelHelperMode : Int {
     case hexagon = 2
     case pit = 3
     case moat = 4
+    case bighex = 5
     case debug = 99
 }
 
@@ -52,6 +53,9 @@ class LevelHelper: NSObject {
             break
             case .moat:
                 caption = "The Moat"
+            break
+            case .bighex:
+                caption = "Big Hex"
             break
             case .debug:
                 caption = "Debug"
@@ -252,6 +256,17 @@ class LevelHelper: NSObject {
                 hexMap.cell(1,6)!.isVoid = false
                 hexMap.cell(5,0)!.isVoid = false
                 hexMap.cell(5,6)!.isVoid = false
+            break
+            case .bighex:
+                // Increase random starting count
+                randomStartingCount *= 2
+                
+                // Create radius 2 hexagon
+                let voidCells = Set(hexMap.getAllCells()).subtracting(Set(hexMap.cellsForRadius(hexMap.cell(Int(hexMap.width/2),Int(hexMap.height/2))!, radius: 3)))
+                
+                for voidCell in voidCells {
+                    voidCell.isVoid = true
+                }
             break
         }
         

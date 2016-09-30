@@ -35,6 +35,7 @@ class GameState: NSObject, NSCoding {
         
         self.unlockedLevels.append(.welcome)
         self.unlockedLevels.append(.hexagon)
+        self.unlockedLevels.append(.bighex)
         
         self.levelHelperMode = .welcome
         
@@ -122,6 +123,10 @@ class GameState: NSObject, NSCoding {
         
         if (!self.unlockedLevels.contains(.hexagon)) {
              self.unlockedLevels.append(.hexagon)
+        }
+        
+        if (!self.unlockedLevels.contains(.bighex)) {
+            self.unlockedLevels.append(.bighex)
         }
         
         let pieceStack = decoder.decodeObject(forKey: "pieceStack")
