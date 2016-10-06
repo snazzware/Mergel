@@ -187,9 +187,10 @@ class MobileHexPiece : HexPiece {
     func stopLiving() {
         isAlive = false
                 
-        // Remove eyes, etc.
-        self.sprite!.removeAllActions()
-        self.sprite!.removeAllChildren()
+        self.removeAnimation()
+        
+        // Add any death animation
+        self.addAnimation(self.sprite!)
     }
     
     override init() {

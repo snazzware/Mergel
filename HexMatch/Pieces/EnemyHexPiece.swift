@@ -76,7 +76,7 @@ class EnemyHexPiece : MobileHexPiece {
             
             mouth.position = CGPoint(x: 0,y: 0)
             mouth.zPosition = 10
-            mouth.name = "rightEye"
+            mouth.name = "mouth"
             
             node.addChild(leftEye)
             node.addChild(rightEye)
@@ -118,7 +118,36 @@ class EnemyHexPiece : MobileHexPiece {
             let blinkLoop = SKAction.repeatForever(blinkSequence)
             
             node.run(blinkLoop)
+        } else {
+            if (self.value == 1000) {
+                let eyeDeadTexture = SKTexture(imageNamed: "EyeDead")
+                let mouthTexture = SKTexture(imageNamed: "EnemyMouthDead")
+                
+                let leftEye = SKSpriteNode(texture: eyeDeadTexture)
+                let rightEye = SKSpriteNode(texture: eyeDeadTexture)
+                let mouth = SKSpriteNode(texture: mouthTexture)
+                
+                leftEye.position = CGPoint(x: -8,y: 8)
+                leftEye.zPosition = 10
+                leftEye.setScale(0.8)
+                leftEye.name = "leftEye"
+                
+                rightEye.position = CGPoint(x: 8,y: 8)
+                rightEye.zPosition = 10
+                rightEye.setScale(0.8)
+                rightEye.name = "rightEye"
+                
+                mouth.position = CGPoint(x: 0,y: 0)
+                mouth.zPosition = 9
+                mouth.name = "mouth"
+                
+                node.addChild(leftEye)
+                node.addChild(rightEye)
+                node.addChild(mouth)
+
+            }
         }
+        
         if (self.isCollectible) {
             let scaleUpAction = SKAction.scale(to: 1.1, duration: 0.5)
             let scaleDownAction = SKAction.scale(to: 0.9, duration: 0.5)
@@ -167,6 +196,8 @@ class EnemyHexPiece : MobileHexPiece {
             default:
             break;
         }
+        
+        self.removeAnimation()
         
         self.sprite!.run(SKAction.sequence([
             SKAction.scale(to: 0.01, duration: 0.1),

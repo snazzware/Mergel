@@ -1271,8 +1271,8 @@ class GameScene: SNZScene {
         self.lastPointsAwarded = points
         self.score += lastPointsAwarded
         
-        // Bank 5%
-        self.bankPoints += Int(Double(points) * 0.05)
+        // Bank 1%
+        self.bankPoints += Int(Double(points) * 0.01)
         
         self.checkForUnlocks()
     }
@@ -1297,7 +1297,7 @@ class GameScene: SNZScene {
         
         // Check for goal reached
         if (self.score >= GameState.instance!.goalScore) {
-            let bankPoints = Int(Double(GameState.instance!.goalScore) * 0.10)
+            let bankPoints = Int(Double(GameState.instance!.goalScore) * 0.05)
             
             self.burstMessage("GOAL REACHED\nEarned "+HexMapHelper.instance.scoreFormatter.string(from: NSNumber(integerLiteral: bankPoints))!+" Bank Points")
             

@@ -341,6 +341,11 @@ class HexPiece : NSObject, NSCoding {
         }
     }
     
+    func removeAnimation() {
+        self.sprite!.removeAllActions()
+        self.sprite!.removeAllChildren()
+    }
+    
     /**
         Allow piece to do something after player has taken a turn.
     
